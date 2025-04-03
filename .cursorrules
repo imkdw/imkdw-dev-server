@@ -4,15 +4,9 @@
 - Second, if you are going to read and/or write any file in a directory containing `.AI.md` file from the first step, read it and respect the instructions in it.
 - For example, if you are reading or writing a file at /a/b/c, you should check for `/a/.AI.md`, `/a/b/.AI.md` and `/a/b/c/.AI.md` in the order.
 
-# Stack
+# 기술스택
+프레임워크 : Nest.js
+ORM : Prisma
 
-- Language : TypeScript
-- Framework : NestJS
-- Database : PostgreSQL
-- ORM : Prisma
-- Testing : Jest
-
-# Introduce
-- Memo Application for All Programmers
 
 
