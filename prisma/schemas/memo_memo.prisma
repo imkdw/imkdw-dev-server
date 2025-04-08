@@ -1,0 +1,31 @@
+/// @namespace Memo
+///
+/// @describe Save contents of memo
+/// @erd Memo
+model Memo {
+  /// Primary key
+  ///
+  /// @format uuid
+  id String @id
+
+  /// Title of memo
+  title String
+
+  /// Content of memo
+  content String
+
+  /// Identifier of folder that memo belongs to
+  folderId String @map("folder_id")
+
+  /// Path of folder that memo belongs to
+  folderPath String @map("folder_path")
+
+  /// Created time of memo
+  createdAt DateTime @default(now())
+
+  /// Updated time of memo
+  updatedAt DateTime @updatedAt
+
+  /// Folder that memo belongs to
+  folder Folder @relation(fields: [folderId], references: [id])
+}

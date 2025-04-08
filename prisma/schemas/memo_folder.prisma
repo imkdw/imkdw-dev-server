@@ -1,0 +1,34 @@
+/// @namespace Memo
+///
+/// @describe Save information of folder
+/// @erd Folder
+model Folder {
+  /// Primary key
+  ///
+  /// @format uuid
+  id String @id
+
+  /// Name of folder
+  name String
+
+  /// Identifier of parent folder
+  parentId String? @map("parent_id")
+
+  /// Parent folder
+  parent Folder? @relation("FolderToFolder", fields: [parentId], references: [id])
+
+  /// Child folders
+  children Folder[] @relation("FolderToFolder")
+
+  /// Path of folder (ex: "/folder1/folder1-1/folder1-1-1")
+  path String
+
+  /// Created time of folder
+  createdAt DateTime @default(now())
+
+  /// Updated time of folder
+  updatedAt DateTime @updatedAt
+
+  /// Memos in folder
+  memos Memo[]
+}
