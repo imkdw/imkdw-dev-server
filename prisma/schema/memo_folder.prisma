@@ -2,7 +2,7 @@
 ///
 /// @describe Save information of folder
 /// @erd Folder
-model Folder {
+model MemoFolder {
   /// Primary key
   ///
   /// @format uuid
@@ -13,12 +13,6 @@ model Folder {
 
   /// Identifier of parent folder
   parentId String? @map("parent_id")
-
-  /// Parent folder
-  parent Folder? @relation("FolderToFolder", fields: [parentId], references: [id])
-
-  /// Child folders
-  children Folder[] @relation("FolderToFolder")
 
   /// Path of folder (ex: "/folder1/folder1-1/folder1-1-1")
   path String
@@ -31,4 +25,12 @@ model Folder {
 
   /// Memos in folder
   memos Memo[]
+
+  /// Parent folder
+  parent MemoFolder? @relation("FolderToFolder", fields: [parentId], references: [id])
+
+  /// Child folders
+  children MemoFolder[] @relation("FolderToFolder")
+
+  @@map("memo_folder")
 }

@@ -27,5 +27,5 @@ model Memo {
   updatedAt DateTime @updatedAt
 
   /// Folder that memo belongs to
-  folder Folder @relation(fields: [folderId], references: [id])
+  folder MemoFolder @relation(fields: [folderId], references: [id])
 }
