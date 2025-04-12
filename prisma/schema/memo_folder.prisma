@@ -18,10 +18,13 @@ model MemoFolder {
   path String
 
   /// Created time of folder
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   /// Updated time of folder
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Deleted time of folder
+  deletedAt DateTime? @map("deleted_at")
 
   /// Memos in folder
   memos Memo[]

@@ -13,8 +13,9 @@ erDiagram
   String name
   String parent_id FK "nullable"
   String path
-  DateTime createdAt
-  DateTime updatedAt
+  DateTime created_at
+  DateTime updated_at
+  DateTime deleted_at "nullable"
 }
 "Memo" {
   String id PK
@@ -22,8 +23,9 @@ erDiagram
   String content
   String folder_id FK
   String folder_path
-  DateTime createdAt
-  DateTime updatedAt
+  DateTime created_at
+  DateTime updated_at
+  DateTime deleted_at "nullable"
 }
 "memo_folder" }o--o| "memo_folder" : parent
 "Memo" }o--|| "memo_folder" : folder
@@ -36,8 +38,9 @@ erDiagram
   - `name`: Name of folder
   - `parent_id`: Identifier of parent folder
   - `path`: Path of folder (ex: "/folder1/folder1-1/folder1-1-1")
-  - `createdAt`: Created time of folder
-  - `updatedAt`: Updated time of folder
+  - `created_at`: Created time of folder
+  - `updated_at`: Updated time of folder
+  - `deleted_at`: Deleted time of folder
 
 ### `Memo`
 
@@ -47,8 +50,9 @@ erDiagram
   - `content`: Content of memo
   - `folder_id`: Identifier of folder that memo belongs to
   - `folder_path`: Path of folder that memo belongs to
-  - `createdAt`: Created time of memo
-  - `updatedAt`: Updated time of memo
+  - `created_at`: Created time of memo
+  - `updated_at`: Updated time of memo
+  - `deleted_at`: Deleted time of memo
 
 
 ## Save
@@ -63,8 +67,9 @@ erDiagram
   - `name`: Name of folder
   - `parent_id`: Identifier of parent folder
   - `path`: Path of folder (ex: "/folder1/folder1-1/folder1-1-1")
-  - `createdAt`: Created time of folder
-  - `updatedAt`: Updated time of folder
+  - `created_at`: Created time of folder
+  - `updated_at`: Updated time of folder
+  - `deleted_at`: Deleted time of folder
 
 ### `Memo`
 
@@ -74,5 +79,6 @@ erDiagram
   - `content`: Content of memo
   - `folder_id`: Identifier of folder that memo belongs to
   - `folder_path`: Path of folder that memo belongs to
-  - `createdAt`: Created time of memo
-  - `updatedAt`: Updated time of memo
+  - `created_at`: Created time of memo
+  - `updated_at`: Updated time of memo
+  - `deleted_at`: Deleted time of memo

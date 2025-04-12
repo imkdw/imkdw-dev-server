@@ -14,27 +14,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.connectWithRetry();
   }
 
-  async executeWithRetry<T>(operation: () => Promise<T>): Promise<T> {
-    let attempts = 0;
-
-    while (attempts < this.maxRetries) {
-      try {
-        return await operation();
-      } catch (error) {
-        attempts++;
-
-        if (attempts === this.maxRetries) {
-          throw error;
-        }
-
-        const delay = Math.min(1000 * Math.pow(2, attempts - 1), 16000);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    }
-
-    throw new Error('Failed to execute operation after max retries');
-  }
-
   private async connectWithRetry(): Promise<void> {
     try {
       await this.$connect();
@@ -57,7 +36,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       await this.$disconnect();
       await this.connectWithRetry();
     } catch (error) {
-      console.log('재연결 실패', error);
+      console.log('Reconnect failed', error);
     }
   }
 }

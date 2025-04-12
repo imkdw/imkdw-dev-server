@@ -21,10 +21,13 @@ model Memo {
   folderPath String @map("folder_path")
 
   /// Created time of memo
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at") 
 
   /// Updated time of memo
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// Deleted time of memo
+  deletedAt DateTime? @map("deleted_at")
 
   /// Folder that memo belongs to
   folder MemoFolder @relation(fields: [folderId], references: [id])
