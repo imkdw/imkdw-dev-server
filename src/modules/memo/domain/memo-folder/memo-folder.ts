@@ -26,9 +26,10 @@ export class MemoFolder {
     this.path = path;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.generatePath();
   }
 
-  generatePath(): void {
+  private generatePath(): void {
     if (!this.parent) {
       this.path = `/${this.name.value}`;
       return;
@@ -38,7 +39,6 @@ export class MemoFolder {
 
   static create(name: string, parent: MemoFolder | null): MemoFolder {
     const folder = new MemoFolder(generateUUID(), new MemoFolderName(name), parent);
-    folder.generatePath();
     return folder;
   }
 
@@ -63,7 +63,6 @@ export class MemoFolder {
       data.updatedAt,
     );
 
-    // 자식 폴더가 있으면 재귀적으로 처리
     if (data.children && Array.isArray(data.children)) {
       folder.children = data.children.map((child) =>
         MemoFolder.from({ ...child, parent: folder, name: child.name.value }),

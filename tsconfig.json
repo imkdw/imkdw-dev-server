@@ -17,7 +17,12 @@
     "strict": true,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@/memo/*": ["src/modules/memo/*"],
+      "@/core/*": ["src/core/*"],
+      "@/common/*": ["src/common/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

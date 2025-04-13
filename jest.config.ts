@@ -1,0 +1,19 @@
+import type { Config } from 'jest';
+
+const config: Config = {
+  verbose: true,
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  testMatch: ['**/*.spec.ts'],
+  transform: {
+    '^.+\\.(t|j)s$': 'ts-jest',
+  },
+  rootDir: './',
+  moduleNameMapper: {
+    '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
+    '^@/core/(.*)$': '<rootDir>/src/core/$1',
+    '^@/common/(.*)$': '<rootDir>/src/common/$1',
+  },
+};
+
+export default config;
