@@ -1,6 +1,7 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { ExceptionResponse } from './exception.type';
+import { DomainException } from '../domain/exception/domain.exception';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -10,6 +11,8 @@ export class AllExceptionFilter implements ExceptionFilter {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     const isHttpException = exception instanceof HttpException;
+
+    console.log(exception, exception instanceof DomainException);
 
     const exceptionResponse = isHttpException
       ? (exception.getResponse() as ExceptionResponse)

@@ -10,7 +10,6 @@ async function bootstrap() {
   /**
    * Versioning
    * @example /api/v1/memo-folder
-   *
    */
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 

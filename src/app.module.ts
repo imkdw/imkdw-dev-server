@@ -31,11 +31,11 @@ import { AllExceptionFilter } from './common/filter/all-exception.filter';
   providers: [
     {
       provide: APP_FILTER,
-      useClass: DomainExceptionFilter,
+      useClass: AllExceptionFilter,
     },
     {
       provide: APP_FILTER,
-      useClass: AllExceptionFilter,
+      useClass: DomainExceptionFilter,
     },
     {
       provide: APP_INTERCEPTOR,

@@ -35,5 +35,6 @@ model MemoFolder {
   /// Child folders
   children MemoFolder[] @relation("FolderToFolder")
 
+  @@index([parentId, name])
   @@map("memo_folder")
 }
