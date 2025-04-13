@@ -1,3 +1,1 @@
-export class MemoDto {
-  constructor() {}
-}
+export class MemoDto {}

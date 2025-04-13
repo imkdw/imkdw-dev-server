@@ -83,7 +83,7 @@
         "noSparseArray": "error",
         "noUnsafeDeclarationMerging": "error",
         "noUnsafeNegation": "error",
-        "useAwait": "error",
+        "useAwait": "off",
         "useGetterReturn": "error",
         "useNamespaceKeyword": "error",
         "useValidTypeof": "error"
@@ -103,7 +103,10 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     },
-    "globals": ["exports"]
+    "globals": ["exports"],
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
   },
   "overrides": [
     {

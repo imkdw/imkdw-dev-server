@@ -1,4 +1,4 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import { ValidationArguments, ValidationOptions, registerDecorator } from 'class-validator';
 
 export function IsNotEmptyString(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
@@ -8,7 +8,7 @@ export function IsNotEmptyString(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: unknown, _args: ValidationArguments) {
           return typeof value === 'string' && value.trim() !== '';
         },
         defaultMessage(args: ValidationArguments) {

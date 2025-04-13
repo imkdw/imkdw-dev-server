@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { MemoFolderRepository } from '.';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { MemoFolder } from '../memo-folder';
+import { Injectable } from '@nestjs/common';
 import { Prisma, MemoFolder as PrismaMemoFolder } from '@prisma/client';
+import { MemoFolderRepository } from '.';
+import { MemoFolder } from '../memo-folder';
 
 @Injectable()
 export class PrismaMemoFolderRepository implements MemoFolderRepository {
@@ -42,13 +42,15 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     return memoFolder ? this.mapToDomain(memoFolder) : null;
   }
 
-  private async mapToDomain(memoFolder: PrismaMemoFolder): Promise<MemoFolder> {
+  private mapToDomain(memoFolder: PrismaMemoFolder): MemoFolder {
     return MemoFolder.from({
       id: memoFolder.id,
       name: memoFolder.name,
       path: memoFolder.path,
       createdAt: memoFolder.createdAt,
       updatedAt: memoFolder.updatedAt,
+      parent: null,
+      children: [],
     });
   }
 }

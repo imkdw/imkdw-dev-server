@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { RequestCreateMemoFolderDto } from '../../dto/memo-folder/create-memo-folder.dto';
 import { MemoFolder } from 'src/modules/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '../../domain/memo-folder/repository';
+import { RequestCreateMemoFolderDto } from '../../dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderValidator } from '../../validator/memo-folder.validator';
 
 @Injectable()

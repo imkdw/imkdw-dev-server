@@ -1,4 +1,4 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import { ValidationArguments, ValidationOptions, registerDecorator } from 'class-validator';
 
 export function IsNullableString(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
@@ -8,7 +8,7 @@ export function IsNullableString(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: unknown, _args: ValidationArguments) {
           return value === null || typeof value === 'string';
         },
         defaultMessage(args: ValidationArguments) {

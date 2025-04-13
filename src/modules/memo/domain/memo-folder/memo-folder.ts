@@ -46,12 +46,12 @@ export class MemoFolder {
     id: string;
     name: string;
     path: string;
-    parent?: any;
-    children?: any[];
+    parent: MemoFolder | null;
+    children: MemoFolder[];
     createdAt: Date;
     updatedAt: Date;
   }): MemoFolder {
-    const parent = data.parent ? MemoFolder.from(data.parent) : null;
+    const parent = data.parent ? MemoFolder.from({ ...data.parent, name: data.parent.name.value }) : null;
 
     const folder = new MemoFolder(
       data.id,
@@ -65,7 +65,9 @@ export class MemoFolder {
 
     // 자식 폴더가 있으면 재귀적으로 처리
     if (data.children && Array.isArray(data.children)) {
-      folder.children = data.children.map((child) => MemoFolder.from({ ...child, parent: folder }));
+      folder.children = data.children.map((child) =>
+        MemoFolder.from({ ...child, parent: folder, name: child.name.value }),
+      );
     }
 
     return folder;

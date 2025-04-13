@@ -1,10 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   private retryCount = 0;
   private maxRetries = 5;
+  private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
     super({ log: ['error'] });
@@ -36,7 +37,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       await this.$disconnect();
       await this.connectWithRetry();
     } catch (error) {
-      console.log('Reconnect failed', error);
+      this.logger.error('Reconnect failed', error);
     }
   }
 }

@@ -1,3 +1,1 @@
-export class Memo {
-  constructor() {}
-}
+export class Memo {}

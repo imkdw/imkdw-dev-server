@@ -1,7 +1,7 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { ExceptionResponse } from './exception.type';
 import { DomainException } from '../domain/exception/domain.exception';
+import { ExceptionResponse } from './exception.type';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -12,8 +12,6 @@ export class AllExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const isHttpException = exception instanceof HttpException;
 
-    console.log(exception, exception instanceof DomainException);
-
     const exceptionResponse = isHttpException
       ? (exception.getResponse() as ExceptionResponse)
       : ({
@@ -21,6 +19,7 @@ export class AllExceptionFilter implements ExceptionFilter {
           errorCode: 'Internal Server Error',
           message: 'Internal Server Error',
           path: httpAdapter.getRequestUrl(ctx.getRequest()),
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
           ...(process.env.NODE_ENV === 'local' && { stack: (exception as any)?.stack || '' }),
         } satisfies ExceptionResponse);
 
