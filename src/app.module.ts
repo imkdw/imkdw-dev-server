@@ -10,23 +10,10 @@ import { TransformInterceptor } from './common/interceptor/transform.interceptor
 import { DatabaseModule } from './core/database/database.module';
 import { PrismaService } from './core/database/prisma.service';
 import { MemoModule } from './modules/memo/memo.module';
+import { ClsPrismaModule } from 'src/config/cls-prisma.module';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    ClsModule.forRoot({
-      global: true,
-      plugins: [
-        new ClsPluginTransactional({
-          imports: [DatabaseModule],
-          adapter: new TransactionalAdapterPrisma({
-            prismaInjectionToken: PrismaService,
-          }),
-        }),
-      ],
-    }),
-    MemoModule,
-  ],
+  imports: [MemoModule, ClsPrismaModule],
   controllers: [AppController],
   providers: [
     {

@@ -21,7 +21,8 @@
     "paths": {
       "@/memo/*": ["src/modules/memo/*"],
       "@/core/*": ["src/core/*"],
-      "@/common/*": ["src/common/*"]
+      "@/common/*": ["src/common/*"],
+      "@/config/*": ["src/config/*"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -13,6 +13,7 @@ const config: Config = {
     '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
     '^@/core/(.*)$': '<rootDir>/src/core/$1',
     '^@/common/(.*)$': '<rootDir>/src/common/$1',
+    '^@/config/(.*)$': '<rootDir>/src/config/$1',
   },
 };
 
