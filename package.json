@@ -11,6 +11,7 @@
     "start": "cross-env NODE_ENV=local nest start --watch",
     "start:debug": "cross-env NODE_ENV=local nest start --debug --watch",
     "lint": "biome check --write",
+    "============================ Test ============================": "",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
