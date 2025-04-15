@@ -143,6 +143,13 @@
           }
         }
       }
+    },
+    {
+      "include": ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts"],
+      "formatter": {
+        "enabled": true,
+        "lineWidth": 120
+      }
     }
   ]
 }
