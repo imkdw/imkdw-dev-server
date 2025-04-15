@@ -1,19 +1,20 @@
-import type { Config } from 'jest';
+import type { Config } from "jest";
 
 const config: Config = {
   verbose: true,
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testMatch: ['**/*.spec.ts'],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  coveragePathIgnorePatterns: ["<rootDir>/test/", "node_modules", "dist"],
+  testMatch: ["**/*.spec.ts"],
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+    "^.+\\.(t|j)s$": "ts-jest",
   },
-  rootDir: './',
+  rootDir: "./",
   moduleNameMapper: {
-    '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
-    '^@/core/(.*)$': '<rootDir>/src/core/$1',
-    '^@/common/(.*)$': '<rootDir>/src/common/$1',
-    '^@/config/(.*)$': '<rootDir>/src/config/$1',
+    "^@/memo/(.*)$": "<rootDir>/src/modules/memo/$1",
+    "^@/core/(.*)$": "<rootDir>/src/core/$1",
+    "^@/common/(.*)$": "<rootDir>/src/common/$1",
+    "^@/config/(.*)$": "<rootDir>/src/config/$1",
   },
 };
 

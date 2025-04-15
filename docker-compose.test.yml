@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
     image: postgres:16.4
-    container_name: imkdw-dev-server-postgres
+    container_name: imkdw-dev-server-postgres-test
     ports:
-      - '7432:5432'
+      - "7432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
