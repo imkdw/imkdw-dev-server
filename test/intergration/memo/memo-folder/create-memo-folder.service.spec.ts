@@ -69,24 +69,24 @@ describe(CreateMemoFolderService.name, () => {
 
   describe("부모 폴더가 주어지고", () => {
     const parentMemoFolder = MemoFolder.create("parent", null);
+
     describe("폴더를 생성하면", () => {
+      const memoFolderName = "test";
+
       it(" 생성된 폴더를 반환한다", async () => {
         await memoFolderRepository.save(parentMemoFolder);
 
-        const memoFolder = MemoFolder.create("test", parentMemoFolder);
         const createdMemoFolder = await sut.execute({
-          name: memoFolder.name.value,
+          name: memoFolderName,
           parentId: parentMemoFolder.id,
         });
 
-        console.log(parentMemoFolder);
-        console.log(memoFolder);
-        console.log(createdMemoFolder);
-
-        expect(createdMemoFolder.id).toBe(memoFolder.id);
-        expect(createdMemoFolder.name.value).toBe(memoFolder.name.value);
+        expect(createdMemoFolder.id).toBeTruthy();
+        expect(createdMemoFolder.name.value).toBe(memoFolderName);
         expect(createdMemoFolder.parent?.id).toBe(parentMemoFolder.id);
-        expect(createdMemoFolder.path).toBe(`/${memoFolder.name.value}`);
+        expect(createdMemoFolder.path).toBe(
+          `/${parentMemoFolder.name.value}/${memoFolderName}`
+        );
       });
     });
   });
