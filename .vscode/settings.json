@@ -1,5 +1,6 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "auto",
-  "cSpell.words": ["IMKDW"]
+  "cSpell.words": ["IMKDW"],
+  "editor.defaultFormatter": "biomejs.biome"
 }

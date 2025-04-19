@@ -35,13 +35,8 @@ describe(CreateMemoFolderService.name, () => {
     await prisma.memoFolder.deleteMany();
   });
 
-  beforeEach(async () => {
-    await prisma.memoFolder.deleteMany();
-  });
-
   describe('기존 폴더명과 중복되는 경우', () => {
     const existMemoFolder = MemoFolder.create('test', null);
-
     it('에러가 발생한다', async () => {
       await memoFolderRepository.save(existMemoFolder);
 
@@ -62,10 +57,8 @@ describe(CreateMemoFolderService.name, () => {
 
   describe('부모 폴더가 주어지고', () => {
     const parentMemoFolder = MemoFolder.create('parent', null);
-
     describe('폴더를 생성하면', () => {
       const memoFolderName = 'test';
-
       it(' 생성된 폴더를 반환한다', async () => {
         await memoFolderRepository.save(parentMemoFolder);
 
@@ -76,8 +69,8 @@ describe(CreateMemoFolderService.name, () => {
 
         expect(createdMemoFolder.id).toBeTruthy();
         expect(createdMemoFolder.name.value).toBe(memoFolderName);
-        expect(createdMemoFolder.parent?.id).toBe(parentMemoFolder.id);
-        expect(createdMemoFolder.path).toBe(`/${parentMemoFolder.name.value}/${memoFolderName}`);
+        expect(createdMemoFolder.parentId).toBe(parentMemoFolder.id);
+        expect(createdMemoFolder.path).toBe(`${parentMemoFolder.path}/${memoFolderName}`);
       });
     });
   });

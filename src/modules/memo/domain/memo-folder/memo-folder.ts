@@ -1,74 +1,34 @@
 import { generateUUID } from '../../../../common/utils/string.util';
+import { MemoFolder as PrismaMemoFolder } from '@prisma/client';
 import { MemoFolderName } from './memo-folder-name';
 
 export class MemoFolder {
   readonly id: string;
   name: MemoFolderName;
-  parent: MemoFolder | null;
-  children: MemoFolder[];
+  readonly parentId: string | null;
   path: string;
-  readonly createdAt: Date;
-  updatedAt: Date;
 
-  private constructor(
-    id: string,
-    name: MemoFolderName,
-    parent: MemoFolder | null,
-    children: MemoFolder[] = [],
-    path: string = '',
-    createdAt: Date = new Date(),
-    updatedAt: Date = new Date(),
-  ) {
+  private constructor(id: string, name: MemoFolderName, parentId: string | null, path: string) {
     this.id = id;
     this.name = name;
-    this.parent = parent;
-    this.children = children;
+    this.parentId = parentId;
     this.path = path;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.generatePath();
   }
 
-  private generatePath(): void {
-    if (!this.parent) {
-      this.path = `/${this.name.value}`;
-      return;
-    }
-    this.path = `${this.parent.path}/${this.name.value}`;
+  static create(name: string, parentId: string | null, parentPath: string = ''): MemoFolder {
+    const generatedPath = MemoFolder.generatePath(parentPath, name);
+    return new MemoFolder(generateUUID(), new MemoFolderName(name), parentId, generatedPath);
   }
 
-  static create(name: string, parent: MemoFolder | null): MemoFolder {
-    const folder = new MemoFolder(generateUUID(), new MemoFolderName(name), parent);
-    return folder;
+  static from(data: PrismaMemoFolder): MemoFolder {
+    return new MemoFolder(data.id, new MemoFolderName(data.name), data.parentId, data.path);
   }
 
-  static from(data: {
-    id: string;
-    name: string;
-    path: string;
-    parent: MemoFolder | null;
-    children: MemoFolder[];
-    createdAt: Date;
-    updatedAt: Date;
-  }): MemoFolder {
-    const parent = data.parent ? MemoFolder.from({ ...data.parent, name: data.parent.name.value }) : null;
+  static generatePath(parentPath: string, name: string): string {
+    return parentPath ? `${parentPath}/${name}` : `/${name}`;
+  }
 
-    const folder = new MemoFolder(
-      data.id,
-      new MemoFolderName(data.name),
-      parent,
-      [],
-      data.path,
-      data.createdAt,
-      data.updatedAt,
-    );
-
-    if (data.children && Array.isArray(data.children)) {
-      folder.children = data.children.map((child) =>
-        MemoFolder.from({ ...child, parent: folder, name: child.name.value }),
-      );
-    }
-
-    return folder;
+  updatePath(newParentPath: string): void {
+    this.path = MemoFolder.generatePath(newParentPath, this.name.value);
   }
 }
