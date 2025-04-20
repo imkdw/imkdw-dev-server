@@ -41,4 +41,18 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
 
     return memoFolder ? MemoFolder.from(memoFolder) : null;
   }
+
+  async findByParentId(parentId: string | null): Promise<MemoFolder[]> {
+    const memoFolders = await this.prisma.tx.memoFolder.findMany({
+      where: {
+        parentId,
+        deletedAt: null,
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
+
+    return memoFolders.map(MemoFolder.from);
+  }
 }

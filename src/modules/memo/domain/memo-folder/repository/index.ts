@@ -6,4 +6,5 @@ export interface MemoFolderRepository {
   save(memoFolder: MemoFolder): Promise<MemoFolder>;
   findById(id: string): Promise<MemoFolder | null>;
   findByParentIdAndName(parentId: string | null, name: string): Promise<MemoFolder | null>;
+  findByParentId(parentId: string | null): Promise<MemoFolder[]>;
 }
