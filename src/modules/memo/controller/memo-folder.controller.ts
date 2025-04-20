@@ -5,6 +5,7 @@ import { FindMemoFolderService } from '../service/memo-folder/find-memo-folder.s
 import { MemoFolderDto } from '../dto/memo-folder/memo-folder.dto';
 import * as Swagger from '../swagger/memo-folder.swagger';
 import { FindRootMemoFoldersService } from '../service/memo-folder/find-root-memo-folders.service';
+import { FindChildMemoFoldersService } from '../service/memo-folder/find-child-memo-folders.service';
 
 @Controller('memo-folders')
 export class MemoFolderController {
@@ -12,6 +13,7 @@ export class MemoFolderController {
     private readonly createMemoFolderService: CreateMemoFolderService,
     private readonly findMemoFolderService: FindMemoFolderService,
     private readonly findRootMemoFoldersService: FindRootMemoFoldersService,
+    private readonly findChildMemoFoldersService: FindChildMemoFoldersService,
   ) {}
 
   @Swagger.createMemoFolder('메모 폴더 생성')
@@ -26,6 +28,13 @@ export class MemoFolderController {
   async getRootMemoFolders(): Promise<MemoFolderDto[]> {
     const memoFolders = await this.findRootMemoFoldersService.execute();
     return memoFolders.map((memoFolder) => MemoFolderDto.from(memoFolder));
+  }
+
+  @Swagger.getChildMemoFolders('메모 폴더의 하위 폴더 목록 조회')
+  @Get(':id/children')
+  async getChildMemoFolders(@Param('id') id: string): Promise<MemoFolderDto[]> {
+    const childFolders = await this.findChildMemoFoldersService.execute(id);
+    return childFolders.map((folder) => MemoFolderDto.from(folder));
   }
 
   @Swagger.getMemoFolder('메모 폴더 상세조회')

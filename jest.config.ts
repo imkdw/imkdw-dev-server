@@ -5,10 +5,8 @@ const config: Config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   coveragePathIgnorePatterns: ['<rootDir>/test/', 'node_modules', 'dist'],
-  testMatch: ['**/*.spec.ts'],
-  transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
-  },
+  testPathIgnorePatterns: ['dist', 'node_modules'],
+  transform: { '^.+\\.(t|j)s$': 'ts-jest' },
   rootDir: './',
   moduleNameMapper: {
     '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',

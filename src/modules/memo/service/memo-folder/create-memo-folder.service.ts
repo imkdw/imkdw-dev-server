@@ -7,8 +7,7 @@ import { MemoFolderValidator } from '../../validator/memo-folder.validator';
 @Injectable()
 export class CreateMemoFolderService {
   constructor(
-    @Inject(MEMO_FOLDER_REPOSITORY)
-    private readonly memoFolderRepository: MemoFolderRepository,
+    @Inject(MEMO_FOLDER_REPOSITORY) private readonly memoFolderRepository: MemoFolderRepository,
     private readonly memoFolderValidator: MemoFolderValidator,
   ) {}
 

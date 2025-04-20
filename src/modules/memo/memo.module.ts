@@ -7,6 +7,7 @@ import { CreateMemoFolderService } from './service/memo-folder/create-memo-folde
 import { MemoFolderValidator } from './validator/memo-folder.validator';
 import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-folder.service';
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
+import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
 
 @Module({
   imports: [DatabaseModule],
@@ -15,6 +16,7 @@ import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root
     CreateMemoFolderService,
     FindMemoFolderService,
     FindRootMemoFoldersService,
+    FindChildMemoFoldersService,
     MemoFolderValidator,
     {
       provide: MEMO_FOLDER_REPOSITORY,
