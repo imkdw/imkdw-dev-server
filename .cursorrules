@@ -1,11 +1,33 @@
 # AI.md
 
-- First, look for glob `**/.AI.md` by using terminal command `find . -name '.AI.md'` from the project root.
-- Second, if you are going to read and/or write any file in a directory containing `.AI.md` file from the first step, read it and respect the instructions in it.
-- For example, if you are reading or writing a file at /a/b/c, you should check for `/a/.AI.md`, `/a/b/.AI.md` and `/a/b/c/.AI.md` in the order.
+- 우선 프로젝트의 최상위 경로에서 터미널에 `find . -name '.AI.md'` 명령어를 통해서 각 폴더에 존재하는 `**/.AI.md` 파일을 찾아줘
+- 그 다음에 첫 번째 단계부터 '.AI.md ' 파일이 포함된 디렉토리에 있는 파일을 읽고/또는 작성하려는 경우, 이를 읽고 해당 지침을 준수해야돼
+- 예를 들어서 /a/b/c에서 파일을 읽거나 쓰는 경우 '/a/.AI.md ', '/a/b/.AI.md ', '/a/b/c/.AI.md ' 순으로 확인해야돼
 
-# Tech Stacks
+# 기술 스택들
 
-- Framework: Nest.js
+- 프레임워크 : Nest.js
 - ORM: Prisma
-- Database: PostgreSQL
+- 데이터베이스: PostgreSQL
+
+# DTO 컨벤션
+- 모든 DTO는 각자의 역할마다 전부 나눠서 구성해야돼
+  - 예를 들면 메모 폴더의 경우 `CreateMemoFolderDto`, `UpdateMemoFolderDto`로 나누어져
+  - 모든 DTO는 각자 다른 파일에 구성하고 `Request`, `Response` DTO를 따로 나눠서 구분해야돼
+- DTO에는 서비스 내부에서 다루는 도메인 모델을 파라미터로 받고, 그에 해당하는 DTO로 변환하는 `from` 메소드가 존재해
+  - 이는 static 메소드로 존재해
+- 모든 생성과 응답 DTO는 별도로 존재해. `메모 폴더 생성`과 `메모 폴더 수정` DTO는 별개야
+
+# 서비스 레이어 컨벤션
+- 모든 서비스 레이어는 1가지의 책임만 준수해야돼
+  - 예를 들면 `메모 폴더 생성`의 경우는 `CreateMemoFolderService`로 칭하고있어
+  - 외부에서 접근 가능한 인터페이스의 메소드 명은 `execute`로 정의해
+- `execute` 메소드에선 일반적으로 컨트롤러를 통해서 받은 DTO를 그대로 사용해
+  - 어플리케이션이 HTTP를 기반으로 작동하므로 복잡성을 높이지 않기 위해서 DTO를 그대로 사용할꺼야
+
+# HTTP 메소드 컨벤션
+- `메모 폴더 생성` 같은 리소스 생성의 경우는 `POST` 메소드를 사용해
+- `메모 폴더 수정` 처럼 모든 리소스 수정이 가능한 경우는 `PUT` 메소드를 사용해
+- `메모 폴더의 부모 아이디 수정` 처럼 일부 리소스만 수정하는 경우는 `PATCH` 메소드를 사용해
+- `메모 폴더 삭제` 처럼 리소스 삭제의 경우는 `DELETE` 메소드를 사용해
+- `메모 폴더 조회`, `메모 폴더 목록 조회` 같은 조회의 경우는 `GET` 메소드를 사용해
