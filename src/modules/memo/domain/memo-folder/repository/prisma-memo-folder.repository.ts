@@ -55,4 +55,17 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
 
     return memoFolders.map(MemoFolder.from);
   }
+
+  async update(memoFolder: MemoFolder): Promise<MemoFolder> {
+    const updatedMemoFolder = await this.prisma.tx.memoFolder.update({
+      where: { id: memoFolder.id },
+      data: {
+        name: memoFolder.name.value,
+        parentId: memoFolder.parentId,
+        path: memoFolder.path,
+      },
+    });
+
+    return MemoFolder.from(updatedMemoFolder);
+  }
 }

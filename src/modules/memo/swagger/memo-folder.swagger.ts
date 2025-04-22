@@ -1,5 +1,6 @@
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
+import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
@@ -8,6 +9,14 @@ export function createMemoFolder(summary: string) {
     ApiOperation({ summary }),
     ApiBody({ type: RequestCreateMemoFolderDto }),
     ApiCreatedResponse({ type: ResponseCreateMemoFolderDto }),
+  );
+}
+
+export function updateMemoFolder(summary: string) {
+  return applyDecorators(
+    ApiOperation({ summary }),
+    ApiBody({ type: RequestUpdateMemoFolderDto }),
+    ApiOkResponse({ type: ResponseUpdateMemoFolderDto }),
   );
 }
 

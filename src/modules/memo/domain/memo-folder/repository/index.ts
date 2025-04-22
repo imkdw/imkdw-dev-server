@@ -7,4 +7,5 @@ export interface MemoFolderRepository {
   findById(id: string): Promise<MemoFolder | null>;
   findByParentIdAndName(parentId: string | null, name: string): Promise<MemoFolder | null>;
   findByParentId(parentId: string | null): Promise<MemoFolder[]>;
+  update(memoFolder: MemoFolder): Promise<MemoFolder>;
 }
