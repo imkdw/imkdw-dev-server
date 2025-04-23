@@ -7,7 +7,7 @@ export class MemoFolder {
   name: MemoFolderName;
   parentId: string | null;
   path: string;
-  deletedAt: Date | null;
+  deletedAt: Date | null = null;
 
   private constructor(id: string, name: MemoFolderName, path: string, parentId: string | null) {
     this.id = id;

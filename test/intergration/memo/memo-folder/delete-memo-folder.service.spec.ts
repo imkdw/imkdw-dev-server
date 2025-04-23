@@ -1,0 +1,135 @@
+import { ClsPrismaModule } from '@/config/cls-prisma.module';
+import { PrismaService } from '@/core/database/prisma.service';
+import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
+import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
+import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
+import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
+import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
+import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
+import { Test } from '@nestjs/testing';
+
+describe(DeleteMemoFolderService.name, () => {
+  let prisma: PrismaService;
+  let sut: DeleteMemoFolderService;
+  let memoFolderRepository: MemoFolderRepository;
+
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      imports: [ClsPrismaModule],
+      providers: [
+        MemoFolderValidator,
+        {
+          provide: MEMO_FOLDER_REPOSITORY,
+          useClass: PrismaMemoFolderRepository,
+        },
+        DeleteMemoFolderService,
+      ],
+    }).compile();
+
+    sut = module.get<DeleteMemoFolderService>(DeleteMemoFolderService);
+    prisma = module.get<PrismaService>(PrismaService);
+    memoFolderRepository = module.get<MemoFolderRepository>(MEMO_FOLDER_REPOSITORY);
+
+    await prisma.memoFolder.deleteMany();
+  });
+
+  describe('존재하지 않는 메모 폴더를 삭제하려고 할 때', () => {
+    it('에러가 발생한다', async () => {
+      await expect(sut.execute('non-existent-id')).rejects.toThrow(MemoFolderNotFoundException);
+    });
+  });
+
+  describe('자식 폴더가 없는 메모 폴더를 삭제할 때', () => {
+    it('메모 폴더가 삭제된다', async () => {
+      // 메모 폴더 생성
+      const memoFolder = MemoFolder.create('테스트 폴더', null);
+      await memoFolderRepository.save(memoFolder);
+
+      // 메모 폴더 삭제
+      await sut.execute(memoFolder.id);
+
+      // 삭제 확인
+      const deletedFolder = await prisma.memoFolder.findUnique({
+        where: { id: memoFolder.id },
+      });
+
+      expect(deletedFolder).not.toBeNull();
+      expect(deletedFolder?.deletedAt).not.toBeNull();
+    });
+  });
+
+  describe('자식 폴더가 있는 메모 폴더를 삭제할 때', () => {
+    it('메모 폴더와 모든 자식 폴더가 삭제된다', async () => {
+      // 부모 폴더 생성
+      const parentFolder = MemoFolder.create('부모 폴더', null);
+      await memoFolderRepository.save(parentFolder);
+
+      // 자식 폴더 생성
+      const childFolder1 = MemoFolder.create('자식 폴더1', parentFolder.id);
+      childFolder1.updatePath(`${parentFolder.path}/${childFolder1.name.value}`);
+      await memoFolderRepository.save(childFolder1);
+
+      const childFolder2 = MemoFolder.create('자식 폴더2', parentFolder.id);
+      childFolder2.updatePath(`${parentFolder.path}/${childFolder2.name.value}`);
+      await memoFolderRepository.save(childFolder2);
+
+      // 메모 폴더 삭제
+      await sut.execute(parentFolder.id);
+
+      // 삭제 확인
+      const deletedParent = await prisma.memoFolder.findUnique({
+        where: { id: parentFolder.id },
+      });
+      const deletedChild1 = await prisma.memoFolder.findUnique({
+        where: { id: childFolder1.id },
+      });
+      const deletedChild2 = await prisma.memoFolder.findUnique({
+        where: { id: childFolder2.id },
+      });
+
+      expect(deletedParent).not.toBeNull();
+      expect(deletedParent?.deletedAt).not.toBeNull();
+      expect(deletedChild1).not.toBeNull();
+      expect(deletedChild1?.deletedAt).not.toBeNull();
+      expect(deletedChild2).not.toBeNull();
+      expect(deletedChild2?.deletedAt).not.toBeNull();
+    });
+  });
+
+  describe('다단계 폴더 구조에서 삭제할 때', () => {
+    it('해당 폴더와 모든 하위 폴더가 삭제된다', async () => {
+      // 3단계 폴더 구조 생성: root -> middle -> leaf
+      const rootFolder = MemoFolder.create('루트', null);
+      await memoFolderRepository.save(rootFolder);
+
+      const middleFolder = MemoFolder.create('중간', rootFolder.id);
+      middleFolder.updatePath(`${rootFolder.path}/${middleFolder.name.value}`);
+      await memoFolderRepository.save(middleFolder);
+
+      const leafFolder = MemoFolder.create('리프', middleFolder.id);
+      leafFolder.updatePath(`${middleFolder.path}/${leafFolder.name.value}`);
+      await memoFolderRepository.save(leafFolder);
+
+      // 중간 폴더를 삭제하면 리프 폴더도 함께 삭제되어야 함
+      await sut.execute(middleFolder.id);
+
+      // 삭제 확인
+      const deletedMiddle = await prisma.memoFolder.findUnique({
+        where: { id: middleFolder.id },
+      });
+      const deletedLeaf = await prisma.memoFolder.findUnique({
+        where: { id: leafFolder.id },
+      });
+      const root = await prisma.memoFolder.findUnique({
+        where: { id: rootFolder.id },
+      });
+
+      expect(deletedMiddle).not.toBeNull();
+      expect(deletedMiddle?.deletedAt).not.toBeNull();
+      expect(deletedLeaf).not.toBeNull();
+      expect(deletedLeaf?.deletedAt).not.toBeNull();
+      // 루트 폴더는 삭제되지 않아야 함
+      expect(root?.deletedAt).toBeNull();
+    });
+  });
+});

@@ -32,4 +32,6 @@ model Memo {
   ///
   /// @minItems 1
   folder MemoFolder @relation(fields: [folderId], references: [id])
+
+  @@map("memo")
 }

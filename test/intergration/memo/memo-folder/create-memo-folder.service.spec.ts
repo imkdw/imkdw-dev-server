@@ -79,7 +79,7 @@ describe(CreateMemoFolderService.name, () => {
           parentId: parentMemoFolder.id,
         });
 
-        expect(createdMemoFolder.path).toBe(`${parentMemoFolder.path}/${memoFolderName}`);
+        expect(createdMemoFolder.path).toBe(`/${parentMemoFolder.name.value}/${memoFolderName}`);
       });
     });
   });
@@ -93,12 +93,12 @@ describe(CreateMemoFolderService.name, () => {
         parentId: null,
       });
 
-      expect(createdMemoFolder.path).toBe(rootFolderName);
+      expect(createdMemoFolder.path).toBe(`/${rootFolderName}`);
     });
   });
 
   describe('다단계 폴더 구조에서', () => {
-    it('모든 상위 경로가 포함된 경로로, 생성된다', async () => {
+    it('모든 상위 경로가 포함된 경로로 생성된다', async () => {
       // 1단계: 최상위 폴더
       const level1Folder = await sut.execute({
         name: 'level1',
@@ -117,9 +117,11 @@ describe(CreateMemoFolderService.name, () => {
         parentId: level2Folder.id,
       });
 
-      expect(level1Folder.path).toBe('level1');
-      expect(level2Folder.path).toBe('level1/level2');
-      expect(level3Folder.path).toBe('level1/level2/level3');
+      expect(level1Folder.path).toBe(`/${level1Folder.name.value}`);
+      expect(level2Folder.path).toBe(`/${level1Folder.name.value}/${level2Folder.name.value}`);
+      expect(level3Folder.path).toBe(
+        `/${level1Folder.name.value}/${level2Folder.name.value}/${level3Folder.name.value}`,
+      );
     });
   });
 });

@@ -15,6 +15,7 @@ export class UpdateMemoFolderService {
     const { name, parentId } = dto;
 
     const memoFolder = await this.memoFolderValidator.checkExist(id);
+    const childMemoFolders = await this.memoFolderRepository.findChildrenByPath(memoFolder.path);
 
     if (memoFolder.name.value !== name) {
       await this.memoFolderValidator.checkExistName(parentId, name);
@@ -25,6 +26,15 @@ export class UpdateMemoFolderService {
     memoFolder.updateName(name);
     memoFolder.updateParentFolder(parentMemoFolder);
 
-    return this.memoFolderRepository.update(memoFolder);
+    const updatedMemoFolder = await this.memoFolderRepository.update(memoFolder);
+
+    const updatedChildMemoFolders = childMemoFolders.map((folder) => {
+      folder.updatePath(`${updatedMemoFolder.path}/${folder.name.value}`);
+      return folder;
+    });
+
+    await this.memoFolderRepository.updateMany(updatedChildMemoFolders);
+
+    return updatedMemoFolder;
   }
 }

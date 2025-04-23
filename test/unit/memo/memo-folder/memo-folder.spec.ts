@@ -33,3 +33,13 @@ describe('메모 폴더의 부모가 주어지고', () => {
     });
   });
 });
+
+describe('메모 폴더를 삭제하면', () => {
+  it('삭제한 날짜가 설정된다', () => {
+    const sut = MemoFolder.create('test', null);
+
+    sut.delete();
+
+    expect(sut.deletedAt).not.toBeNull();
+  });
+});

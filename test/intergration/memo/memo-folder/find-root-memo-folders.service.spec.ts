@@ -52,6 +52,9 @@ describe(FindRootMemoFoldersService.name, () => {
       expect(result.map((folder) => folder.name.value)).toEqual(
         expect.arrayContaining([rootFolder1.name.value, rootFolder2.name.value]),
       );
+      expect(result.map((folder) => folder.path)).toEqual(
+        expect.arrayContaining([`/${rootFolder1.name.value}`, `/${rootFolder2.name.value}`]),
+      );
     });
 
     it('각 최상위 폴더의 경로가 폴더명과 동일하다', async () => {
@@ -64,7 +67,7 @@ describe(FindRootMemoFoldersService.name, () => {
 
       // 모든 최상위 폴더의 경로는 폴더명과 같아야 함
       for (const folder of result) {
-        expect(folder.path).toBe(folder.name.value);
+        expect(folder.path).toBe(`/${folder.name.value}`);
       }
     });
   });
@@ -82,68 +85,6 @@ describe(FindRootMemoFoldersService.name, () => {
       expect(result[0].id).toBe(parentFolder.id);
       expect(result[0].name.value).toBe(parentFolder.name.value);
       expect(result[0].parentId).toBeNull();
-    });
-  });
-
-  describe('경로(path) 테스트', () => {
-    describe('다양한 최상위 폴더가 있을 때', () => {
-      it('각 최상위 폴더의 경로는 폴더명과 동일하다', async () => {
-        // 여러 최상위 폴더 생성
-        const rootFolders = [
-          MemoFolder.create('folder1', null),
-          MemoFolder.create('folder2', null),
-          MemoFolder.create('folder3', null),
-        ];
-
-        for (const folder of rootFolders) {
-          await memoFolderRepository.save(folder);
-        }
-
-        // 최상위 폴더 조회
-        const result = await sut.execute();
-
-        // 경로 확인
-        expect(result).toHaveLength(rootFolders.length);
-        for (const folder of result) {
-          expect(folder.path).toBe(folder.name.value);
-        }
-      });
-    });
-
-    describe('최상위 폴더와 복잡한 하위 구조가 있을 때', () => {
-      it('하위 폴더를 제외한 최상위 폴더만 조회되며 경로가 정확하다', async () => {
-        // 최상위 폴더 생성
-        const rootFolder1 = MemoFolder.create('root1', null);
-        const rootFolder2 = MemoFolder.create('root2', null);
-        await memoFolderRepository.save(rootFolder1);
-        await memoFolderRepository.save(rootFolder2);
-
-        // 하위 폴더 구조 생성
-        const subFolder1 = MemoFolder.create('sub1', rootFolder1.id);
-        subFolder1.updatePath(`${rootFolder1.path}/${subFolder1.name.value}`);
-        await memoFolderRepository.save(subFolder1);
-
-        const subSubFolder = MemoFolder.create('subsub', subFolder1.id);
-        subSubFolder.updatePath(`${subFolder1.path}/${subSubFolder.name.value}`);
-        await memoFolderRepository.save(subSubFolder);
-
-        const subFolder2 = MemoFolder.create('sub2', rootFolder2.id);
-        subFolder2.updatePath(`${rootFolder2.path}/${subFolder2.name.value}`);
-        await memoFolderRepository.save(subFolder2);
-
-        // 최상위 폴더 조회
-        const result = await sut.execute();
-
-        // 최상위 폴더만 반환되는지 확인
-        expect(result).toHaveLength(2);
-        expect(result.map((folder) => folder.id)).toContain(rootFolder1.id);
-        expect(result.map((folder) => folder.id)).toContain(rootFolder2.id);
-
-        // 모든 최상위 폴더의 경로는 폴더명과 같아야 함
-        for (const folder of result) {
-          expect(folder.path).toBe(folder.name.value);
-        }
-      });
     });
   });
 });

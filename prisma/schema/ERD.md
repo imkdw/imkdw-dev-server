@@ -17,7 +17,7 @@ erDiagram
   DateTime updated_at
   DateTime deleted_at "nullable"
 }
-"Memo" {
+"memo" {
   String id PK
   String title
   String content
@@ -28,7 +28,7 @@ erDiagram
   DateTime deleted_at "nullable"
 }
 "memo_folder" }o--o| "memo_folder" : parent
-"Memo" }o--|| "memo_folder" : folder
+"memo" }o--|| "memo_folder" : folder
 ```
 
 ### `memo_folder`
@@ -42,7 +42,7 @@ erDiagram
   - `updated_at`: 수정 시간
   - `deleted_at`: 삭제 시간
 
-### `Memo`
+### `memo`
 
 **Properties**
   - `id`: 기본 키

@@ -1,13 +1,11 @@
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Transactional } from '@nestjs-cls/transactional';
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/core/database/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class DeleteMemoFolderService {
   constructor(
-    private readonly prisma: PrismaService,
     private readonly memoFolderValidator: MemoFolderValidator,
     @Inject(MEMO_FOLDER_REPOSITORY) private readonly memoFolderRepository: MemoFolderRepository,
   ) {}
@@ -20,12 +18,12 @@ export class DeleteMemoFolderService {
     const deletedAt = new Date();
 
     // 자식 메모 폴더 제거
-    await this.memoFolderRepository.updateManyWithData(
-      memoFolderChildren.map((child) => child.id),
-      { deletedAt },
-    );
+    const childIds = memoFolderChildren.map((child) => child.id);
+    await this.memoFolderRepository.updateManyWithData(childIds, { deletedAt });
 
     // TODO: 자식 메모 제거
+
+    // 메모 폴더 제거
     memoFolder.delete();
     await this.memoFolderRepository.update(memoFolder);
   }
