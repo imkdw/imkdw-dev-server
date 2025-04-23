@@ -12,10 +12,6 @@ export class MemoFolderName {
   }
 
   private validate(value: string): void {
-    if (!value) {
-      throw new InvalidMemoFolderNameException('메모 폴더 이름은 빈 문자열일 수 없습니다.');
-    }
-
     if (value.length < MemoFolderName.MIN_LENGTH) {
       throw new InvalidMemoFolderNameException(
         `메모 폴더 이름은 최소 ${MemoFolderName.MIN_LENGTH} 글자 이상이어야 합니다.`,
