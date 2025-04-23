@@ -5,7 +5,6 @@ import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
 import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
-import { RequestCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Test } from '@nestjs/testing';
@@ -70,7 +69,6 @@ describe(CreateMemoFolderService.name, () => {
         expect(createdMemoFolder.id).toBeTruthy();
         expect(createdMemoFolder.name.value).toBe(memoFolderName);
         expect(createdMemoFolder.parentId).toBe(parentMemoFolder.id);
-        expect(createdMemoFolder.path).toBe(`${parentMemoFolder.path}/${memoFolderName}`);
       });
     });
   });

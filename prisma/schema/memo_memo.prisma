@@ -1,34 +1,35 @@
-/// @namespace Memo
+/// @namespace 메모
 ///
-/// @describe Save contents of memo
-/// @erd Memo
+/// @describe 메모
 model Memo {
-  /// Primary key
+  /// 기본 키
   ///
   /// @format uuid
   id String @id
 
-  /// Title of memo
+  /// 메모 제목
   title String
 
-  /// Content of memo
+  /// 메모 내용
   content String
 
-  /// Identifier of folder that memo belongs to
+  /// 메모가 속한 폴더 식별자
   folderId String @map("folder_id")
 
-  /// Path of folder that memo belongs to
+  /// 메모가 속한 폴더 경로
   folderPath String @map("folder_path")
 
-  /// Created time of memo
-  createdAt DateTime @default(now()) @map("created_at") 
+  /// 생성 시간
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  /// Updated time of memo
-  updatedAt DateTime @updatedAt @map("updated_at")
+  /// 수정 시간
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  /// Deleted time of memo
-  deletedAt DateTime? @map("deleted_at")
+  /// 삭제 시간
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  /// Folder that memo belongs to
+  /// 메모가 속한 폴더 관계
+  ///
+  /// @minItems 1
   folder MemoFolder @relation(fields: [folderId], references: [id])
 }

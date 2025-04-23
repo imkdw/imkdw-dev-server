@@ -1,6 +1,9 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "auto",
-  "cSpell.words": ["IMKDW"],
-  "editor.defaultFormatter": "biomejs.biome"
+  "cSpell.words": ["IMKDW", "Timestamptz"],
+  "editor.defaultFormatter": "biomejs.biome",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

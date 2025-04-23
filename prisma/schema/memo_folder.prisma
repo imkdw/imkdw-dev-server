@@ -1,38 +1,38 @@
-/// @namespace Memo
+/// @namespace 메모
 ///
-/// @describe Save information of folder
+/// @describe 메모의 폴더
 /// @erd Folder
 model MemoFolder {
-  /// Primary key
+  /// PK
   ///
   /// @format uuid
   id String @id
 
-  /// Name of folder
+  /// 폴더 이름
   name String
 
-  /// Identifier of parent folder
+  /// 부모 폴더 아이디
   parentId String? @map("parent_id")
 
-  /// Path of folder (ex: "/folder1/folder1-1/folder1-1-1")
-  path String
+  /// 폴더 경로
+  path String @map("path")
 
-  /// Created time of folder
-  createdAt DateTime @default(now()) @map("created_at")
+  /// 생성 시간
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  /// Updated time of folder
-  updatedAt DateTime @updatedAt @map("updated_at")
+  /// 수정 시간
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  /// Deleted time of folder
-  deletedAt DateTime? @map("deleted_at")
+  /// 삭제 시간
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  /// Memos in folder
+  /// 폴더 내 메모목록
   memos Memo[]
 
-  /// Parent folder
+  /// 부모 폴더
   parent MemoFolder? @relation("FolderToFolder", fields: [parentId], references: [id])
 
-  /// Child folders
+  /// 자식 폴더
   children MemoFolder[] @relation("FolderToFolder")
 
   @@index([parentId, name])

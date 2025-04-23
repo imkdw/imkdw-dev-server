@@ -9,6 +9,7 @@ import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-fold
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
+import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 
 @Module({
   imports: [DatabaseModule],
@@ -19,6 +20,7 @@ import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-
     FindRootMemoFoldersService,
     FindChildMemoFoldersService,
     UpdateMemoFolderService,
+    DeleteMemoFolderService,
     MemoFolderValidator,
     {
       provide: MEMO_FOLDER_REPOSITORY,

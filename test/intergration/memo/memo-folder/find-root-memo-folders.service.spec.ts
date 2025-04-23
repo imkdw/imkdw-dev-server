@@ -58,7 +58,7 @@ describe(FindRootMemoFoldersService.name, () => {
   describe('최상위 폴더와 하위 폴더가 모두 있을 때', () => {
     it('최상위 폴더만 반환한다', async () => {
       const parentFolder = MemoFolder.create('parent', null);
-      const childFolder = MemoFolder.create('child', parentFolder.id, parentFolder.path);
+      const childFolder = MemoFolder.create('child', parentFolder.id);
       await memoFolderRepository.save(parentFolder);
       await memoFolderRepository.save(childFolder);
 

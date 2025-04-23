@@ -4,50 +4,64 @@
 
 ### Comment Rule
 
-- @namespace <name>: Both ERD and markdown content
-- @erd <name>: Only ERD
-- @describe <name>: Only markdown content
-- @hidden: Neither ERD nor markdown content
-- @minItems 1: Mandatory relationship when 1: N (||---|{)
+- @namespace <name>: ERD 및 마크다운을 생성하는 경우
+- @erd <name>: ERD만 생성하는 경우
+- @describe <name>: 마크다운만 생성하는 경우
+- @hidden: ERD 및 마크다운 생성을 모두 안하는 경우
+- @minItems 1: 최소 1개 이상의 1:N 관계가 필요한 경우
 
 ### example
 
 ```prisma
-/// @namespace Memo
+/// @namespace 메모
 ///
-/// @describe Save contents of memo
-/// @erd Memo
-model Memo {
-  /// Primary key
+/// @describe 메모의 폴더
+/// @erd Folder
+model MemoFolder {
+  /// PK
   ///
   /// @format uuid
   id String @id
 
-  /// Title of memo
-  title String
+  /// 폴더 이름
+  name String
 
-  /// Content of memo
-  content String
+  /// 부모 폴더 아이디
+  parentId String? @map("parent_id")
 
-  /// Identifier of folder that memo belongs to
-  folderId String @map("folder_id")
+  /// 폴더 경로
+  path String
 
-  /// Path of folder that memo belongs to
-  folderPath String @map("folder_path")
+  /// 생성 시간
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  /// Created time of memo
-  createdAt DateTime @default(now())
+  /// 수정 시간
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  /// Updated time of memo
-  updatedAt DateTime @updatedAt
+  /// 삭제 시간
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  /// Folder that memo belongs to
-  folder Folder @relation(fields: [folderId], references: [id])
+  /// 폴더 내 메모목록
+  memos Memo[]
+
+  /// 부모 폴더
+  parent MemoFolder? @relation("FolderToFolder", fields: [parentId], references: [id])
+
+  /// 자식 폴더
+  children MemoFolder[] @relation("FolderToFolder")
+
+  @@index([parentId, name])
+  @@map("memo_folder")
 }
 ```
 
-# Convention
+# 컨벤션
 
-- prisma schema field name is camelCase
-- database field name is snake_case
-- database table name is snake_case
+- prisma schema의 모든 모델(테이블) 이름은 PascalCase로 작성해줘
+  - ex) MemoFolder, ArticleCategory
+- prisma schema의 모든 필드 이름은 camelCase로 작성해줘 
+  - ex) folderName, createdAt
+- 데이터베이스에 저장되는 컬럼명은 snake_case로 작성해줘
+  - ex) folder_name, created_at
+- 데이터베이스에 저장되는 테이블명은 snake_case로 작성해줘
+  - ex) memo_folder, article_category

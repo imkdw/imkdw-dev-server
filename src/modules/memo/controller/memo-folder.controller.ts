@@ -1,4 +1,4 @@
-import { Body, Controller, Injectable, Post, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Injectable, Post, Get, Param, Put, Delete } from '@nestjs/common';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '../dto/memo-folder/create-memo-folder.dto';
 import { CreateMemoFolderService } from '../service/memo-folder/create-memo-folder.service';
 import { FindMemoFolderService } from '../service/memo-folder/find-memo-folder.service';
@@ -9,6 +9,7 @@ import { FindChildMemoFoldersService } from '../service/memo-folder/find-child-m
 import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '../dto/memo-folder/update-memo-folder.dto';
 import { UpdateMemoFolderService } from '../service/memo-folder/update-memo-folder.service';
 import { ApiTags } from '@nestjs/swagger';
+import { DeleteMemoFolderService } from '../service/memo-folder/delete-memo-folder.service';
 
 @ApiTags('[메모] 폴더')
 @Controller('memo-folders')
@@ -19,6 +20,7 @@ export class MemoFolderController {
     private readonly findRootMemoFoldersService: FindRootMemoFoldersService,
     private readonly findChildMemoFoldersService: FindChildMemoFoldersService,
     private readonly updateMemoFolderService: UpdateMemoFolderService,
+    private readonly deleteMemoFolderService: DeleteMemoFolderService,
   ) {}
 
   @Swagger.createMemoFolder('메모 폴더 생성')
@@ -57,5 +59,11 @@ export class MemoFolderController {
   async findMemoFolder(@Param('id') id: string): Promise<MemoFolderDto> {
     const memoFolder = await this.findMemoFolderService.execute(id);
     return MemoFolderDto.from(memoFolder);
+  }
+
+  @Swagger.deleteMemoFolder('메모 폴더 삭제')
+  @Delete(':id')
+  async deleteMemoFolder(@Param('id') id: string): Promise<void> {
+    await this.deleteMemoFolderService.execute(id);
   }
 }

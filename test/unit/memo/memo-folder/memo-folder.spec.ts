@@ -11,10 +11,11 @@ describe('새로운 메모 폴더를 만드는 경우', () => {
 
 describe('메모 폴더의 부모가 없을때', () => {
   describe('새로운 메모 폴더를 생성하면', () => {
-    it('경로가 메모 폴더의 이름으로 설정된다', () => {
+    it('메모 폴더가 생성된다', () => {
       const sut = MemoFolder.create('test', null);
 
-      expect(sut.path).toBe('/test');
+      expect(sut.name.value).toBe('test');
+      expect(sut.parentId).toBeNull();
     });
   });
 });
@@ -22,10 +23,11 @@ describe('메모 폴더의 부모가 없을때', () => {
 describe('메모 폴더의 부모가 주어지고', () => {
   const parent = MemoFolder.create('parent', null);
   describe('새로운 메모 폴더를 만드는 경우', () => {
-    it('부모 폴더의 경로 하위에 새로운 경로가 생성된다', () => {
-      const sut = MemoFolder.create('test', parent.id, parent.path);
+    it('부모 폴더가 설정된다', () => {
+      const sut = MemoFolder.create('test', parent.id);
 
-      expect(sut.path).toBe('/parent/test');
+      expect(sut.name.value).toBe('test');
+      expect(sut.parentId).toBe(parent.id);
     });
   });
 });

@@ -15,9 +15,9 @@ export class CreateMemoFolderService {
     const { name, parentId } = dto;
 
     await this.memoFolderValidator.checkExistName(parentId, name);
-    const parentMemoFolder = await this.memoFolderValidator.checkExistParentMemoFolder(parentId);
+    await this.memoFolderValidator.checkExistParentMemoFolder(parentId);
 
-    const memoFolder = MemoFolder.create(name, parentId, parentMemoFolder?.path);
+    const memoFolder = MemoFolder.create(name, parentId);
 
     return this.memoFolderRepository.save(memoFolder);
   }

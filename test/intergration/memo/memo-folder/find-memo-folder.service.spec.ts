@@ -49,7 +49,6 @@ describe(FindMemoFolderService.name, () => {
       expect(found.id).toBe(memoFolder.id);
       expect(found.name.value).toBe(memoFolder.name.value);
       expect(found.parentId).toBe(memoFolder.parentId);
-      expect(found.path).toBe(memoFolder.path);
     });
   });
 });

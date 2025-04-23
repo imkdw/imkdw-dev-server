@@ -31,3 +31,7 @@ export function getRootMemoFolders(summary: string) {
 export function getChildMemoFolders(summary: string) {
   return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: [MemoFolderDto] }));
 }
+
+export function deleteMemoFolder(summary: string) {
+  return applyDecorators(ApiOperation({ summary }));
+}

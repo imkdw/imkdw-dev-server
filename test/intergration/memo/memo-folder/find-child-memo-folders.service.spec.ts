@@ -56,14 +56,14 @@ describe(FindChildMemoFoldersService.name, () => {
       await memoFolderRepository.save(parentFolder);
 
       // 자식 폴더 생성
-      const childFolder1 = MemoFolder.create('child1', parentFolder.id, parentFolder.path);
-      const childFolder2 = MemoFolder.create('child2', parentFolder.id, parentFolder.path);
+      const childFolder1 = MemoFolder.create('child1', parentFolder.id);
+      const childFolder2 = MemoFolder.create('child2', parentFolder.id);
       await memoFolderRepository.save(childFolder1);
       await memoFolderRepository.save(childFolder2);
 
       // 부모 폴더의 자식 폴더가 아닌 다른 폴더 생성
       const anotherParentFolder = MemoFolder.create('another-parent', null);
-      const anotherChildFolder = MemoFolder.create('another-child', anotherParentFolder.id, anotherParentFolder.path);
+      const anotherChildFolder = MemoFolder.create('another-child', anotherParentFolder.id);
       await memoFolderRepository.save(anotherParentFolder);
       await memoFolderRepository.save(anotherChildFolder);
 

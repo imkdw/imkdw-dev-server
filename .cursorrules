@@ -14,6 +14,7 @@
 - 모든 DTO는 각자의 역할마다 전부 나눠서 구성해야돼
   - 예를 들면 메모 폴더의 경우 `CreateMemoFolderDto`, `UpdateMemoFolderDto`로 나누어져
   - 모든 DTO는 각자 다른 파일에 구성하고 `Request`, `Response` DTO를 따로 나눠서 구분해야돼
+  - 이 때 DELETE 요청의 경우는 응답 DTO가 없어도 괜찮아
 - DTO에는 서비스 내부에서 다루는 도메인 모델을 파라미터로 받고, 그에 해당하는 DTO로 변환하는 `from` 메소드가 존재해
   - 이는 static 메소드로 존재해
 - 모든 생성과 응답 DTO는 별도로 존재해. `메모 폴더 생성`과 `메모 폴더 수정` DTO는 별개야
@@ -44,3 +45,7 @@
 # 도메인 모델
 - 일반적인 도메인 모델에는 private, readonly 키워드를 사용하지 말아줘
 - `Injectable` 데코레이터를 사용하는 의존성 주입이 발생하는 경우는 `private readonly` 키워드를 사용해줘
+
+# 일반적인 유효성 검증
+- 일반적으로 존재여부 등 같은 유효성 검증은 `Validator`에서 처리할꺼야
+- 메모 폴더를 예로 들면 `MemoFolderValidator.checkExist`와 같은 메소드를 사용해
