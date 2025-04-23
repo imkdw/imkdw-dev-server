@@ -164,4 +164,131 @@ describe(UpdateMemoFolderService.name, () => {
       expect(savedFolder!.parentId).toBe(rootFolder2.id);
     });
   });
+
+  describe('경로(path) 업데이트 테스트', () => {
+    describe('최상위 폴더로 변경할 때', () => {
+      it('경로가 폴더명으로 설정된다', async () => {
+        // 부모 폴더와 자식 폴더 생성
+        const parentFolder = MemoFolder.create('부모 폴더', null);
+        await memoFolderRepository.save(parentFolder);
+
+        const childFolder = MemoFolder.create('자식 폴더', parentFolder.id);
+        await memoFolderRepository.save(childFolder);
+
+        // 자식 폴더를 최상위 폴더로 변경
+        const updateDto: RequestUpdateMemoFolderDto = {
+          name: childFolder.name.value,
+          parentId: null,
+        };
+
+        const updatedFolder = await sut.execute(childFolder.id, updateDto);
+
+        // 경로가 폴더명으로만 구성되는지 확인
+        expect(updatedFolder.path).toBe(childFolder.name.value);
+      });
+    });
+
+    describe('부모 폴더를 변경할 때', () => {
+      it('경로가 새 부모 경로 + 폴더명으로 업데이트된다', async () => {
+        // 두 개의 부모 폴더 생성
+        const parentFolder1 = MemoFolder.create('부모1', null);
+        const parentFolder2 = MemoFolder.create('부모2', null);
+        await memoFolderRepository.save(parentFolder1);
+        await memoFolderRepository.save(parentFolder2);
+
+        // 첫 번째 부모의 자식 폴더 생성
+        const childFolder = MemoFolder.create('자식', parentFolder1.id);
+        await memoFolderRepository.save(childFolder);
+
+        // 다른 부모로 이동
+        const updateDto: RequestUpdateMemoFolderDto = {
+          name: childFolder.name.value,
+          parentId: parentFolder2.id,
+        };
+
+        const updatedFolder = await sut.execute(childFolder.id, updateDto);
+
+        // 경로가 새 부모 경로 + 폴더명인지 확인
+        expect(updatedFolder.path).toBe(`${parentFolder2.path}/${childFolder.name.value}`);
+      });
+    });
+
+    describe('이름만 변경할 때', () => {
+      it('경로의 마지막 부분이 새 이름으로 업데이트된다', async () => {
+        // 부모 폴더와 자식 폴더 생성
+        const parentFolder = MemoFolder.create('부모', null);
+        await memoFolderRepository.save(parentFolder);
+
+        const childFolder = MemoFolder.create('자식', parentFolder.id);
+        await memoFolderRepository.save(childFolder);
+
+        const newName = '새이름';
+        const updateDto: RequestUpdateMemoFolderDto = {
+          name: newName,
+          parentId: parentFolder.id,
+        };
+
+        const updatedFolder = await sut.execute(childFolder.id, updateDto);
+
+        // 경로의 마지막 부분만 새 이름으로 변경되었는지 확인
+        expect(updatedFolder.path).toBe(`${parentFolder.path}/${newName}`);
+      });
+    });
+
+    describe('이름과 부모 모두 변경할 때', () => {
+      it('완전히 새로운 경로로 업데이트된다', async () => {
+        // 여러 폴더 구조 설정
+        const rootFolder1 = MemoFolder.create('루트1', null);
+        const rootFolder2 = MemoFolder.create('루트2', null);
+        await memoFolderRepository.save(rootFolder1);
+        await memoFolderRepository.save(rootFolder2);
+
+        const subFolder1 = MemoFolder.create('하위1', rootFolder1.id);
+        await memoFolderRepository.save(subFolder1);
+
+        const newName = '새폴더';
+        const updateDto: RequestUpdateMemoFolderDto = {
+          name: newName,
+          parentId: rootFolder2.id,
+        };
+
+        const updatedFolder = await sut.execute(subFolder1.id, updateDto);
+
+        // 새 부모 경로 + 새 이름으로 완전히 새로운 경로가 생성되었는지 확인
+        expect(updatedFolder.path).toBe(`${rootFolder2.path}/${newName}`);
+      });
+    });
+
+    describe('다단계 경로 구조에서', () => {
+      it('하위 폴더의 경로도 함께 업데이트된다', async () => {
+        // 3단계 폴더 구조 생성
+        const level1 = MemoFolder.create('레벨1', null);
+        await memoFolderRepository.save(level1);
+
+        const level2 = MemoFolder.create('레벨2', level1.id);
+        await memoFolderRepository.save(level2);
+
+        const level3 = MemoFolder.create('레벨3', level2.id);
+        await memoFolderRepository.save(level3);
+
+        // 중간 폴더(level2)의 이름 변경
+        const newName = '새레벨2';
+        const updateDto: RequestUpdateMemoFolderDto = {
+          name: newName,
+          parentId: level1.id,
+        };
+
+        // 중간 폴더 업데이트
+        const updatedLevel2 = await sut.execute(level2.id, updateDto);
+
+        // 업데이트된 폴더의 경로 확인
+        expect(updatedLevel2.path).toBe(`${level1.path}/${newName}`);
+
+        // 하위 폴더를 다시 조회하여 경로가 업데이트되었는지 확인
+        const updatedLevel3 = await memoFolderRepository.findById(level3.id);
+        expect(updatedLevel3).toBeDefined();
+        expect(updatedLevel3!.path).toBe(`${updatedLevel2.path}/${level3.name.value}`);
+      });
+    });
+  });
 });

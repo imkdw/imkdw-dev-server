@@ -74,6 +74,97 @@ describe(FindChildMemoFoldersService.name, () => {
       expect(result.map((folder) => folder.name.value)).toEqual(
         expect.arrayContaining([childFolder1.name.value, childFolder2.name.value]),
       );
+      expect(result.map((folder) => folder.path)).toEqual(
+        expect.arrayContaining([
+          `${parentFolder.path}/${childFolder1.name.value}`,
+          `${parentFolder.path}/${childFolder2.name.value}`,
+        ]),
+      );
+    });
+  });
+
+  describe('폴더 경로(path) 테스트', () => {
+    describe('자식 폴더의 경로 확인', () => {
+      it('부모 경로/자식명 형식으로, 각 자식 폴더의 정확한 경로를 포함한다', async () => {
+        // 부모 폴더 생성
+        const parentFolder = MemoFolder.create('parent', null);
+        await memoFolderRepository.save(parentFolder);
+
+        // 자식 폴더 생성 - 경로 설정
+        const childFolder1 = MemoFolder.create('child1', parentFolder.id);
+        childFolder1.updatePath(`${parentFolder.path}/${childFolder1.name.value}`);
+        await memoFolderRepository.save(childFolder1);
+
+        const childFolder2 = MemoFolder.create('child2', parentFolder.id);
+        childFolder2.updatePath(`${parentFolder.path}/${childFolder2.name.value}`);
+        await memoFolderRepository.save(childFolder2);
+
+        // 자식 폴더 조회
+        const result = await sut.execute(parentFolder.id);
+
+        // 각 자식 폴더의 경로 확인
+        expect(result.map((folder) => folder.path)).toContain(`${parentFolder.path}/${childFolder1.name.value}`);
+        expect(result.map((folder) => folder.path)).toContain(`${parentFolder.path}/${childFolder2.name.value}`);
+      });
+    });
+
+    describe('다단계 경로 구조에서', () => {
+      it('중간 폴더의 자식 폴더들이 정확한 경로를 가진다', async () => {
+        // 3단계 폴더 구조 생성: root/middle/leaf
+        const rootFolder = MemoFolder.create('root', null);
+        await memoFolderRepository.save(rootFolder);
+
+        const middleFolder = MemoFolder.create('middle', rootFolder.id);
+        middleFolder.updatePath(`${rootFolder.path}/${middleFolder.name.value}`);
+        await memoFolderRepository.save(middleFolder);
+
+        // middle 폴더의 자식들
+        const leafFolder1 = MemoFolder.create('leaf1', middleFolder.id);
+        leafFolder1.updatePath(`${middleFolder.path}/${leafFolder1.name.value}`);
+        await memoFolderRepository.save(leafFolder1);
+
+        const leafFolder2 = MemoFolder.create('leaf2', middleFolder.id);
+        leafFolder2.updatePath(`${middleFolder.path}/${leafFolder2.name.value}`);
+        await memoFolderRepository.save(leafFolder2);
+
+        // middle 폴더의 자식 폴더들 조회
+        const result = await sut.execute(middleFolder.id);
+
+        // 경로 확인
+        const expectedPaths = [
+          `${rootFolder.path}/${middleFolder.name.value}/${leafFolder1.name.value}`,
+          `${rootFolder.path}/${middleFolder.name.value}/${leafFolder2.name.value}`,
+        ];
+
+        expect(result).toHaveLength(2);
+        for (const folder of result) {
+          expect(expectedPaths).toContain(folder.path);
+        }
+      });
+    });
+
+    describe('최상위 폴더의 자식 폴더 조회 시', () => {
+      it('자식 폴더의 경로가 정확하게 반환된다', async () => {
+        // 최상위 폴더 생성
+        const rootFolder = MemoFolder.create('root', null);
+        await memoFolderRepository.save(rootFolder);
+
+        // 최상위 폴더의 직접적인 자식들
+        const childFolder1 = MemoFolder.create('child1', rootFolder.id);
+        childFolder1.updatePath(`${rootFolder.path}/${childFolder1.name.value}`);
+        await memoFolderRepository.save(childFolder1);
+
+        const childFolder2 = MemoFolder.create('child2', rootFolder.id);
+        childFolder2.updatePath(`${rootFolder.path}/${childFolder2.name.value}`);
+        await memoFolderRepository.save(childFolder2);
+
+        // 최상위 폴더의 자식들 조회
+        const result = await sut.execute(rootFolder.id);
+
+        // 경로 확인 (rootName/childName 형식)
+        expect(result.map((folder) => folder.path)).toContain(`${rootFolder.path}/${childFolder1.name.value}`);
+        expect(result.map((folder) => folder.path)).toContain(`${rootFolder.path}/${childFolder2.name.value}`);
+      });
     });
   });
 });

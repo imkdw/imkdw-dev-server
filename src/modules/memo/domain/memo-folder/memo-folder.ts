@@ -8,20 +8,20 @@ export class MemoFolder {
   parentId: string | null;
   path: string;
 
-  private constructor(id: string, name: MemoFolderName, parentId: string | null, path: string) {
+  private constructor(id: string, name: MemoFolderName, path: string, parentId: string | null) {
     this.id = id;
     this.name = name;
-    this.parentId = parentId;
     this.path = path;
+    this.parentId = parentId;
   }
 
-  static create(name: string, parentId: string | null, parentPath: string = ''): MemoFolder {
+  static create(name: string, parentId: string | null, parentPath = ''): MemoFolder {
     const generatedPath = MemoFolder.generatePath(parentPath, name);
-    return new MemoFolder(generateUUID(), new MemoFolderName(name), parentId, generatedPath);
+    return new MemoFolder(generateUUID(), new MemoFolderName(name), generatedPath, parentId);
   }
 
   static from(data: PrismaMemoFolder): MemoFolder {
-    return new MemoFolder(data.id, new MemoFolderName(data.name), data.parentId, data.path);
+    return new MemoFolder(data.id, new MemoFolderName(data.name), data.path, data.parentId);
   }
 
   static generatePath(parentPath: string, name: string): string {
