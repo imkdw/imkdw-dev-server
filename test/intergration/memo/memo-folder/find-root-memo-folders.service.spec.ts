@@ -48,27 +48,14 @@ describe(FindRootMemoFoldersService.name, () => {
       const result = await sut.execute();
 
       expect(result).toHaveLength(2);
-      expect(result.map((folder) => folder.id)).toEqual(expect.arrayContaining([rootFolder1.id, rootFolder2.id]));
-      expect(result.map((folder) => folder.name.value)).toEqual(
-        expect.arrayContaining([rootFolder1.name.value, rootFolder2.name.value]),
-      );
-      expect(result.map((folder) => folder.path)).toEqual(
-        expect.arrayContaining([`/${rootFolder1.name.value}`, `/${rootFolder2.name.value}`]),
-      );
-    });
 
-    it('각 최상위 폴더의 경로가 폴더명과 동일하다', async () => {
-      const rootFolder1 = MemoFolder.create('root1', null);
-      const rootFolder2 = MemoFolder.create('root2', null);
-      await memoFolderRepository.save(rootFolder1);
-      await memoFolderRepository.save(rootFolder2);
+      expect(result[0].id).toEqual(rootFolder1.id);
+      expect(result[0].name.value).toEqual(rootFolder1.name.value);
+      expect(result[0].path).toEqual(`/${rootFolder1.name.value}`);
 
-      const result = await sut.execute();
-
-      // 모든 최상위 폴더의 경로는 폴더명과 같아야 함
-      for (const folder of result) {
-        expect(folder.path).toBe(`/${folder.name.value}`);
-      }
+      expect(result[1].id).toEqual(rootFolder2.id);
+      expect(result[1].name.value).toEqual(rootFolder2.name.value);
+      expect(result[1].path).toEqual(`/${rootFolder2.name.value}`);
     });
   });
 
@@ -84,7 +71,7 @@ describe(FindRootMemoFoldersService.name, () => {
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(parentFolder.id);
       expect(result[0].name.value).toBe(parentFolder.name.value);
-      expect(result[0].parentId).toBeNull();
+      expect(result[0].path).toBe(`/${parentFolder.name.value}`);
     });
   });
 });

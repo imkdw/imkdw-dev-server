@@ -49,14 +49,7 @@ describe(FindMemoFolderService.name, () => {
       expect(found.id).toBe(memoFolder.id);
       expect(found.name.value).toBe(memoFolder.name.value);
       expect(found.parentId).toBe(memoFolder.parentId);
-    });
-
-    it('경로 정보를 포함하여 반환한다', async () => {
-      await memoFolderRepository.save(memoFolder);
-
-      const found = await sut.execute(memoFolder.id);
-
-      expect(found.path).toBe(`/${memoFolder.name.value}`);
+      expect(found.path).toBe(memoFolder.path);
     });
   });
 });

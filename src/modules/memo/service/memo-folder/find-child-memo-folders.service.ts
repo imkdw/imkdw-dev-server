@@ -12,7 +12,6 @@ export class FindChildMemoFoldersService {
 
   async execute(parentId: string): Promise<MemoFolder[]> {
     await this.memoFolderValidator.checkExist(parentId);
-
     return this.memoFolderRepository.findByParentId(parentId);
   }
 }
