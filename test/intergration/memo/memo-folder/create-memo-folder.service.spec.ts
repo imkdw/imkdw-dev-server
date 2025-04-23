@@ -8,6 +8,7 @@ import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository
 import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Test } from '@nestjs/testing';
+import { validate } from 'uuid';
 
 describe(CreateMemoFolderService.name, () => {
   let prisma: PrismaService;
@@ -35,13 +36,14 @@ describe(CreateMemoFolderService.name, () => {
   });
 
   describe('기존 폴더명과 중복되는 경우', () => {
-    const existMemoFolder = MemoFolder.create('test', null);
+    const existFolderName = 'test';
     it('에러가 발생한다', async () => {
+      const existMemoFolder = MemoFolder.create(existFolderName, null);
       await memoFolderRepository.save(existMemoFolder);
 
       await expect(
         sut.execute({
-          name: existMemoFolder.name.value,
+          name: existFolderName,
           parentId: null,
         }),
       ).rejects.toThrow(DuplicateMemoFolderNameException);
@@ -50,14 +52,14 @@ describe(CreateMemoFolderService.name, () => {
 
   describe('부모 메모 폴더가 없는경우', () => {
     it('에러가 발생한다', async () => {
-      await expect(sut.execute({ name: 'test', parentId: '1' })).rejects.toThrow(MemoFolderNotFoundException);
+      await expect(sut.execute({ name: 'test', parentId: 'no-parent' })).rejects.toThrow(MemoFolderNotFoundException);
     });
   });
 
   describe('부모 폴더가 주어지고', () => {
     const parentMemoFolder = MemoFolder.create('parent', null);
     describe('폴더를 생성하면', () => {
-      const memoFolderName = 'test';
+      const memoFolderName = 'child';
       it('생성된 폴더를 반환한다', async () => {
         await memoFolderRepository.save(parentMemoFolder);
 
@@ -66,20 +68,10 @@ describe(CreateMemoFolderService.name, () => {
           parentId: parentMemoFolder.id,
         });
 
-        expect(createdMemoFolder.id).toBeTruthy();
+        expect(validate(createdMemoFolder.id)).toBeTruthy();
         expect(createdMemoFolder.name.value).toBe(memoFolderName);
         expect(createdMemoFolder.parentId).toBe(parentMemoFolder.id);
-      });
-
-      it('경로가 부모 경로에 폴더명을 추가한 형태로 생성된다', async () => {
-        await memoFolderRepository.save(parentMemoFolder);
-
-        const createdMemoFolder = await sut.execute({
-          name: memoFolderName,
-          parentId: parentMemoFolder.id,
-        });
-
-        expect(createdMemoFolder.path).toBe(`/${parentMemoFolder.name.value}/${memoFolderName}`);
+        expect(createdMemoFolder.path).toBe(`${parentMemoFolder.path}/${memoFolderName}`);
       });
     });
   });
@@ -118,10 +110,8 @@ describe(CreateMemoFolderService.name, () => {
       });
 
       expect(level1Folder.path).toBe(`/${level1Folder.name.value}`);
-      expect(level2Folder.path).toBe(`/${level1Folder.name.value}/${level2Folder.name.value}`);
-      expect(level3Folder.path).toBe(
-        `/${level1Folder.name.value}/${level2Folder.name.value}/${level3Folder.name.value}`,
-      );
+      expect(level2Folder.path).toBe(`${level1Folder.path}/${level2Folder.name.value}`);
+      expect(level3Folder.path).toBe(`${level2Folder.path}/${level3Folder.name.value}`);
     });
   });
 });
