@@ -7,5 +7,12 @@ export interface MemoFolderRepository {
   findById(id: string): Promise<MemoFolder | null>;
   findByParentIdAndName(parentId: string | null, name: string): Promise<MemoFolder | null>;
   findByParentId(parentId: string | null): Promise<MemoFolder[]>;
+  findChildrenByPath(path: string): Promise<MemoFolder[]>;
   update(memoFolder: MemoFolder): Promise<MemoFolder>;
+  updateMany(memoFolders: MemoFolder[]): Promise<MemoFolder[]>;
+  updateManyWithData(ids: MemoFolder['id'][], data: UpdateMemoFolderData): Promise<MemoFolder[]>;
+}
+
+export interface UpdateMemoFolderData {
+  deletedAt?: Date;
 }

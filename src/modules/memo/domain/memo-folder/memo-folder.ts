@@ -7,6 +7,7 @@ export class MemoFolder {
   name: MemoFolderName;
   parentId: string | null;
   path: string;
+  deletedAt: Date | null;
 
   private constructor(id: string, name: MemoFolderName, path: string, parentId: string | null) {
     this.id = id;
@@ -40,5 +41,9 @@ export class MemoFolder {
   updateParentFolder(parentFolder: MemoFolder | null): void {
     this.parentId = parentFolder?.id ?? null;
     this.path = MemoFolder.generatePath(parentFolder?.path ?? '', this.name.value);
+  }
+
+  delete(): void {
+    this.deletedAt = new Date();
   }
 }

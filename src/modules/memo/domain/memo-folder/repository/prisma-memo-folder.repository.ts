@@ -2,7 +2,7 @@ import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
 import { Prisma, MemoFolder as PrismaMemoFolder } from '@prisma/client';
-import { MemoFolderRepository } from '.';
+import { MemoFolderRepository, UpdateMemoFolderData } from '.';
 import { MemoFolder } from '../memo-folder';
 
 @Injectable()
@@ -64,5 +64,47 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     });
 
     return MemoFolder.from(updatedMemoFolder);
+  }
+
+  async findChildrenByPath(path: string): Promise<MemoFolder[]> {
+    const memoFolders = await this.prisma.tx.memoFolder.findMany({
+      where: {
+        path: {
+          startsWith: path,
+        },
+      },
+    });
+
+    return memoFolders.map(MemoFolder.from);
+  }
+
+  async updateMany(memoFolders: MemoFolder[]): Promise<MemoFolder[]> {
+    const promises = memoFolders.map((memoFolder) =>
+      this.prisma.tx.memoFolder.update({
+        where: { id: memoFolder.id },
+        data: {
+          name: memoFolder.name.value,
+          parentId: memoFolder.parentId,
+          path: memoFolder.path,
+        },
+      }),
+    );
+
+    const updatedMemoFolders = await Promise.all(promises);
+
+    return updatedMemoFolders.map(MemoFolder.from);
+  }
+
+  async updateManyWithData(ids: MemoFolder['id'][], data: UpdateMemoFolderData): Promise<MemoFolder[]> {
+    const updatedData = await this.prisma.tx.memoFolder.updateManyAndReturn({
+      where: {
+        id: { in: ids },
+      },
+      data: {
+        ...(data?.deletedAt && { deletedAt: data.deletedAt }),
+      },
+    });
+
+    return updatedData.map(MemoFolder.from);
   }
 }
