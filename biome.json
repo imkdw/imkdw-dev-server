@@ -26,6 +26,7 @@
         "noWith": "error"
       },
       "correctness": {
+        "noUnusedImports": "error",
         "noConstAssign": "error",
         "noConstantCondition": "error",
         "noEmptyCharacterClassInRegex": "error",
