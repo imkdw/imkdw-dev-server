@@ -42,7 +42,7 @@ describe(DeleteMemoFolderService.name, () => {
   describe('자식 폴더가 없는 메모 폴더를 삭제할 때', () => {
     it('메모 폴더가 삭제된다', async () => {
       // 메모 폴더 생성
-      const memoFolder = MemoFolder.create('테스트 폴더', null);
+      const memoFolder = MemoFolder.create('test', null);
       await memoFolderRepository.save(memoFolder);
 
       // 메모 폴더 삭제
@@ -61,16 +61,14 @@ describe(DeleteMemoFolderService.name, () => {
   describe('자식 폴더가 있는 메모 폴더를 삭제할 때', () => {
     it('메모 폴더와 모든 자식 폴더가 삭제된다', async () => {
       // 부모 폴더 생성
-      const parentFolder = MemoFolder.create('부모 폴더', null);
+      const parentFolder = MemoFolder.create('parent', null);
       await memoFolderRepository.save(parentFolder);
 
       // 자식 폴더 생성
-      const childFolder1 = MemoFolder.create('자식 폴더1', parentFolder.id);
-      childFolder1.updatePath(`${parentFolder.path}/${childFolder1.name.value}`);
+      const childFolder1 = MemoFolder.create('child1', parentFolder.id, parentFolder.path);
       await memoFolderRepository.save(childFolder1);
 
-      const childFolder2 = MemoFolder.create('자식 폴더2', parentFolder.id);
-      childFolder2.updatePath(`${parentFolder.path}/${childFolder2.name.value}`);
+      const childFolder2 = MemoFolder.create('child2', parentFolder.id, parentFolder.path);
       await memoFolderRepository.save(childFolder2);
 
       // 메모 폴더 삭제
@@ -99,15 +97,13 @@ describe(DeleteMemoFolderService.name, () => {
   describe('다단계 폴더 구조에서 삭제할 때', () => {
     it('해당 폴더와 모든 하위 폴더가 삭제된다', async () => {
       // 3단계 폴더 구조 생성: root -> middle -> leaf
-      const rootFolder = MemoFolder.create('루트', null);
+      const rootFolder = MemoFolder.create('root', null);
       await memoFolderRepository.save(rootFolder);
 
-      const middleFolder = MemoFolder.create('중간', rootFolder.id);
-      middleFolder.updatePath(`${rootFolder.path}/${middleFolder.name.value}`);
+      const middleFolder = MemoFolder.create('middle', rootFolder.id, rootFolder.path);
       await memoFolderRepository.save(middleFolder);
 
-      const leafFolder = MemoFolder.create('리프', middleFolder.id);
-      leafFolder.updatePath(`${middleFolder.path}/${leafFolder.name.value}`);
+      const leafFolder = MemoFolder.create('leaf', middleFolder.id, middleFolder.path);
       await memoFolderRepository.save(leafFolder);
 
       // 중간 폴더를 삭제하면 리프 폴더도 함께 삭제되어야 함
@@ -132,4 +128,6 @@ describe(DeleteMemoFolderService.name, () => {
       expect(root?.deletedAt).toBeNull();
     });
   });
+
+  it.todo('메모 폴더 삭제 시 메모도 삭제되어야 한다');
 });
