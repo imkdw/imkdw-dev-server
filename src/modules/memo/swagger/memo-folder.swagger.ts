@@ -24,11 +24,11 @@ export function getMemoFolder(summary: string) {
   return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: MemoFolderDto }));
 }
 
-export function getRootMemoFolders(summary: string) {
+export function findRootMemoFolders(summary: string) {
   return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: [MemoFolderDto] }));
 }
 
-export function getChildMemoFolders(summary: string) {
+export function findChildMemoFolders(summary: string) {
   return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: [MemoFolderDto] }));
 }
 

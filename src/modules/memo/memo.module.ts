@@ -12,6 +12,7 @@ import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 import { MemoController } from '@/memo/controller/memo.controller';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
+import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
 import { TranslationModule } from 'src/infra/translation/translation.module';
 import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
 import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
@@ -40,6 +41,7 @@ import { MemoValidator } from '@/memo/validator/memo.validator';
      * 메모
      */
     CreateMemoService,
+    FindFolderMemosService,
     MemoValidator,
     {
       provide: MEMO_REPOSITORY,

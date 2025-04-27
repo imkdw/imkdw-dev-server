@@ -23,4 +23,15 @@ export class PrismaMemoRepository implements MemoRepository {
     const memo = await this.prisma.tx.memo.findFirst({ where: { name, deletedAt: null } });
     return memo ? Memo.from(memo) : null;
   }
+
+  async findByFolderId(folderId: string): Promise<Memo[]> {
+    const memos = await this.prisma.tx.memo.findMany({
+      where: {
+        folderId,
+        deletedAt: null,
+      },
+    });
+
+    return memos.map(Memo.from);
+  }
 }

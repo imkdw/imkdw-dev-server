@@ -25,6 +25,7 @@ export class DeleteMemoFolderService {
 
     // 메모 폴더 제거
     memoFolder.delete();
+
     await this.memoFolderRepository.update(memoFolder);
   }
 }

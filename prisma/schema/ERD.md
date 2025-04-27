@@ -8,7 +8,7 @@
 ## 메모
 ```mermaid
 erDiagram
-"Memo" {
+"memo" {
   String id PK
   String name
   String slug
@@ -28,11 +28,11 @@ erDiagram
   DateTime updated_at
   DateTime deleted_at "nullable"
 }
-"Memo" }o--|| "memo_folder" : folder
+"memo" }o--|| "memo_folder" : folder
 "memo_folder" }o--o| "memo_folder" : parent
 ```
 
-### `Memo`
+### `memo`
 
 **Properties**
   - `id`: 기본 키
