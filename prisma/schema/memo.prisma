@@ -10,6 +10,9 @@ model Memo {
   /// 메모 제목
   title String
 
+  /// SEO를 위한 메모의 제목 슬러그
+  slug String
+
   /// 메모 내용
   content String
 
@@ -32,6 +35,4 @@ model Memo {
   ///
   /// @minItems 1
   folder MemoFolder @relation(fields: [folderId], references: [id])
-
-  @@map("memo")
 }

@@ -1,11 +1,11 @@
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
-import { isUUID } from '../../../utils/uuid.util';
+import { validate } from 'uuid';
 
 describe('새로운 메모 폴더를 만드는 경우', () => {
   it('UUID 형식의 아이디가 할당된다', () => {
     const sut = MemoFolder.create('test', null);
 
-    expect(isUUID(sut.id)).toBe(true);
+    expect(validate(sut.id)).toBe(true);
   });
 });
 
