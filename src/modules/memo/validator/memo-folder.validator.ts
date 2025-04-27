@@ -12,7 +12,7 @@ export class MemoFolderValidator {
     const folder = await this.memoFolderRepository.findById(id);
 
     if (!folder) {
-      throw new MemoFolderNotFoundException(`Memo folder with id ${id} not found`);
+      throw new MemoFolderNotFoundException(`${id}번 메모 폴더를 찾을 수 없습니다.`);
     }
 
     return folder;
@@ -22,7 +22,7 @@ export class MemoFolderValidator {
     const folder = await this.memoFolderRepository.findByParentIdAndName(parentId, name);
 
     if (folder) {
-      throw new DuplicateMemoFolderNameException(`Duplicate memo folder name: ${name}`);
+      throw new DuplicateMemoFolderNameException(`${name} 메모 폴더가 이미 존재합니다.`);
     }
   }
 

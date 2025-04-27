@@ -1,4 +1,4 @@
-import { Body, Controller, Injectable, Post, Get, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put, Delete } from '@nestjs/common';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '../dto/memo-folder/create-memo-folder.dto';
 import { CreateMemoFolderService } from '../service/memo-folder/create-memo-folder.service';
 import { FindMemoFolderService } from '../service/memo-folder/find-memo-folder.service';

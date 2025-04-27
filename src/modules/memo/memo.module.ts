@@ -10,11 +10,20 @@ import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
+import { MemoController } from '@/memo/controller/memo.controller';
+import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
+import { TranslationModule } from 'src/infra/translation/translation.module';
+import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
+import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
+import { MemoValidator } from '@/memo/validator/memo.validator';
 
 @Module({
-  imports: [DatabaseModule],
-  controllers: [MemoFolderController],
+  imports: [DatabaseModule, TranslationModule],
+  controllers: [MemoFolderController, MemoController],
   providers: [
+    /**
+     * 메모 폴더
+     */
     CreateMemoFolderService,
     FindMemoFolderService,
     FindRootMemoFoldersService,
@@ -25,6 +34,16 @@ import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-
     {
       provide: MEMO_FOLDER_REPOSITORY,
       useClass: PrismaMemoFolderRepository,
+    },
+
+    /**
+     * 메모
+     */
+    CreateMemoService,
+    MemoValidator,
+    {
+      provide: MEMO_REPOSITORY,
+      useClass: PrismaMemoRepository,
     },
   ],
 })

@@ -7,10 +7,10 @@ model Memo {
   /// @format uuid
   id String @id
 
-  /// 메모 제목
-  title String
+  /// 메모 이름
+  name String
 
-  /// SEO를 위한 메모의 제목 슬러그
+  /// SEO를 위한 메모의 이름 슬러그
   slug String
 
   /// 메모 내용
@@ -31,8 +31,9 @@ model Memo {
   /// 삭제 시간
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
 
-  /// 메모가 속한 폴더 관계
-  ///
-  /// @minItems 1
   folder MemoFolder @relation(fields: [folderId], references: [id])
+
+  @@index([name])
+  @@index([folderId])
+  @@index([slug])
 }

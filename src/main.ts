@@ -4,8 +4,18 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
+function printBootMessage(port: number) {
+  const message = `Running on port: ${port}`;
+  const greenColor = '\x1b[32m\x1b[1m%s\x1b[0m';
+
+  // biome-ignore lint/suspicious/noConsole: 서버 구동 확인용 로그 메세지 출력
+  console.log(greenColor, `${message.padEnd(message.length)}`);
+}
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['warn', 'error', 'debug'],
+  });
 
   /**
    * Versioning
@@ -25,7 +35,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(process.env.PORT ?? 4000);
+  await app.listen(process.env.PORT!);
+
+  printBootMessage(+process.env.PORT!);
 }
 
 bootstrap();

@@ -13,6 +13,7 @@ const config: Config = {
     '^@/core/(.*)$': '<rootDir>/src/core/$1',
     '^@/common/(.*)$': '<rootDir>/src/common/$1',
     '^@/config/(.*)$': '<rootDir>/src/config/$1',
+    '^@/infra/(.*)$': '<rootDir>/src/infra/$1',
   },
 };
 

@@ -10,7 +10,7 @@
 erDiagram
 "Memo" {
   String id PK
-  String title
+  String name
   String slug
   String content
   String folder_id FK
@@ -36,8 +36,8 @@ erDiagram
 
 **Properties**
   - `id`: 기본 키
-  - `title`: 메모 제목
-  - `slug`: SEO를 위한 메모의 제목 슬러그
+  - `name`: 메모 이름
+  - `slug`: SEO를 위한 메모의 이름 슬러그
   - `content`: 메모 내용
   - `folder_id`: 메모가 속한 폴더 식별자
   - `folder_path`: 메모가 속한 폴더 경로

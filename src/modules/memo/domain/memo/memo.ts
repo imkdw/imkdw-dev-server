@@ -3,7 +3,7 @@ import { Memo as PrismaMemo } from '@prisma/client';
 
 export class Memo {
   id: string;
-  title: string;
+  name: string;
   slug: string;
   content: string;
   folderId: string;
@@ -12,19 +12,20 @@ export class Memo {
 
   private constructor(id: string, title: string, slug: string, content: string, folderId: string, folderPath: string) {
     this.id = id;
-    this.title = title;
+    this.name = title;
     this.slug = slug;
     this.content = content;
     this.folderId = folderId;
     this.folderPath = folderPath;
+    this.deletedAt = null;
   }
 
   static create(title: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
     return new Memo(generateUUID(), title, slug, content, folderId, folderPath);
   }
 
-  static from(data: PrismaMemo): Memo {
-    return new Memo(data.id, data.title, data.slug, data.content, data.folderId, data.folderPath);
+  static from(prisma: PrismaMemo): Memo {
+    return new Memo(prisma.id, prisma.name, prisma.slug, prisma.content, prisma.folderId, prisma.folderPath);
   }
 
   delete(): void {

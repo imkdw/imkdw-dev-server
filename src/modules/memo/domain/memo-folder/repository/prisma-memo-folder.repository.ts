@@ -1,7 +1,6 @@
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
-import { Prisma, MemoFolder as PrismaMemoFolder } from '@prisma/client';
 import { MemoFolderRepository, UpdateMemoFolderData } from '.';
 import { MemoFolder } from '../memo-folder';
 
@@ -24,7 +23,7 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
 
   async findById(id: string): Promise<MemoFolder | null> {
     const memoFolder = await this.prisma.tx.memoFolder.findUnique({
-      where: { id },
+      where: { id, deletedAt: null },
     });
 
     return memoFolder ? MemoFolder.from(memoFolder) : null;
@@ -72,6 +71,7 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
         path: {
           startsWith: path,
         },
+        deletedAt: null,
       },
     });
 
@@ -95,7 +95,7 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     return updatedMemoFolders.map(MemoFolder.from);
   }
 
-  async updateManyWithData(ids: MemoFolder['id'][], data: UpdateMemoFolderData): Promise<MemoFolder[]> {
+  async updateManyWithData(ids: string[], data: UpdateMemoFolderData): Promise<MemoFolder[]> {
     const updatedData = await this.prisma.tx.memoFolder.updateManyAndReturn({
       where: {
         id: { in: ids },

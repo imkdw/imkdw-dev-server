@@ -17,6 +17,9 @@ importers:
       '@nestjs/common':
         specifier: ^11.0.16
         version: 11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.2(@nestjs/common@11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@nestjs/core':
         specifier: ^11.0.16
         version: 11.0.16(@nestjs/common@11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.0.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -59,6 +62,9 @@ importers:
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
+      zod:
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -904,6 +910,12 @@ packages:
         optional: true
       class-validator:
         optional: true
+
+  '@nestjs/config@4.0.2':
+    resolution: {integrity: sha512-McMW6EXtpc8+CwTUwFdg6h7dYcBUpH5iUILCclAsa+MbCEvC9ZKu4dCHRlJqALuhjLw97pbQu62l4+wRwGeZqA==}
+    peerDependencies:
+      '@nestjs/common': ^10.0.0 || ^11.0.0
+      rxjs: ^7.1.0
 
   '@nestjs/core@11.0.16':
     resolution: {integrity: sha512-2YuPotgypux2RFYu2Toa5NUbPdp2bZE7CC10OgUpjJMZ3ZBfoWe0jcGqS5yPdoV+u8v+/IvqShy1Mz10HJvexA==}
@@ -1819,6 +1831,14 @@ packages:
 
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
+
+  dotenv-expand@12.0.1:
+    resolution: {integrity: sha512-LaKRbou8gt0RNID/9RoI+J2rvXsBRPMV7p+ElHlPhcSARbCPDYcYG2s1TIzAfWv4YSgyY5taidWzzs31lNV3yQ==}
+    engines: {node: '>=12'}
+
+  dotenv@16.4.7:
+    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
 
   dotenv@16.5.0:
@@ -3465,6 +3485,9 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
+  zod@3.24.3:
+    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -4276,6 +4299,14 @@ snapshots:
     optionalDependencies:
       class-transformer: 0.5.1
       class-validator: 0.14.1
+
+  '@nestjs/config@4.0.2(@nestjs/common@11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)':
+    dependencies:
+      '@nestjs/common': 11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      dotenv: 16.4.7
+      dotenv-expand: 12.0.1
+      lodash: 4.17.21
+      rxjs: 7.8.2
 
   '@nestjs/core@11.0.16(@nestjs/common@11.0.16(class-transformer@0.5.1)(class-validator@0.14.1)(file-type@19.6.0)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.0.16)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
     dependencies:
@@ -5259,6 +5290,12 @@ snapshots:
       minimist: 1.2.8
 
   dotenv-expand@10.0.0: {}
+
+  dotenv-expand@12.0.1:
+    dependencies:
+      dotenv: 16.5.0
+
+  dotenv@16.4.7: {}
 
   dotenv@16.5.0: {}
 
@@ -7088,3 +7125,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
+
+  zod@3.24.3: {}

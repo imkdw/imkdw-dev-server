@@ -22,7 +22,8 @@
       "@/memo/*": ["src/modules/memo/*"],
       "@/core/*": ["src/core/*"],
       "@/common/*": ["src/common/*"],
-      "@/config/*": ["src/config/*"]
+      "@/config/*": ["src/config/*"],
+      "@/infra/*": ["src/infra/*"]
     }
   },
   "include": ["src/**/*.ts"],

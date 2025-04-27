@@ -1,6 +1,5 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { DomainException } from '../domain/exception/domain.exception';
 import { ExceptionResponse } from './exception.type';
 
 @Catch()
