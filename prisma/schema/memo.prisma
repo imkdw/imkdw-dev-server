@@ -19,8 +19,8 @@ model Memo {
   /// 메모가 속한 폴더 식별자
   folderId String @map("folder_id")
 
-  /// 메모가 속한 폴더 경로
-  folderPath String @map("folder_path")
+  /// 메모의 경로
+  path String
 
   /// 생성 시간
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz

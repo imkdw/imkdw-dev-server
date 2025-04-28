@@ -18,15 +18,15 @@ export class ResponseGetMemoDto {
   folderId: string;
 
   @ApiProperty({ description: '메모 폴더 경로', example: '/root/nest.js' })
-  folderPath: string;
+  path: string;
 
-  private constructor(id: string, name: string, slug: string, content: string, folderId: string, folderPath: string) {
+  private constructor(id: string, name: string, slug: string, content: string, folderId: string, path: string) {
     this.id = id;
     this.name = name;
     this.slug = slug;
     this.content = content;
     this.folderId = folderId;
-    this.folderPath = folderPath;
+    this.path = path;
   }
 
   static from(memo: Memo): ResponseGetMemoDto {
@@ -36,7 +36,7 @@ export class ResponseGetMemoDto {
       memo.slug,
       memo.content,
       memo.folderId,
-      memo.folderPath,
+      memo.path,
     );
   }
 } 

@@ -14,7 +14,7 @@ erDiagram
   String slug
   String content
   String folder_id FK
-  String folder_path
+  String path
   DateTime created_at
   DateTime updated_at
   DateTime deleted_at "nullable"
@@ -40,7 +40,7 @@ erDiagram
   - `slug`: SEO를 위한 메모의 이름 슬러그
   - `content`: 메모 내용
   - `folder_id`: 메모가 속한 폴더 식별자
-  - `folder_path`: 메모가 속한 폴더 경로
+  - `path`: 메모의 경로
   - `created_at`: 생성 시간
   - `updated_at`: 수정 시간
   - `deleted_at`: 삭제 시간

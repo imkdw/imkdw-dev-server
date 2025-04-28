@@ -71,7 +71,7 @@ describe(CreateMemoService.name, () => {
           name: '테스트 메모',
           content: '메모 내용',
           folderId: 'non-existent-folder-id',
-          folderPath: '/non-existent',
+          path: '/non-existent',
         }),
       ).rejects.toThrow(MemoFolderNotFoundException);
     });
@@ -90,7 +90,7 @@ describe(CreateMemoService.name, () => {
           name: existingMemo.name,
           content: '메모 내용',
           folderId: memoFolder.id,
-          folderPath: memoFolder.path,
+          path: memoFolder.path,
         }),
       ).rejects.toThrow(DuplicateMemoNameException);
     });
@@ -106,7 +106,7 @@ describe(CreateMemoService.name, () => {
         name: 'test-memo',
         content: 'test-content',
         folderId: memoFolder.id,
-        folderPath: memoFolder.path,
+        path: memoFolder.path,
       });
 
       // 생성된 메모 검증
@@ -114,7 +114,7 @@ describe(CreateMemoService.name, () => {
       expect(result.name).toBe('test-memo');
       expect(result.content).toBe('test-content');
       expect(result.folderId).toBe(memoFolder.id);
-      expect(result.folderPath).toBe(memoFolder.path);
+      expect(result.path).toBe(memoFolder.path);
 
       // 메모 slug 생성을 위한 번역서비스 호출여부 검증
       expect(translationServiceMock.translate).toHaveBeenCalledWith('test-memo', TranslationTargetLanguage.EN);

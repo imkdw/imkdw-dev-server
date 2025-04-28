@@ -7,25 +7,25 @@ export class Memo {
   slug: string;
   content: string;
   folderId: string;
-  folderPath: string;
+  path: string;
   deletedAt: Date | null;
 
-  private constructor(id: string, title: string, slug: string, content: string, folderId: string, folderPath: string) {
+  private constructor(id: string, title: string, slug: string, content: string, folderId: string, path: string) {
     this.id = id;
     this.name = title;
     this.slug = slug;
     this.content = content;
     this.folderId = folderId;
-    this.folderPath = folderPath;
+    this.path = path;
     this.deletedAt = null;
   }
 
-  static create(title: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
-    return new Memo(generateUUID(), title, slug, content, folderId, folderPath);
+  static create(title: string, slug: string, content: string, folderId: string, path: string): Memo {
+    return new Memo(generateUUID(), title, slug, content, folderId, path);
   }
 
   static from(prisma: PrismaMemo): Memo {
-    return new Memo(prisma.id, prisma.name, prisma.slug, prisma.content, prisma.folderId, prisma.folderPath);
+    return new Memo(prisma.id, prisma.name, prisma.slug, prisma.content, prisma.folderId, prisma.path);
   }
 
   delete(): void {
