@@ -32,6 +32,12 @@ describe(UpdateMemoFolderService.name, () => {
     prisma = module.get<PrismaService>(PrismaService);
     memoFolderRepository = module.get<MemoFolderRepository>(MEMO_FOLDER_REPOSITORY);
 
+    await prisma.memo.deleteMany();
+    await prisma.memoFolder.deleteMany();
+  });
+
+  afterAll(async () => {
+    await prisma.memo.deleteMany();
     await prisma.memoFolder.deleteMany();
   });
 

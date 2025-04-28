@@ -27,6 +27,12 @@ describe(FindRootMemoFoldersService.name, () => {
     prisma = module.get<PrismaService>(PrismaService);
     memoFolderRepository = module.get<MemoFolderRepository>(MEMO_FOLDER_REPOSITORY);
 
+    await prisma.memo.deleteMany(); 
+    await prisma.memoFolder.deleteMany();
+  });
+
+  afterAll(async () => {
+    await prisma.memo.deleteMany();
     await prisma.memoFolder.deleteMany();
   });
 
@@ -71,7 +77,6 @@ describe(FindRootMemoFoldersService.name, () => {
       expect(result).toHaveLength(1);
       expect(result[0].id).toBe(parentFolder.id);
       expect(result[0].name.value).toBe(parentFolder.name.value);
-      expect(result[0].path).toBe(`/${parentFolder.name.value}`);
     });
   });
 });

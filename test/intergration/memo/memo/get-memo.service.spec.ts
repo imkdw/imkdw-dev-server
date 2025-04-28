@@ -76,7 +76,7 @@ describe(GetMemoService.name, () => {
       expect(foundMemo.slug).toBe('test-memo');
       expect(foundMemo.content).toBe('Test Content');
       expect(foundMemo.folderId).toBe(memoFolder.id);
-      expect(foundMemo.path).toBe(memoFolder.path);
+      expect(foundMemo.path).toBe(`${memoFolder.path}/Test Memo`);
     });
   });
 

@@ -20,7 +20,12 @@ export class Memo {
     this.deletedAt = null;
   }
 
-  static create(title: string, slug: string, content: string, folderId: string, path: string): Memo {
+  static generatePath(title: string, folderPath: string): string {
+    return `${folderPath}/${title}`;
+  }
+
+  static create(title: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
+    const path = this.generatePath(title, folderPath);
     return new Memo(generateUUID(), title, slug, content, folderId, path);
   }
 
