@@ -8,11 +8,11 @@ import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplica
 export class MemoValidator {
   constructor(@Inject(MEMO_REPOSITORY) private readonly memoRepository: MemoRepository) {}
 
-  async checkExist(id: string) {
-    const memo = await this.memoRepository.findById(id);
+  async checkExistBySlug(slug: string) {
+    const memo = await this.memoRepository.findBySlug(slug);
 
     if (!memo) {
-      throw new MemoNotFoundException(`${id}번 메모를 찾을 수 없습니다.`);
+      throw new MemoNotFoundException(`${slug} 메모를 찾을 수 없습니다.`);
     }
 
     return memo;

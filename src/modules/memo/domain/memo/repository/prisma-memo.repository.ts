@@ -34,4 +34,14 @@ export class PrismaMemoRepository implements MemoRepository {
 
     return memos.map(Memo.from);
   }
+
+  async findBySlug(slug: string): Promise<Memo | null> {
+    const memo = await this.prisma.tx.memo.findFirst({ 
+      where: { 
+        slug, 
+        deletedAt: null 
+      } 
+    });
+    return memo ? Memo.from(memo) : null;
+  }
 }

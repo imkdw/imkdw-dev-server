@@ -11,18 +11,15 @@ export class FindFolderMemoItemDto {
   @ApiProperty({ description: '메모 슬러그', example: 'nest-js' })
   slug: string;
 
-  @ApiProperty({ description: '메모 내용', example: 'Nest.js는 타입스크립트 기반의 프레임워크입니다' })
-  content: string;
 
-  private constructor(id: string, name: string, slug: string, content: string) {
+  private constructor(id: string, name: string, slug: string) {
     this.id = id;
     this.name = name;
     this.slug = slug;
-    this.content = content;
   }
 
   static from(memo: Memo): FindFolderMemoItemDto {
-    return new FindFolderMemoItemDto(memo.id, memo.name, memo.slug, memo.content);
+    return new FindFolderMemoItemDto(memo.id, memo.name, memo.slug);
   }
 }
 

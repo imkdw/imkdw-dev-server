@@ -7,4 +7,5 @@ export interface MemoRepository {
   findById(id: string): Promise<Memo | null>;
   findByName(name: string): Promise<Memo | null>;
   findByFolderId(folderId: string): Promise<Memo[]>;
+  findBySlug(slug: string): Promise<Memo | null>;
 }
