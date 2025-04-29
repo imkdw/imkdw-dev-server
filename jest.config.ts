@@ -8,6 +8,7 @@ const config: Config = {
   testPathIgnorePatterns: ['dist', 'node_modules'],
   transform: { '^.+\\.(t|j)s$': 'ts-jest' },
   rootDir: './',
+  bail: true,
   moduleNameMapper: {
     '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
     '^@/core/(.*)$': '<rootDir>/src/core/$1',
