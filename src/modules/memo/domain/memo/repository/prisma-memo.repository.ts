@@ -9,9 +9,23 @@ export class PrismaMemoRepository implements MemoRepository {
   constructor(private readonly prisma: TransactionHost<TransactionalAdapterPrisma>) {}
 
   async save(memo: Memo): Promise<Memo> {
-    const createdMemo = await this.prisma.tx.memo.create({ data: memo });
+    const createdMemo = await this.prisma.tx.memo.create({
+      data: {
+        ...memo,
+        name: memo.name.value,
+      },
+    });
 
     return Memo.from(createdMemo);
+  }
+
+  async update(memo: Memo): Promise<Memo> {
+    const updatedMemo = await this.prisma.tx.memo.update({
+      where: { id: memo.id },
+      data: { ...memo, name: memo.name.value },
+    });
+
+    return Memo.from(updatedMemo);
   }
 
   async findById(id: string): Promise<Memo | null> {
@@ -36,11 +50,11 @@ export class PrismaMemoRepository implements MemoRepository {
   }
 
   async findBySlug(slug: string): Promise<Memo | null> {
-    const memo = await this.prisma.tx.memo.findFirst({ 
-      where: { 
-        slug, 
-        deletedAt: null 
-      } 
+    const memo = await this.prisma.tx.memo.findFirst({
+      where: {
+        slug,
+        deletedAt: null,
+      },
     });
     return memo ? Memo.from(memo) : null;
   }

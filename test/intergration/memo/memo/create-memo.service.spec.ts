@@ -15,6 +15,7 @@ import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplica
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { validate } from 'uuid';
+import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 
 describe(CreateMemoService.name, () => {
   let prisma: PrismaService;
@@ -32,6 +33,7 @@ describe(CreateMemoService.name, () => {
       providers: [
         MemoFolderValidator,
         MemoValidator,
+        MemoHelper,
         {
           provide: MEMO_FOLDER_REPOSITORY,
           useClass: PrismaMemoFolderRepository,
@@ -87,7 +89,7 @@ describe(CreateMemoService.name, () => {
 
       await expect(
         sut.execute({
-          name: existingMemo.name,
+          name: existingMemo.name.value,
           content: '메모 내용',
           folderId: memoFolder.id,
           path: memoFolder.path,
@@ -111,7 +113,7 @@ describe(CreateMemoService.name, () => {
 
       // 생성된 메모 검증
       expect(validate(result.id)).toBeTruthy();
-      expect(result.name).toBe('test-memo');
+      expect(result.name.value).toBe('test-memo');
       expect(result.content).toBe('test-content');
       expect(result.folderId).toBe(memoFolder.id);
       expect(result.path).toBe(`${memoFolder.path}/test-memo`);

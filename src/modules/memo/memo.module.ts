@@ -18,6 +18,8 @@ import { TranslationModule } from 'src/infra/translation/translation.module';
 import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
 import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
 import { MemoValidator } from '@/memo/validator/memo.validator';
+import { UpdateMemoService } from './service/memo/update-memo.service';
+import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 
 @Module({
   imports: [DatabaseModule, TranslationModule],
@@ -45,10 +47,12 @@ import { MemoValidator } from '@/memo/validator/memo.validator';
     FindFolderMemosService,
     GetMemoService,
     MemoValidator,
+    MemoHelper,
     {
       provide: MEMO_REPOSITORY,
       useClass: PrismaMemoRepository,
     },
+    UpdateMemoService,
   ],
 })
 export class MemoModule {}

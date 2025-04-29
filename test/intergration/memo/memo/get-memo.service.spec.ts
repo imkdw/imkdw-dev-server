@@ -67,16 +67,16 @@ describe(GetMemoService.name, () => {
       await memoRepository.save(memo);
 
       // 테스트 대상 실행
-      const foundMemo = await sut.execute('test-memo');
+      const foundMemo = await sut.execute(memo.slug);
 
       // 검증
       expect(foundMemo).toBeDefined();
       expect(foundMemo.id).toBe(memo.id);
-      expect(foundMemo.name).toBe('Test Memo');
-      expect(foundMemo.slug).toBe('test-memo');
-      expect(foundMemo.content).toBe('Test Content');
+      expect(foundMemo.name.value).toBe(memo.name.value);
+      expect(foundMemo.slug).toBe(memo.slug);
+      expect(foundMemo.content).toBe(memo.content);
       expect(foundMemo.folderId).toBe(memoFolder.id);
-      expect(foundMemo.path).toBe(`${memoFolder.path}/Test Memo`);
+      expect(foundMemo.path).toBe(memo.path);
     });
   });
 

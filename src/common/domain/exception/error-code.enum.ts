@@ -11,4 +11,5 @@ export enum ErrorCode {
    */
   DUPLICATE_MEMO_NAME = '0003',
   MEMO_NOT_FOUND = '0004',
+  INVALID_MEMO_NAME = '0005',
 }

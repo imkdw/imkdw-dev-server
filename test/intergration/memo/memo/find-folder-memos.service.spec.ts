@@ -64,8 +64,8 @@ describe(FindFolderMemosService.name, () => {
       const memos = await sut.execute(memoFolder.id);
 
       expect(memos).toHaveLength(2);
-      expect(memos[0].name).toBe(memo1.name);
-      expect(memos[1].name).toBe(memo2.name);
+      expect(memos[0].name.value).toBe(memo1.name.value);
+      expect(memos[1].name.value).toBe(memo2.name.value);
       expect(memos[0].folderId).toBe(memoFolder.id);
       expect(memos[1].folderId).toBe(memoFolder.id);
     });
@@ -97,7 +97,7 @@ describe(FindFolderMemosService.name, () => {
       const memos = await sut.execute(memoFolder.id);
 
       expect(memos).toHaveLength(1);
-      expect(memos[0].name).toBe('Active Memo');
+      expect(memos[0].name.value).toBe(memo1.name.value);
       expect(memos[0].deletedAt).toBeNull();
     });
   });

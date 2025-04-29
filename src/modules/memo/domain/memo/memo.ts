@@ -1,18 +1,19 @@
 import { generateUUID } from '@/common/utils/string.util';
+import { MemoName } from '@/memo/domain/memo/memo-name';
 import { Memo as PrismaMemo } from '@prisma/client';
 
 export class Memo {
   id: string;
-  name: string;
+  name: MemoName;
   slug: string;
   content: string;
   folderId: string;
   path: string;
   deletedAt: Date | null;
 
-  private constructor(id: string, title: string, slug: string, content: string, folderId: string, path: string) {
+  private constructor(id: string, name: string, slug: string, content: string, folderId: string, path: string) {
     this.id = id;
-    this.name = title;
+    this.name = new MemoName(name);
     this.slug = slug;
     this.content = content;
     this.folderId = folderId;
@@ -20,13 +21,13 @@ export class Memo {
     this.deletedAt = null;
   }
 
-  static generatePath(title: string, folderPath: string): string {
-    return `${folderPath}/${title}`;
+  static generatePath(name: string, folderPath: string): string {
+    return `${folderPath}/${name}`;
   }
 
-  static create(title: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
-    const path = this.generatePath(title, folderPath);
-    return new Memo(generateUUID(), title, slug, content, folderId, path);
+  static create(name: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
+    const path = this.generatePath(name, folderPath);
+    return new Memo(generateUUID(), name, slug, content, folderId, path);
   }
 
   static from(prisma: PrismaMemo): Memo {

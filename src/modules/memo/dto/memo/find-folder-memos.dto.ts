@@ -11,7 +11,6 @@ export class FindFolderMemoItemDto {
   @ApiProperty({ description: '메모 슬러그', example: 'nest-js' })
   slug: string;
 
-
   private constructor(id: string, name: string, slug: string) {
     this.id = id;
     this.name = name;
@@ -19,7 +18,7 @@ export class FindFolderMemoItemDto {
   }
 
   static from(memo: Memo): FindFolderMemoItemDto {
-    return new FindFolderMemoItemDto(memo.id, memo.name, memo.slug);
+    return new FindFolderMemoItemDto(memo.id, memo.name.value, memo.slug);
   }
 }
 
