@@ -5,6 +5,8 @@ import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Inject, Injectable } from '@nestjs/common';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
+import { MemoName } from '@/memo/domain/memo/memo-name';
+import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 
 @Injectable()
 export class UpdateMemoService {
@@ -19,13 +21,20 @@ export class UpdateMemoService {
     const { name, content, folderId } = dto;
 
     const memo = await this.memoValidator.checkExistBySlug(slug);
-    const newFolderPath = await this.getNewFolderPath(memo, folderId);
-    const newSlug = await this.getNewSlug(memo, name);
+    const newFolder = await this.memoFolderValidator.checkExist(folderId);
+
     await this.validateName(memo, name);
 
-    const updatedMemo = Memo.create(name, newSlug, content, folderId, newFolderPath);
+    const newFolderPath = await this.getNewFolderPath(memo, newFolder, name);
+    const newSlug = await this.getNewSlug(memo, name);
 
-    return this.memoRepository.update(updatedMemo);
+    memo.name = new MemoName(name);
+    memo.slug = newSlug;
+    memo.folderId = folderId;
+    memo.path = newFolderPath;
+    memo.content = content;
+
+    return this.memoRepository.update(memo);
   }
 
   private async validateName(memo: Memo, newName: string): Promise<void> {
@@ -44,14 +53,9 @@ export class UpdateMemoService {
     return this.memoHelper.generateSlug(newName);
   }
 
-  private async getNewFolderPath(memo: Memo, newFolderId: string): Promise<string> {
-    const newFolder = await this.memoFolderValidator.checkExist(newFolderId);
+  private async getNewFolderPath(memo: Memo, memoFolder: MemoFolder, newName: string): Promise<string> {
+    const name = memo.name.value === newName ? memo.name.value : newName;
 
-    if (memo.folderId === newFolderId) {
-      return memo.path;
-    }
-
-    const newFolderPath = `${newFolder.path}/${memo.name.value}`;
-    return newFolderPath;
+    return `${memoFolder.path}/${name}`;
   }
 }
