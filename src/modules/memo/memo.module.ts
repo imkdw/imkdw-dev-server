@@ -20,6 +20,7 @@ import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { UpdateMemoService } from './service/memo/update-memo.service';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
+import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 
 @Module({
   imports: [DatabaseModule, TranslationModule],
@@ -53,6 +54,7 @@ import { MemoHelper } from '@/memo/helper/memo/memo.helper';
       useClass: PrismaMemoRepository,
     },
     UpdateMemoService,
+    DeleteMemoService,
   ],
 })
 export class MemoModule {}

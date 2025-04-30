@@ -15,6 +15,7 @@ import {
   ApiBody,
   ApiOkResponse,
   ApiParam,
+  ApiNoContentResponse,
 } from "@nestjs/swagger";
 
 export function createMemo(summary: string) {
@@ -47,5 +48,13 @@ export function updateMemo(summary: string) {
     ApiParam({ name: "slug", description: "메모 슬러그" }),
     ApiBody({ type: RequestUpdateMemoDto }),
     ApiOkResponse({ type: ResponseUpdateMemoDto })
+  );
+}
+
+export function deleteMemo(summary: string) {
+  return applyDecorators(
+    ApiOperation({ summary }),
+    ApiParam({ name: "slug", description: "메모 슬러그" }),
+    ApiNoContentResponse({ description: "메모가 성공적으로 삭제됨" })
   );
 }

@@ -27,6 +27,7 @@ describe('slugify', () => {
   describe('빈 문자열을 변환하면', () => {
     it('빈 문자열이 반환된다', () => {
       const result = slugify('');
+
       expect(result).toBe('');
     });
   });
@@ -34,6 +35,7 @@ describe('slugify', () => {
   describe('전부 특수문자인 문자열을 변환하면', () => {
     it('빈 문자열이 반환된다', () => {
       const result = slugify('@#$%^&');
+
       expect(result).toBe('');
     });
   });

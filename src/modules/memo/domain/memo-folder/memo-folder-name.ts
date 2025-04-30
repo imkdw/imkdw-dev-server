@@ -7,18 +7,18 @@ export class MemoFolderName {
   readonly value: string;
 
   constructor(value: string) {
-    this.validate(value);
     this.value = value;
+    this.validate();
   }
 
-  private validate(value: string): void {
-    if (value.length < MemoFolderName.MIN_LENGTH) {
+  private validate(): void {
+    if (this.value.length < MemoFolderName.MIN_LENGTH) {
       throw new InvalidMemoFolderNameException(
         `메모 폴더 이름은 최소 ${MemoFolderName.MIN_LENGTH} 글자 이상이어야 합니다.`,
       );
     }
 
-    if (value.length > MemoFolderName.MAX_LENGTH) {
+    if (this.value.length > MemoFolderName.MAX_LENGTH) {
       throw new InvalidMemoFolderNameException(
         `메모 폴더 이름은 최대 ${MemoFolderName.MAX_LENGTH} 글자 이하여야 합니다.`,
       );

@@ -2,10 +2,12 @@ import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/cre
 import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
+import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import * as Swagger from '../swagger/memo.swagger';
 
 @ApiTags('[메모]')
@@ -15,6 +17,7 @@ export class MemoController {
     private readonly createMemoService: CreateMemoService,
     private readonly getMemoService: GetMemoService,
     private readonly updateMemoService: UpdateMemoService,
+    private readonly deleteMemoService: DeleteMemoService,
   ) {}
 
   @Swagger.createMemo('메모 생성')
@@ -36,5 +39,12 @@ export class MemoController {
   async updateMemo(@Param('slug') slug: string, @Body() dto: RequestUpdateMemoDto): Promise<ResponseUpdateMemoDto> {
     const updatedMemo = await this.updateMemoService.execute(slug, dto);
     return ResponseUpdateMemoDto.from(updatedMemo);
+  }
+
+  @Swagger.deleteMemo('메모 삭제')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':slug')
+  async deleteMemo(@Param('slug') slug: string): Promise<void> {
+    await this.deleteMemoService.execute(slug);
   }
 }

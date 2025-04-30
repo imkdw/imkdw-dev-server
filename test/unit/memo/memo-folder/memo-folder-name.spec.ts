@@ -13,9 +13,9 @@ describe('한글자로 메모 폴더를 생성하는 경우', () => {
   });
 });
 
-describe('메모 폴더명의 최대 글자수를 초과하는 경우', () => {
+describe('메모 폴더명의 길이가 9999인 경우', () => {
   it('에러가 발생한다', () => {
-    expect(() => new MemoFolderName('a'.repeat(MemoFolderName.MAX_LENGTH + 1))).toThrow(InvalidMemoFolderNameException);
+    expect(() => new MemoFolderName('a'.repeat(9999))).toThrow(InvalidMemoFolderNameException);
   });
 });
 
