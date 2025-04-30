@@ -23,9 +23,8 @@
       "@/core/*": ["src/core/*"],
       "@/common/*": ["src/common/*"],
       "@/config/*": ["src/config/*"],
-      "@/infra/*": ["src/infra/*"]
+      "@/infra/*": ["src/infra/*"],
+      "@/prisma/*": ["prisma/*"]
     }
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  }
 }

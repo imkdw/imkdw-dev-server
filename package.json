@@ -17,6 +17,7 @@
     "test:unit": "npx dotenv -e .env.test -- jest --config jest-unit.config.ts",
     "test:integration": "npx dotenv -e .env.test -- jest --config jest-integration.config.ts",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:dummy": "tsx src/dummy/index.ts",
     "============================ Environment ============================": "",
     "setup:local": "npx dotenv -e .env.local -- sh ./scripts/setup-local.sh",
     "setup:test": "npx dotenv -e .env.test -- sh ./scripts/setup-test.sh",
@@ -67,6 +68,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }
