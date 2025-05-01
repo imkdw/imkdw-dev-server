@@ -1,5 +1,6 @@
 import { AuthController } from '@/core/auth/auth.controller';
 import { GithubOAuthStrategy } from '@/core/auth/strategy/github-oauth.strategy';
+import { GoogleOAuthStrategy } from '@/core/auth/strategy/google-oauth.strategy';
 import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factory';
 import { MyConfigModule } from '@/core/config/my-config.module';
 import { CookieModule } from '@/infra/cookie/cookie.module';
@@ -9,6 +10,6 @@ import { Module } from '@nestjs/common';
 @Module({
   imports: [MyConfigModule, JwtModule, CookieModule],
   controllers: [AuthController],
-  providers: [GithubOAuthStrategy, OAuthStrategyFactory],
+  providers: [GithubOAuthStrategy, GoogleOAuthStrategy, OAuthStrategyFactory],
 })
 export class AuthModule {}
