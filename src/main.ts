@@ -19,7 +19,7 @@ async function bootstrap() {
 
   /**
    * Versioning
-   * @example /api/v1/memo-folder
+   * @example /v1/memo-folder
    */
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
@@ -29,11 +29,25 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   /**
+   * CORS
+   */
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+
+  /**
    * Swagger
    */
   const config = new DocumentBuilder().setTitle('IMKDW Dev API').setVersion('1.0.0').build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('api', app, documentFactory, {
+    jsonDocumentUrl: '/api-json',
+    swaggerOptions: {
+      defaultModelsExpandDepth: -1, // 하단 schema 숨김처리
+      filter: true, // 검색 활성화
+    },
+  });
 
   await app.listen(process.env.PORT!);
 

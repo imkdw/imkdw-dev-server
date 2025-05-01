@@ -12,4 +12,12 @@ export enum ErrorCode {
   DUPLICATE_MEMO_NAME = '0003',
   MEMO_NOT_FOUND = '0004',
   INVALID_MEMO_NAME = '0005',
+
+  /**
+   * 인증 에러
+   */
+  SIGN_IN_FAILED = '0006',
+  NOT_SUPPORTED_OAUTH_PROVIDER = '0007',
+  INVALID_JWT = '0008',
+  JWT_EXPIRED = '0009',
 }

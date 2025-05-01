@@ -6,9 +6,10 @@ import { DomainExceptionFilter } from './common/filter/domain-exception.filter';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { MemoModule } from './modules/memo/memo.module';
 import { ClsPrismaModule } from 'src/config/cls-prisma.module';
+import { AuthModule } from '@/core/auth/auth.module';
 
 @Module({
-  imports: [MemoModule, ClsPrismaModule],
+  imports: [MemoModule, ClsPrismaModule, AuthModule],
   controllers: [AppController],
   providers: [
     {
