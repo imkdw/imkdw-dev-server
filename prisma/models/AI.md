@@ -2,7 +2,7 @@
 
 - ERD used `prisma-markdown^2` packages
 
-### Comment Rule
+# 최상단 주석 규칙
 
 - @namespace <name>: ERD 및 마크다운을 생성하는 경우
 - @erd <name>: ERD만 생성하는 경우
@@ -10,7 +10,7 @@
 - @hidden: ERD 및 마크다운 생성을 모두 안하는 경우
 - @minItems 1: 최소 1개 이상의 1:N 관계가 필요한 경우
 
-### example
+# 주석 작성 예시
 
 ```prisma
 /// @namespace 메모
@@ -65,3 +65,6 @@ model MemoFolder {
   - ex) folder_name, created_at
 - 데이터베이스에 저장되는 테이블명은 snake_case로 작성해줘
   - ex) memo_folder, article_category
+
+# 컬럼 타입 규칙
+- 모든 날짜형 컬럼에는 `@db.Timestamptz`가 포함되어야함

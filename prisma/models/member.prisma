@@ -1,0 +1,42 @@
+/// @namespace 멤버
+///
+/// @describe 멤버
+model Member {
+  /// 기본 키
+  ///
+  /// @format uuid
+  id String @id @default(uuid())
+
+  /// 멤버 이메일
+  email String
+
+  /// 멤버 권한
+  role String
+
+  /// 소셜로그인 제공사
+  oAuthProvider String @map("oauth_provider")
+
+  /// 소셜로그인 제공사 아이디
+  oAuthProviderId String @map("oauth_provider_id")
+
+  /// 멤버 닉네임
+  nickname String
+
+  /// 멤버 프로필 이미지
+  profileImage String? @map("profile_image")
+
+  /// 가입일
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  /// 수정일
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  /// 탈퇴일
+  exitedAt DateTime? @map("exited_at") @db.Timestamptz
+
+  /// 삭제일
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+
+  @@index([email, oAuthProvider])
+  @@map("member")
+}

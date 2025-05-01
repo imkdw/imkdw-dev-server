@@ -36,6 +36,5 @@ model Memo {
   @@index([name])
   @@index([folderId])
   @@index([slug])
-
   @@map("memo")
 }
