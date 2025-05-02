@@ -1,5 +1,5 @@
-import { generateUUID } from '../../../../common/utils/string.util';
 import { MemoFolder as PrismaMemoFolder } from '@prisma/client';
+import { generateUUID } from '../../../../common/utils/string.util';
 import { MemoFolderName } from './memo-folder-name';
 
 export class MemoFolder {

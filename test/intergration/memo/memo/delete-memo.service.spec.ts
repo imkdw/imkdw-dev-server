@@ -1,15 +1,15 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/core/database/prisma.service';
+import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
 import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
 import { MemoNotFoundException } from '@/memo/domain/memo/exception/memo-not-found.exception';
+import { Memo } from '@/memo/domain/memo/memo';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
 import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Test } from '@nestjs/testing';
-import { Memo } from '@/memo/domain/memo/memo';
-import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 
 describe(DeleteMemoService.name, () => {
   let prisma: PrismaService;

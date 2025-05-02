@@ -1,14 +1,14 @@
+import { Authorization } from '@/common/decorator/authorization.decorator';
 import { ResponseGetAuthorizationUrlDto } from '@/core/auth/dto/get-authorization-url.dto';
+import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factory';
 import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factory';
-import { Authorization } from '@/common/decorator/authorization.decorator';
 import { Response } from 'express';
 
-import * as Swagger from './auth.swagger';
-import { CookieService } from '@/infra/cookie/cookie.service';
-import { CookieMaxAge } from '@/infra/cookie/cookie.enum';
 import { Public } from '@/common/decorator/public.decorator';
+import { CookieMaxAge } from '@/infra/cookie/cookie.enum';
+import { CookieService } from '@/infra/cookie/cookie.service';
+import * as Swagger from './auth.swagger';
 
 @ApiTags('[인증]')
 @Controller('auth')

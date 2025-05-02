@@ -1,3 +1,5 @@
+import { Roles } from '@/common/decorator/role.decorator';
+import { RoleGuard } from '@/common/guards/role.guard';
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
 import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
@@ -7,10 +9,8 @@ import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import * as Swagger from '../swagger/memo.swagger';
-import { RoleGuard } from '@/common/guards/role.guard';
-import { Roles } from '@/common/decorator/role.decorator';
 import { MemberRole } from 'src/modules/member/member.enum';
+import * as Swagger from '../swagger/memo.swagger';
 
 @ApiTags('[메모]')
 @Controller('memos')

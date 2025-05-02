@@ -1,5 +1,5 @@
-import { MemoName } from '@/memo/domain/memo/memo-name';
 import { InvalidMemoNameException } from '@/memo/domain/memo/exception/invalid-memo-folder-name.exception';
+import { MemoName } from '@/memo/domain/memo/memo-name';
 
 describe('메모 이름을 생성할 때', () => {
   it('유효한 이름이면 성공적으로 생성된다', () => {

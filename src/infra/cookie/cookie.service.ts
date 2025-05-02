@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 
-import { MyConfigService } from '@/core/config/my-config.service';
 import { Env } from '@/common/enums/env.enum';
-import { SetCookieParams } from '@/infra/cookie/cookie.type';
+import { MyConfigService } from '@/core/config/my-config.service';
 import { CookieSameSite } from '@/infra/cookie/cookie.enum';
+import { SetCookieParams } from '@/infra/cookie/cookie.type';
 
 @Injectable()
 export class CookieService {

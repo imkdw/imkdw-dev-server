@@ -1,12 +1,12 @@
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
+import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { Memo } from '@/memo/domain/memo/memo';
+import { MemoName } from '@/memo/domain/memo/memo-name';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
 import { RequestUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
+import { MemoHelper } from '@/memo/helper/memo/memo.helper';
+import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Inject, Injectable } from '@nestjs/common';
-import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
-import { MemoHelper } from '@/memo/helper/memo/memo.helper';
-import { MemoName } from '@/memo/domain/memo/memo-name';
-import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 
 @Injectable()
 export class UpdateMemoService {

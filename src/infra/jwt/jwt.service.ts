@@ -1,9 +1,9 @@
-import { sign, JwtPayload, verify, TokenExpiredError, decode } from 'jsonwebtoken';
 import { MyConfigService } from '@/core/config/my-config.service';
-import { CreateJwtResult, JwtTokenType, MyJwtPayload } from '@/infra/jwt/jwt.type';
-import { Injectable } from '@nestjs/common';
 import { InvalidJwtException } from '@/infra/jwt/exception/invalid-jwt.exception';
 import { JwtExpiredException } from '@/infra/jwt/exception/jwt-expired.exception';
+import { CreateJwtResult, JwtTokenType, MyJwtPayload } from '@/infra/jwt/jwt.type';
+import { Injectable } from '@nestjs/common';
+import { JwtPayload, TokenExpiredError, decode, sign, verify } from 'jsonwebtoken';
 
 @Injectable()
 export class JwtService {

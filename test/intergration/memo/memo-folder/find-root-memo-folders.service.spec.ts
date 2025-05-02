@@ -27,7 +27,7 @@ describe(FindRootMemoFoldersService.name, () => {
     prisma = module.get<PrismaService>(PrismaService);
     memoFolderRepository = module.get<MemoFolderRepository>(MEMO_FOLDER_REPOSITORY);
 
-    await prisma.memo.deleteMany(); 
+    await prisma.memo.deleteMany();
     await prisma.memoFolder.deleteMany();
   });
 

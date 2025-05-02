@@ -11,10 +11,10 @@ export class DeleteMemoService {
 
   async execute(slug: string) {
     const memo = await this.memoValidator.checkExistBySlug(slug);
-    
+
     // 메모 삭제
     memo.delete();
-    
+
     await this.memoRepository.update(memo);
   }
-} 
+}

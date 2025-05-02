@@ -1,21 +1,21 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/core/database/prisma.service';
-import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
-import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
-import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
-import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
-import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
-import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
-import { Test } from '@nestjs/testing';
 import { TRANSLATION_SERVICE, TranslationTargetLanguage } from '@/infra/translation/translation.const';
 import { TranslationService } from '@/infra/translation/translation.service';
-import { Memo } from '@/memo/domain/memo/memo';
-import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplicate-memo-name.exception';
-import { MemoValidator } from '@/memo/validator/memo.validator';
+import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
-import { validate } from 'uuid';
+import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
+import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
+import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplicate-memo-name.exception';
+import { Memo } from '@/memo/domain/memo/memo';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
+import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
+import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
+import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
+import { MemoValidator } from '@/memo/validator/memo.validator';
+import { Test } from '@nestjs/testing';
+import { validate } from 'uuid';
 
 describe(CreateMemoService.name, () => {
   let prisma: PrismaService;

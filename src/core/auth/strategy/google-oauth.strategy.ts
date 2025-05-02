@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { TransactionHost } from '@nestjs-cls/transactional';
-import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
-import { OAuthStrategy } from './oauth.strategy';
-import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.const';
-import { MyConfigService } from '@/core/config/my-config.service';
-import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
-import axios from 'axios';
 import { SignInFailureException } from '@/core/auth/exception/sign-in-failure.exception';
-import { JwtService } from '@/infra/jwt/jwt.service';
+import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.const';
 import {
   GoogleAuthorizationParams,
   GoogleGetAccessTokenBody,
   GoogleGetAccessTokenResponse,
   GoogleUserInfoResponse,
 } from '@/core/auth/types/google-oauth.type';
+import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
+import { MyConfigService } from '@/core/config/my-config.service';
+import { JwtService } from '@/infra/jwt/jwt.service';
+import { TransactionHost } from '@nestjs-cls/transactional';
+import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { Injectable } from '@nestjs/common';
+import axios from 'axios';
+import { OAuthStrategy } from './oauth.strategy';
 
 @Injectable()
 export class GoogleOAuthStrategy extends OAuthStrategy {
