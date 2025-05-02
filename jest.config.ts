@@ -6,6 +6,8 @@ const config: Config = {
   testEnvironment: 'node',
   coveragePathIgnorePatterns: ['<rootDir>/test/', 'node_modules', 'dist'],
   testPathIgnorePatterns: ['dist', 'node_modules'],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  coverageReporters: ['lcov', 'text'],
   transform: { '^.+\\.(t|j)s$': 'ts-jest' },
   rootDir: './',
   bail: true,
