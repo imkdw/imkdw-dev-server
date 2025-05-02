@@ -8,9 +8,11 @@ import { Response } from 'express';
 import * as Swagger from './auth.swagger';
 import { CookieService } from '@/infra/cookie/cookie.service';
 import { CookieMaxAge } from '@/infra/cookie/cookie.enum';
+import { Public } from '@/common/decorator/public.decorator';
 
 @ApiTags('[인증]')
 @Controller('auth')
+@Public()
 export class AuthController {
   constructor(
     private readonly oauthStrategyFactory: OAuthStrategyFactory,

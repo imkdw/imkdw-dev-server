@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put, Delete, UseGuards } from '@nestjs/common';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '../dto/memo-folder/create-memo-folder.dto';
 import { CreateMemoFolderService } from '../service/memo-folder/create-memo-folder.service';
 import { FindMemoFolderService } from '../service/memo-folder/find-memo-folder.service';
@@ -13,9 +13,14 @@ import { ApiTags } from '@nestjs/swagger';
 import { DeleteMemoFolderService } from '../service/memo-folder/delete-memo-folder.service';
 import { FindFolderMemosService } from '../service/memo/find-folder-memos.service';
 import { ResponseFindFolderMemosDto } from '../dto/memo/find-folder-memos.dto';
+import { Public } from '@/common/decorator/public.decorator';
+import { RoleGuard } from '@/common/guards/role.guard';
+import { Roles } from '@/common/decorator/role.decorator';
+import { MemberRole } from 'src/modules/member/member.enum';
 
 @ApiTags('[메모] 폴더')
 @Controller('memo-folders')
+@UseGuards(RoleGuard)
 export class MemoFolderController {
   constructor(
     private readonly createMemoFolderService: CreateMemoFolderService,
@@ -29,6 +34,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.createMemoFolder('메모 폴더 생성')
   @Post()
+  @Roles(MemberRole.ADMIN)
   async createMemoFolder(@Body() dto: RequestCreateMemoFolderDto): Promise<ResponseCreateMemoFolderDto> {
     const memoFolder = await this.createMemoFolderService.execute(dto);
     return ResponseCreateMemoFolderDto.from(memoFolder);
@@ -36,6 +42,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.updateMemoFolder('메모 폴더 수정')
   @Put(':id')
+  @Roles(MemberRole.ADMIN)
   async updateMemoFolder(
     @Param('id') id: string,
     @Body() dto: RequestUpdateMemoFolderDto,
@@ -46,6 +53,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.findRootMemoFolders('최상위 메모 폴더 목록 조회')
   @Get('root')
+  @Public()
   async getRootMemoFolders(): Promise<MemoFolderDto[]> {
     const memoFolders = await this.findRootMemoFoldersService.execute();
     return memoFolders.map((memoFolder) => MemoFolderDto.from(memoFolder));
@@ -53,6 +61,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.findChildMemoFolders('메모 폴더의 하위 폴더 목록 조회')
   @Get(':id/children')
+  @Public()
   async getChildMemoFolders(@Param('id') id: string): Promise<MemoFolderDto[]> {
     const childFolders = await this.findChildMemoFoldersService.execute(id);
     return childFolders.map((folder) => MemoFolderDto.from(folder));
@@ -60,6 +69,7 @@ export class MemoFolderController {
 
   @MemoSwagger.findFolderMemos('메모 폴더에 속한 메모 목록 조회')
   @Get(':id/memos')
+  @Public()
   async getFolderMemos(@Param('id') id: string): Promise<ResponseFindFolderMemosDto> {
     const memos = await this.findFolderMemosService.execute(id);
     return ResponseFindFolderMemosDto.from(memos);
@@ -67,6 +77,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.getMemoFolder('메모 폴더 상세조회')
   @Get(':id')
+  @Public()
   async findMemoFolder(@Param('id') id: string): Promise<MemoFolderDto> {
     const memoFolder = await this.findMemoFolderService.execute(id);
     return MemoFolderDto.from(memoFolder);
@@ -74,6 +85,7 @@ export class MemoFolderController {
 
   @MemoFolderSwagger.deleteMemoFolder('메모 폴더 삭제')
   @Delete(':id')
+  @Roles(MemberRole.ADMIN)
   async deleteMemoFolder(@Param('id') id: string): Promise<void> {
     await this.deleteMemoFolderService.execute(id);
   }

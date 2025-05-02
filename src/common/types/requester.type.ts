@@ -1,4 +1,4 @@
 export interface Requester {
   id: string;
-  role: string;
+  role?: string;
 }

@@ -10,6 +10,7 @@ import { AuthModule } from '@/core/auth/auth.module';
 import { JwtGuard } from '@/common/guards/jwt.guard';
 import { MyConfigModule } from '@/core/config/my-config.module';
 import { JwtModule } from '@/infra/jwt/jwt.module';
+import { LoggingInterceptor } from '@/common/interceptor/logging.interceptor';
 
 @Module({
   imports: [MemoModule, ClsPrismaModule, AuthModule, MyConfigModule, JwtModule],
@@ -30,6 +31,10 @@ import { JwtModule } from '@/infra/jwt/jwt.module';
     {
       provide: APP_GUARD,
       useClass: JwtGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
   ],
 })
