@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { DuplicateMemoFolderNameException } from '../domain/memo-folder/exception/duplicate-memo-folder-name.exception';
 import { MemoFolderNotFoundException } from '../domain/memo-folder/exception/memo-folder-not-found.exception';
 import { MemoFolder } from '../domain/memo-folder/memo-folder';
-import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '../domain/memo-folder/repository';
+import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '../domain/memo-folder/memo-folder.repository';
 
 @Injectable()
 export class MemoFolderValidator {

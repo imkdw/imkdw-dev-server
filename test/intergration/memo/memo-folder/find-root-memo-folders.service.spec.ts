@@ -1,8 +1,8 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/infra/persistence/prisma.service';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
-import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
-import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
+import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
+import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
 import { Test } from '@nestjs/testing';
 

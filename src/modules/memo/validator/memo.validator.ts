@@ -1,7 +1,7 @@
 import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplicate-memo-name.exception';
 import { MemoNotFoundException } from '@/memo/domain/memo/exception/memo-not-found.exception';
-import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
-import { MemoRepository } from '@/memo/domain/memo/repository';
+import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository/memo.repository';
+import { MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

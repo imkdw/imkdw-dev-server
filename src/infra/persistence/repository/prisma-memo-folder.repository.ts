@@ -1,8 +1,8 @@
+import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
+import { MemoFolderRepository, UpdateMemoFolderData } from '@/memo/domain/memo-folder/memo-folder.repository';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
-import { MemoFolderRepository, UpdateMemoFolderData } from '.';
-import { MemoFolder } from '../memo-folder';
 
 @Injectable()
 export class PrismaMemoFolderRepository implements MemoFolderRepository {

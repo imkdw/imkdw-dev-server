@@ -1,6 +1,6 @@
 import { Memo } from '@/memo/domain/memo/memo';
-import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
-import { MemoRepository } from '@/memo/domain/memo/repository';
+import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository/memo.repository';
+import { MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
 import { RequestCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';

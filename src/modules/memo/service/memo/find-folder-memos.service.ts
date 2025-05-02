@@ -1,6 +1,6 @@
 import { Memo } from '@/memo/domain/memo/memo';
-import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository';
-import { MemoRepository } from '@/memo/domain/memo/repository';
+import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository/memo.repository';
+import { MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Inject, Injectable } from '@nestjs/common';
 

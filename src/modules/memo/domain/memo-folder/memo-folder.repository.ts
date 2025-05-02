@@ -1,4 +1,4 @@
-import { MemoFolder } from '../memo-folder';
+import { MemoFolder } from './memo-folder';
 
 export const MEMO_FOLDER_REPOSITORY = Symbol('MEMO_FOLDER_REPOSITORY');
 
