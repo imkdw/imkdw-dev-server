@@ -1,6 +1,4 @@
 import { MemoController } from '@/memo/controller/memo.controller';
-import { MEMO_REPOSITORY } from '@/memo/domain/memo/repository/memo.repository';
-import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
@@ -14,16 +12,13 @@ import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Module } from '@nestjs/common';
 import { TranslationModule } from 'src/infra/translation/translation.module';
-import { PersistenceModule } from '../../infra/persistence/persistence.module';
 import { MemoFolderController } from './controller/memo-folder.controller';
-import { MEMO_FOLDER_REPOSITORY } from './domain/memo-folder/memo-folder.repository';
-import { PrismaMemoFolderRepository } from '../../infra/persistence/repository/prisma-memo-folder.repository';
 import { CreateMemoFolderService } from './service/memo-folder/create-memo-folder.service';
 import { UpdateMemoService } from './service/memo/update-memo.service';
 import { MemoFolderValidator } from './validator/memo-folder.validator';
 
 @Module({
-  imports: [PersistenceModule, TranslationModule],
+  imports: [TranslationModule],
   controllers: [MemoFolderController, MemoController],
   providers: [
     /**
@@ -36,10 +31,6 @@ import { MemoFolderValidator } from './validator/memo-folder.validator';
     UpdateMemoFolderService,
     DeleteMemoFolderService,
     MemoFolderValidator,
-    {
-      provide: MEMO_FOLDER_REPOSITORY,
-      useClass: PrismaMemoFolderRepository,
-    },
 
     /**
      * 메모
@@ -47,14 +38,10 @@ import { MemoFolderValidator } from './validator/memo-folder.validator';
     CreateMemoService,
     FindFolderMemosService,
     GetMemoService,
-    MemoValidator,
-    MemoHelper,
-    {
-      provide: MEMO_REPOSITORY,
-      useClass: PrismaMemoRepository,
-    },
     UpdateMemoService,
     DeleteMemoService,
+    MemoValidator,
+    MemoHelper,
   ],
 })
 export class MemoModule {}

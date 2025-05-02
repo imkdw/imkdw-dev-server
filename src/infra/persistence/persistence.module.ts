@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common';
+import { Global, Module, Provider } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { MEMO_FOLDER_REPOSITORY } from '@/memo/domain/memo-folder/memo-folder.repository';
@@ -16,6 +16,7 @@ const REPOSITORIES: Provider[] = [
   },
 ];
 
+@Global()
 @Module({
   providers: [PrismaService, ...REPOSITORIES],
   exports: [PrismaService, ...REPOSITORIES],
