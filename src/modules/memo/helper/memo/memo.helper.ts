@@ -1,5 +1,5 @@
 import { slugify } from '@/common/utils/string.util';
-import { TRANSLATION_SERVICE, TranslationTargetLanguage } from '@/infra/translation/translation.const';
+import { TRANSLATION_SERVICE, TranslationTargetLanguage } from '@/infra/translation/translation.enum';
 import { TranslationService } from '@/infra/translation/translation.service';
 import { Inject, Injectable } from '@nestjs/common';
 

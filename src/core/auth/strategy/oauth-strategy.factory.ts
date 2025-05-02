@@ -1,5 +1,5 @@
 import { NotSupportedOAuthProviderException } from '@/core/auth/exception/not-supported-oauth-provider.exception';
-import { OAuthProvider } from '@/core/auth/oauth.const';
+import { OAuthProvider } from '@/core/auth/oauth.enum';
 import { GithubOAuthStrategy } from '@/core/auth/strategy/github-oauth.strategy';
 import { GoogleOAuthStrategy } from '@/core/auth/strategy/google-oauth.strategy';
 import { OAuthStrategy } from '@/core/auth/strategy/oauth.strategy';

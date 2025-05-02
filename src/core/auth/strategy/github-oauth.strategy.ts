@@ -1,5 +1,5 @@
 import { SignInFailureException } from '@/core/auth/exception/sign-in-failure.exception';
-import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.const';
+import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.enum';
 import {
   GithubAuthorizationParams,
   GithubGetAccessTokenBody,

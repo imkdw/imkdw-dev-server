@@ -1,6 +1,6 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/core/database/prisma.service';
-import { TRANSLATION_SERVICE } from '@/infra/translation/translation.const';
+import { TRANSLATION_SERVICE } from '@/infra/translation/translation.enum';
 import { TranslationService } from '@/infra/translation/translation.service';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';

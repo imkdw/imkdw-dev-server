@@ -1,5 +1,5 @@
 import { ResponseGetAuthorizationUrlDto } from '@/core/auth/dto/get-authorization-url.dto';
-import { OAuthProvider } from '@/core/auth/oauth.const';
+import { OAuthProvider } from '@/core/auth/oauth.enum';
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiHeader, ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 

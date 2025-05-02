@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
 import { MyConfigService } from '@/core/config/my-config.service';
-import { TranslationTargetLanguage } from 'src/infra/translation/translation.const';
+import { TranslationTargetLanguage } from '@/infra/translation/translation.enum';
 import { TranslationService } from 'src/infra/translation/translation.service';
 import { DeepLTranslateResponse } from 'src/infra/translation/translation.type';
 

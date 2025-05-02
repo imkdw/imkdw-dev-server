@@ -1,4 +1,4 @@
-import { OAuthProvider } from '@/core/auth/oauth.const';
+import { OAuthProvider } from '@/core/auth/oauth.enum';
 
 export interface OAuthSignInResult {
   accessToken: string;
