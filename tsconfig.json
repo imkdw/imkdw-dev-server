@@ -24,7 +24,10 @@
       "@/common/*": ["src/common/*"],
       "@/config/*": ["src/config/*"],
       "@/infra/*": ["src/infra/*"],
-      "@/prisma/*": ["prisma/*"]
+      "@/prisma/*": ["prisma/*"],
+      "@/member/*": ["src/modules/member/*"],
+      "@/auth/*": ["src/modules/auth/*"],
+      "@/blog/*": ["src/modules/blog/*"]
     }
   }
 }

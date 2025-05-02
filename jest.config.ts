@@ -11,6 +11,9 @@ const config: Config = {
   bail: true,
   moduleNameMapper: {
     '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
+    '^@/member/(.*)$': '<rootDir>/src/modules/member/$1',
+    '^@/auth/(.*)$': '<rootDir>/src/modules/auth/$1',
+    '^@/blog/(.*)$': '<rootDir>/src/modules/blog/$1',
     '^@/core/(.*)$': '<rootDir>/src/core/$1',
     '^@/common/(.*)$': '<rootDir>/src/common/$1',
     '^@/config/(.*)$': '<rootDir>/src/config/$1',
