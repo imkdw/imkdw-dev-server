@@ -1,5 +1,5 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
-import { PrismaService } from '@/core/database/prisma.service';
+import { PrismaService } from '@/infra/persistence/prisma.service';
 import { TRANSLATION_SERVICE, TranslationTargetLanguage } from '@/infra/translation/translation.enum';
 import { TranslationService } from '@/infra/translation/translation.service';
 import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';

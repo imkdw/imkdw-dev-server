@@ -14,7 +14,7 @@ import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Module } from '@nestjs/common';
 import { TranslationModule } from 'src/infra/translation/translation.module';
-import { DatabaseModule } from '../../core/database/database.module';
+import { PersistenceModule } from '../../infra/persistence/persistence.module';
 import { MemoFolderController } from './controller/memo-folder.controller';
 import { MEMO_FOLDER_REPOSITORY } from './domain/memo-folder/repository';
 import { PrismaMemoFolderRepository } from './domain/memo-folder/repository/prisma-memo-folder.repository';
@@ -23,7 +23,7 @@ import { UpdateMemoService } from './service/memo/update-memo.service';
 import { MemoFolderValidator } from './validator/memo-folder.validator';
 
 @Module({
-  imports: [DatabaseModule, TranslationModule],
+  imports: [PersistenceModule, TranslationModule],
   controllers: [MemoFolderController, MemoController],
   providers: [
     /**
