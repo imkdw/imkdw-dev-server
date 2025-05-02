@@ -4,6 +4,9 @@ import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
 import { PrismaMemoFolderRepository } from '@/memo/domain/memo-folder/repository/prisma-memo-folder.repository';
+import { Memo } from '@/memo/domain/memo/memo';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
+import { PrismaMemoRepository } from '@/memo/domain/memo/repository/prisma-memo.repository';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Test } from '@nestjs/testing';
@@ -12,6 +15,7 @@ describe(DeleteMemoFolderService.name, () => {
   let prisma: PrismaService;
   let sut: DeleteMemoFolderService;
   let memoFolderRepository: MemoFolderRepository;
+  let memoRepository: MemoRepository;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -22,6 +26,10 @@ describe(DeleteMemoFolderService.name, () => {
           provide: MEMO_FOLDER_REPOSITORY,
           useClass: PrismaMemoFolderRepository,
         },
+        {
+          provide: MEMO_REPOSITORY,
+          useClass: PrismaMemoRepository,
+        },
         DeleteMemoFolderService,
       ],
     }).compile();
@@ -29,6 +37,7 @@ describe(DeleteMemoFolderService.name, () => {
     sut = module.get<DeleteMemoFolderService>(DeleteMemoFolderService);
     prisma = module.get<PrismaService>(PrismaService);
     memoFolderRepository = module.get<MemoFolderRepository>(MEMO_FOLDER_REPOSITORY);
+    memoRepository = module.get<MemoRepository>(MEMO_REPOSITORY);
 
     await prisma.memo.deleteMany();
     await prisma.memoFolder.deleteMany();
@@ -135,5 +144,26 @@ describe(DeleteMemoFolderService.name, () => {
     });
   });
 
-  it.todo('메모 폴더 삭제 시 메모도 삭제되어야 한다');
+  it('메모 폴더 삭제 시 메모도 삭제되어야 한다', async () => {
+    // 폴더 생성x
+    const folder = MemoFolder.create('test-folder', null);
+    await memoFolderRepository.save(folder);
+
+    const childFolder = MemoFolder.create('child-folder', folder.id, folder.path);
+    await memoFolderRepository.save(childFolder);
+
+    const memo1 = Memo.create('test-memo-1', 'test-slug-1', 'test content 1', folder.id, folder.path);
+    await memoRepository.save(memo1);
+
+    const memo2 = Memo.create('test-memo-2', 'test-slug-2', 'test content 2', childFolder.id, childFolder.path);
+    await memoRepository.save(memo2);
+
+    await sut.execute(folder.id);
+
+    const deletedMemo1 = await memoRepository.findById(memo1.id);
+    const deletedMemo2 = await memoRepository.findById(memo2.id);
+
+    expect(deletedMemo1).toBeNull();
+    expect(deletedMemo2).toBeNull();
+  });
 });

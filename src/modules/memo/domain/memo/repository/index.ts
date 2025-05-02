@@ -8,5 +8,11 @@ export interface MemoRepository {
   findById(id: string): Promise<Memo | null>;
   findByName(name: string): Promise<Memo | null>;
   findByFolderId(folderId: string): Promise<Memo[]>;
+  findByFolderIds(folderIds: string[]): Promise<Memo[]>;
   findBySlug(slug: string): Promise<Memo | null>;
+  updateManyWithData(ids: string[], data: UpdateMemoData): Promise<Memo[]>;
+}
+
+export interface UpdateMemoData {
+  deletedAt?: Date;
 }

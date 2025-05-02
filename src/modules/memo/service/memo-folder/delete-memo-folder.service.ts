@@ -1,4 +1,5 @@
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/repository';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Transactional } from '@nestjs-cls/transactional';
 import { Inject, Injectable } from '@nestjs/common';
@@ -8,6 +9,7 @@ export class DeleteMemoFolderService {
   constructor(
     private readonly memoFolderValidator: MemoFolderValidator,
     @Inject(MEMO_FOLDER_REPOSITORY) private readonly memoFolderRepository: MemoFolderRepository,
+    @Inject(MEMO_REPOSITORY) private readonly memoRepository: MemoRepository,
   ) {}
 
   @Transactional()
@@ -21,9 +23,11 @@ export class DeleteMemoFolderService {
     const childIds = memoFolderChildren.map((child) => child.id);
     await this.memoFolderRepository.updateManyWithData(childIds, { deletedAt });
 
-    // TODO: 자식 메모 제거
+    // 자식 메모 제거
+    const childMemos = await this.memoRepository.findByFolderIds(childIds);
+    const childMemoIds = childMemos.map((memo) => memo.id);
+    await this.memoRepository.updateManyWithData(childMemoIds, { deletedAt });
 
-    // 메모 폴더 제거
     memoFolder.delete();
 
     await this.memoFolderRepository.update(memoFolder);

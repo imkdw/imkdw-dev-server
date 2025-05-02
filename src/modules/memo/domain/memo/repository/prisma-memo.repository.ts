@@ -1,5 +1,5 @@
 import { Memo } from '@/memo/domain/memo/memo';
-import { MemoRepository } from '@/memo/domain/memo/repository';
+import { MemoRepository, UpdateMemoData } from '@/memo/domain/memo/repository';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
@@ -57,5 +57,24 @@ export class PrismaMemoRepository implements MemoRepository {
       },
     });
     return memo ? Memo.from(memo) : null;
+  }
+
+  async findByFolderIds(folderIds: string[]): Promise<Memo[]> {
+    const memos = await this.prisma.tx.memo.findMany({
+      where: {
+        folderId: { in: folderIds },
+      },
+    });
+
+    return memos.map(Memo.from);
+  }
+
+  async updateManyWithData(ids: string[], data: UpdateMemoData): Promise<Memo[]> {
+    const updatedMemos = await this.prisma.tx.memo.updateManyAndReturn({
+      where: { id: { in: ids } },
+      data,
+    });
+
+    return updatedMemos.map(Memo.from);
   }
 }

@@ -3,8 +3,8 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  private retryCount = 0;
-  private maxRetries = 5;
+  private RETRY_COUNT = 0;
+  private MAX_RETIRES = 5;
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
@@ -18,12 +18,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   private async connectWithRetry(): Promise<void> {
     try {
       await this.$connect();
-      this.retryCount = 0;
+      this.RETRY_COUNT = 0;
       this.$on('error' as never, async () => await this.reconnect());
     } catch (error) {
-      if (this.retryCount < this.maxRetries) {
-        this.retryCount++;
-        const delay = Math.min(1000 * Math.pow(2, this.retryCount - 1), 16000);
+      if (this.RETRY_COUNT < this.MAX_RETIRES) {
+        this.RETRY_COUNT++;
+        const delay = Math.min(1000 * Math.pow(2, this.RETRY_COUNT - 1), 16000);
         await new Promise((resolve) => setTimeout(resolve, delay));
         await this.connectWithRetry();
       } else {

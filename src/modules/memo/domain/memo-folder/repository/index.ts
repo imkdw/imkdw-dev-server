@@ -10,7 +10,7 @@ export interface MemoFolderRepository {
   findChildrenByPath(path: string): Promise<MemoFolder[]>;
   update(memoFolder: MemoFolder): Promise<MemoFolder>;
   updateMany(memoFolders: MemoFolder[]): Promise<MemoFolder[]>;
-  updateManyWithData(ids: MemoFolder['id'][], data: UpdateMemoFolderData): Promise<MemoFolder[]>;
+  updateManyWithData(ids: string[], data: UpdateMemoFolderData): Promise<MemoFolder[]>;
 }
 
 export interface UpdateMemoFolderData {
