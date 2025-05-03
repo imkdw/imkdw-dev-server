@@ -3,20 +3,19 @@ import { Roles } from '@/common/decorator/role.decorator';
 import { RoleGuard } from '@/common/guards/role.guard';
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MemberRole } from 'src/modules/member/member.enum';
-import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '../dto/memo-folder/create-memo-folder.dto';
-import { MemoFolderDto } from '../dto/memo-folder/memo-folder.dto';
-import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '../dto/memo-folder/update-memo-folder.dto';
-import { ResponseFindFolderMemosDto } from '../dto/memo/find-folder-memos.dto';
-import { CreateMemoFolderService } from '../service/memo-folder/create-memo-folder.service';
-import { DeleteMemoFolderService } from '../service/memo-folder/delete-memo-folder.service';
-import { FindChildMemoFoldersService } from '../service/memo-folder/find-child-memo-folders.service';
-import { FindMemoFolderService } from '../service/memo-folder/find-memo-folder.service';
-import { FindRootMemoFoldersService } from '../service/memo-folder/find-root-memo-folders.service';
-import { UpdateMemoFolderService } from '../service/memo-folder/update-memo-folder.service';
-import { FindFolderMemosService } from '../service/memo/find-folder-memos.service';
-import * as MemoFolderSwagger from '../swagger/memo-folder.swagger';
-import * as MemoSwagger from '../swagger/memo.swagger';
+import { MemberRole } from '@/member/member.enum';
+import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
+import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-folder.service';
+import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
+import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
+import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
+import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
+import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
+import * as Swagger from '@/memo/swagger/memo-folder.swagger';
+import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
+import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
+import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
+import { ResponseFindFolderMemosDto } from '@/memo/dto/memo/find-folder-memos.dto';
 
 @ApiTags('[메모] 폴더')
 @Controller('memo-folders')
@@ -32,7 +31,7 @@ export class MemoFolderController {
     private readonly findFolderMemosService: FindFolderMemosService,
   ) {}
 
-  @MemoFolderSwagger.createMemoFolder('메모 폴더 생성')
+  @Swagger.createMemoFolder('메모 폴더 생성')
   @Post()
   @Roles(MemberRole.ADMIN)
   async createMemoFolder(@Body() dto: RequestCreateMemoFolderDto): Promise<ResponseCreateMemoFolderDto> {
@@ -40,7 +39,7 @@ export class MemoFolderController {
     return ResponseCreateMemoFolderDto.from(memoFolder);
   }
 
-  @MemoFolderSwagger.updateMemoFolder('메모 폴더 수정')
+  @Swagger.updateMemoFolder('메모 폴더 수정')
   @Put(':id')
   @Roles(MemberRole.ADMIN)
   async updateMemoFolder(
@@ -51,7 +50,7 @@ export class MemoFolderController {
     return ResponseUpdateMemoFolderDto.from(memoFolder);
   }
 
-  @MemoFolderSwagger.findRootMemoFolders('최상위 메모 폴더 목록 조회')
+  @Swagger.findRootMemoFolders('최상위 메모 폴더 목록 조회')
   @Get('root')
   @Public()
   async getRootMemoFolders(): Promise<MemoFolderDto[]> {
@@ -59,7 +58,7 @@ export class MemoFolderController {
     return memoFolders.map((memoFolder) => MemoFolderDto.from(memoFolder));
   }
 
-  @MemoFolderSwagger.findChildMemoFolders('메모 폴더의 하위 폴더 목록 조회')
+  @Swagger.findChildMemoFolders('메모 폴더의 하위 폴더 목록 조회')
   @Get(':id/children')
   @Public()
   async getChildMemoFolders(@Param('id') id: string): Promise<MemoFolderDto[]> {
@@ -67,7 +66,7 @@ export class MemoFolderController {
     return childFolders.map((folder) => MemoFolderDto.from(folder));
   }
 
-  @MemoSwagger.findFolderMemos('메모 폴더에 속한 메모 목록 조회')
+  @Swagger.findFolderMemos('메모 폴더에 속한 메모 목록 조회')
   @Get(':id/memos')
   @Public()
   async getFolderMemos(@Param('id') id: string): Promise<ResponseFindFolderMemosDto> {
@@ -75,7 +74,7 @@ export class MemoFolderController {
     return ResponseFindFolderMemosDto.from(memos);
   }
 
-  @MemoFolderSwagger.getMemoFolder('메모 폴더 상세조회')
+  @Swagger.getMemoFolder('메모 폴더 상세조회')
   @Get(':id')
   @Public()
   async findMemoFolder(@Param('id') id: string): Promise<MemoFolderDto> {
@@ -83,7 +82,7 @@ export class MemoFolderController {
     return MemoFolderDto.from(memoFolder);
   }
 
-  @MemoFolderSwagger.deleteMemoFolder('메모 폴더 삭제')
+  @Swagger.deleteMemoFolder('메모 폴더 삭제')
   @Delete(':id')
   @Roles(MemberRole.ADMIN)
   async deleteMemoFolder(@Param('id') id: string): Promise<void> {

@@ -1,5 +1,4 @@
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
-import { ResponseFindFolderMemosDto } from '@/memo/dto/memo/find-folder-memos.dto';
 import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { applyDecorators } from '@nestjs/common';
@@ -17,14 +16,6 @@ export function createMemo(summary: string) {
     ApiOperation({ summary }),
     ApiBody({ type: RequestCreateMemoDto }),
     ApiCreatedResponse({ type: ResponseCreateMemoDto }),
-  );
-}
-
-export function findFolderMemos(summary: string) {
-  return applyDecorators(
-    ApiOperation({ summary }),
-    ApiParam({ name: 'id', description: '메모 폴더 아이디' }),
-    ApiOkResponse({ type: ResponseFindFolderMemosDto }),
   );
 }
 

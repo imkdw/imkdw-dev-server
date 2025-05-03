@@ -83,7 +83,7 @@ describe(MemoController.name, () => {
   });
 
   describe('메모를 삭제하면', () => {
-    it('특정 메모의 slug로 삭제를 요청한다', async () => {
+    it('메모가 삭제된다', async () => {
       const slug = 'slug';
 
       await sut.deleteMemo(slug);
