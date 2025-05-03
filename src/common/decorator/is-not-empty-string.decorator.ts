@@ -12,7 +12,7 @@ export function IsNotEmptyString(validationOptions?: ValidationOptions) {
           return typeof value === 'string' && value.trim() !== '';
         },
         defaultMessage(args: ValidationArguments) {
-          return `${args.property} must be a non-empty string`;
+          return `${args.property}는 빈 문자열일 수 없습니다`;
         },
       },
     });

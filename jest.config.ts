@@ -4,7 +4,7 @@ const config: Config = {
   verbose: true,
   preset: 'ts-jest',
   testEnvironment: 'node',
-  coveragePathIgnorePatterns: ['<rootDir>/test/', 'node_modules', 'dist'],
+  coveragePathIgnorePatterns: ['<rootDir>/test/', 'node_modules', 'dist', '.swagger.ts$'],
   testPathIgnorePatterns: ['dist', 'node_modules'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
   coverageReporters: ['lcov', 'text'],

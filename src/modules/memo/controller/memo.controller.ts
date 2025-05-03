@@ -9,7 +9,7 @@ import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MemberRole } from 'src/modules/member/member.enum';
+import { MemberRole } from '@/member/member.enum';
 import * as Swagger from '../swagger/memo.swagger';
 
 @ApiTags('[메모]')

@@ -12,7 +12,7 @@ export function IsNullableString(validationOptions?: ValidationOptions) {
           return value === null || typeof value === 'string';
         },
         defaultMessage(args: ValidationArguments) {
-          return `${args.property} must be either null or a string`;
+          return `${args.property}는 문자열이거나 null일 수 있습니다`;
         },
       },
     });

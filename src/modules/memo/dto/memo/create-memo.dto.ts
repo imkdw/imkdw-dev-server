@@ -21,14 +21,14 @@ export class RequestCreateMemoDto {
 }
 
 export class ResponseCreateMemoDto {
-  @ApiProperty({ description: '생성된 메모 아이디', example: '123e4567-e89b-12d3-a456-426614174000' })
-  id: string;
+  @ApiProperty({ description: '생성된 메모 slug', example: 'memo-slug' })
+  slug: string;
 
-  private constructor(id: string) {
-    this.id = id;
+  private constructor(slug: string) {
+    this.slug = slug;
   }
 
   static from(memo: Memo): ResponseCreateMemoDto {
-    return new ResponseCreateMemoDto(memo.id);
+    return new ResponseCreateMemoDto(memo.slug);
   }
 }

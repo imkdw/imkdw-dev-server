@@ -17,11 +17,11 @@ export class RequestUpdateMemoDto {
 }
 
 export class ResponseUpdateMemoDto {
-  @ApiProperty({ description: '메모 ID', example: 'memo-id' })
-  id: string;
+  @ApiProperty({ description: '메모의 slug', example: 'memo-slug' })
+  slug: string;
 
   private constructor(memo: Memo) {
-    this.id = memo.id;
+    this.slug = memo.slug;
   }
 
   static from(memo: Memo): ResponseUpdateMemoDto {
