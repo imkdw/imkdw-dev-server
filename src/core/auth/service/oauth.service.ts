@@ -1,15 +1,11 @@
 import { OAuthUser } from '@/core/auth/types/oauth.type';
-import { JwtService } from '@/infra/jwt/jwt.service';
 import { Member } from '@/member/domain/member/member';
 import { MEMBER_REPOSITORY, MemberRepository } from '@/member/domain/member/member.repository';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class MemberAuthService {
-  constructor(
-    private readonly jwtService: JwtService,
-    @Inject(MEMBER_REPOSITORY) private readonly memberRepository: MemberRepository,
-  ) {}
+export class OAuthService {
+  constructor(@Inject(MEMBER_REPOSITORY) private readonly memberRepository: MemberRepository) {}
 
   async getMemberIdByOAuthUser(oAuthUser: OAuthUser): Promise<string> {
     const { email, provider, providerId } = oAuthUser;

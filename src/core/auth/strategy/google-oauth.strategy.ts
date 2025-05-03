@@ -12,7 +12,7 @@ import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
-import { MemberAuthService } from '@/core/auth/service/member-auth.service';
+import { OAuthService } from '@/core/auth/service/oauth.service';
 
 @Injectable()
 export class GoogleOAuthStrategy extends OAuthStrategy {
@@ -24,7 +24,7 @@ export class GoogleOAuthStrategy extends OAuthStrategy {
 
   constructor(
     private readonly configService: MyConfigService,
-    private readonly memberAuthService: MemberAuthService,
+    private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
   ) {
     super();

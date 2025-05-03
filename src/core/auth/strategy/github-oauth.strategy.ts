@@ -11,7 +11,7 @@ import { MyConfigService } from '@/core/config/my-config.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
-import { MemberAuthService } from '@/core/auth/service/member-auth.service';
+import { OAuthService } from '@/core/auth/service/oauth.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class GithubOAuthStrategy extends OAuthStrategy {
 
   constructor(
     private readonly configService: MyConfigService,
-    private readonly memberAuthService: MemberAuthService,
+    private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
   ) {
     super();
