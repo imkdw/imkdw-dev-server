@@ -8,7 +8,7 @@ import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prism
 import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplicate-memo-name.exception';
 import { MemoNotFoundException } from '@/memo/domain/memo/exception/memo-not-found.exception';
 import { Memo } from '@/memo/domain/memo/memo';
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';

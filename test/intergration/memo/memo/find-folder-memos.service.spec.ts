@@ -5,7 +5,7 @@ import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
 import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { Memo } from '@/memo/domain/memo/memo';
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';

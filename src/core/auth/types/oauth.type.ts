@@ -10,7 +10,7 @@ export interface GetAccessTokenResult {
   redirectUrl: string;
 }
 
-export interface OAuthUserInfo {
+export interface OAuthUser {
   email: string;
   provider: OAuthProvider;
   providerId: string;

@@ -9,11 +9,10 @@ import {
 import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
-import { TransactionHost } from '@nestjs-cls/transactional';
-import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
+import { MemberAuthService } from '@/core/auth/service/member-auth.service';
 
 @Injectable()
 export class GoogleOAuthStrategy extends OAuthStrategy {
@@ -25,10 +24,10 @@ export class GoogleOAuthStrategy extends OAuthStrategy {
 
   constructor(
     private readonly configService: MyConfigService,
-    protected readonly prisma: TransactionHost<TransactionalAdapterPrisma>,
-    protected readonly jwtService: JwtService,
+    private readonly memberAuthService: MemberAuthService,
+    private readonly jwtService: JwtService,
   ) {
-    super(prisma, jwtService);
+    super();
     this.clientId = this.configService.get('GOOGLE_CLIENT_ID');
     this.clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
     this.redirectUrl = this.configService.get('GOOGLE_REDIRECT_URL');
@@ -80,14 +79,12 @@ export class GoogleOAuthStrategy extends OAuthStrategy {
       },
     });
 
-    return this.prisma.withTransaction(async () => {
-      const memberId = await this.getMemberId({
-        email: response.data.email,
-        provider: OAuthProvider.GOOGLE,
-        providerId: response.data.sub,
-      });
-
-      return this.generateJwt(memberId);
+    const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
+      email: response.data.email,
+      provider: OAuthProvider.GOOGLE,
+      providerId: response.data.sub,
     });
+
+    return this.jwtService.createJwt({ id: memberId });
   }
 }

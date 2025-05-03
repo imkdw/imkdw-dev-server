@@ -8,12 +8,11 @@ import {
 } from '@/core/auth/types/github-oauth.type';
 import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
-import { JwtService } from '@/infra/jwt/jwt.service';
-import { TransactionHost } from '@nestjs-cls/transactional';
-import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
+import { MemberAuthService } from '@/core/auth/service/member-auth.service';
+import { JwtService } from '@/infra/jwt/jwt.service';
 
 @Injectable()
 export class GithubOAuthStrategy extends OAuthStrategy {
@@ -25,10 +24,10 @@ export class GithubOAuthStrategy extends OAuthStrategy {
 
   constructor(
     private readonly configService: MyConfigService,
-    protected readonly prisma: TransactionHost<TransactionalAdapterPrisma>,
-    protected readonly jwtService: JwtService,
+    private readonly memberAuthService: MemberAuthService,
+    private readonly jwtService: JwtService,
   ) {
-    super(prisma, jwtService);
+    super();
     this.clientId = this.configService.get('GITHUB_CLIENT_ID');
     this.clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
     this.redirectUrl = this.configService.get('GITHUB_REDIRECT_URL');
@@ -77,14 +76,12 @@ export class GithubOAuthStrategy extends OAuthStrategy {
       },
     });
 
-    return this.prisma.withTransaction(async () => {
-      const memberId = await this.getMemberId({
-        email: response.data.email,
-        provider: OAuthProvider.GITHUB,
-        providerId: response.data.id.toString(),
-      });
-
-      return this.generateJwt(memberId);
+    const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
+      email: response.data.email,
+      provider: OAuthProvider.GITHUB,
+      providerId: response.data.id.toString(),
     });
+
+    return this.jwtService.createJwt({ id: memberId });
   }
 }

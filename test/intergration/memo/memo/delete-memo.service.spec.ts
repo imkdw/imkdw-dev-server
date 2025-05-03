@@ -5,7 +5,7 @@ import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo
 import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { MemoNotFoundException } from '@/memo/domain/memo/exception/memo-not-found.exception';
 import { Memo } from '@/memo/domain/memo/memo';
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';

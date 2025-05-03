@@ -1,4 +1,4 @@
-import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/repository/memo.repository';
+import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Inject, Injectable } from '@nestjs/common';
 
