@@ -1,9 +1,19 @@
 import { v7 } from 'uuid';
 
+/**
+ * UUID v7 문자열 생성
+ */
 export function generateUUID() {
   return v7();
 }
 
+/**
+ * 문자열을 슬러그 형식으로 변환
+ * @example
+ * ```ts
+ * slugify('Hello World'); // 'hello-world'
+ * ```
+ */
 export function slugify(text: string): string {
   const slug = text
     .toLowerCase() // 영어를 모두 소문자로 변경

@@ -13,9 +13,10 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
 import { OAuthService } from '@/core/auth/service/oauth.service';
+import { extractToken } from '@/common/utils/authorization.util';
 
 @Injectable()
-export class GoogleOAuthStrategy extends OAuthStrategy {
+export class GoogleOAuthStrategy implements OAuthStrategy {
   private readonly url = OAuthUrl[OAuthProvider.GOOGLE];
   private readonly clientId: string;
   private readonly clientSecret: string;
@@ -27,7 +28,6 @@ export class GoogleOAuthStrategy extends OAuthStrategy {
     private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
   ) {
-    super();
     this.clientId = this.configService.get('GOOGLE_CLIENT_ID');
     this.clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
     this.redirectUrl = this.configService.get('GOOGLE_REDIRECT_URL');
@@ -68,7 +68,7 @@ export class GoogleOAuthStrategy extends OAuthStrategy {
   }
 
   async signIn(githubAccessToken: string): Promise<OAuthSignInResult> {
-    const token = this.extractToken(githubAccessToken);
+    const token = extractToken(githubAccessToken);
     if (!token) {
       throw new SignInFailureException('깃허브 엑세스 토큰이 전달되지 않았습니다');
     }

@@ -13,9 +13,10 @@ import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
 import { OAuthService } from '@/core/auth/service/oauth.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
+import { extractToken } from '@/common/utils/authorization.util';
 
 @Injectable()
-export class GithubOAuthStrategy extends OAuthStrategy {
+export class GithubOAuthStrategy implements OAuthStrategy {
   private readonly url = OAuthUrl[OAuthProvider.GITHUB];
   private readonly clientId: string;
   private readonly clientSecret: string;
@@ -27,7 +28,6 @@ export class GithubOAuthStrategy extends OAuthStrategy {
     private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
   ) {
-    super();
     this.clientId = this.configService.get('GITHUB_CLIENT_ID');
     this.clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
     this.redirectUrl = this.configService.get('GITHUB_REDIRECT_URL');
@@ -65,7 +65,7 @@ export class GithubOAuthStrategy extends OAuthStrategy {
   }
 
   async signIn(githubAccessToken: string): Promise<OAuthSignInResult> {
-    const token = this.extractToken(githubAccessToken);
+    const token = extractToken(githubAccessToken);
     if (!token) {
       throw new SignInFailureException('깃허브 엑세스 토큰이 전달되지 않았습니다');
     }
