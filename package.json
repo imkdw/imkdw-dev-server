@@ -12,7 +12,7 @@
     "start:debug": "cross-env NODE_ENV=local nest start --debug --watch",
     "lint": "biome check --write",
     "============================ Test ============================": "",
-    "test": "pnpm test:unit && pnpm test:integration",
+    "test": "npx dotenv -e .env.test -- jest --config jest.config.ts",
     "test:cov": "pnpm test --coverage",
     "test:unit": "npx dotenv -e .env.test -- jest --config jest-unit.config.ts",
     "test:integration": "npx dotenv -e .env.test -- jest --config jest-integration.config.ts",

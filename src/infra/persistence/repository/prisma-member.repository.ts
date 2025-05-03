@@ -1,4 +1,3 @@
-import { OAuthProvider } from '@/core/auth/oauth.enum';
 import { Member } from '@/member/domain/member/member';
 import { MemberRepository } from '@/member/domain/member/member.repository';
 import { TransactionHost } from '@nestjs-cls/transactional';
@@ -15,7 +14,7 @@ export class PrismaMemberRepository implements MemberRepository {
     return Member.from(createdMember);
   }
 
-  async findByEmailAndOAuthProvider(email: string, oAuthProvider: OAuthProvider): Promise<Member | null> {
+  async findByEmailAndOAuthProvider(email: string, oAuthProvider: string): Promise<Member | null> {
     const member = await this.prisma.tx.member.findFirst({
       where: {
         email,

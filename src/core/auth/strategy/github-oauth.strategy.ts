@@ -70,6 +70,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
       throw new SignInFailureException('깃허브 엑세스 토큰이 전달되지 않았습니다');
     }
 
+    // TODO: 공통 HTTP 클라이언트로 변경
     const response = await axios.get<GithubUserInfoResponse>(this.url.userInfo, {
       headers: {
         Authorization: `Bearer ${token}`,

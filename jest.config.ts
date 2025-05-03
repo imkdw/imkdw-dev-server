@@ -11,6 +11,7 @@ const config: Config = {
   transform: { '^.+\\.(t|j)s$': 'ts-jest' },
   rootDir: './',
   bail: true,
+  maxWorkers: 1,
   moduleNameMapper: {
     '^@/memo/(.*)$': '<rootDir>/src/modules/memo/$1',
     '^@/member/(.*)$': '<rootDir>/src/modules/member/$1',

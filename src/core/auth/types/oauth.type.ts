@@ -1,5 +1,3 @@
-import { OAuthProvider } from '@/core/auth/oauth.enum';
-
 export interface OAuthSignInResult {
   accessToken: string;
   refreshToken: string;
@@ -12,7 +10,7 @@ export interface GetAccessTokenResult {
 
 export interface OAuthUser {
   email: string;
-  provider: OAuthProvider;
+  provider: string;
   providerId: string;
 }
 
