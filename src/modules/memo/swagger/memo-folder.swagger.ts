@@ -41,6 +41,6 @@ export function findFolderMemos(summary: string) {
   return applyDecorators(
     ApiOperation({ summary }),
     ApiParam({ name: 'id', description: '메모 폴더 아이디' }),
-    ApiOkResponse({ type: ResponseFindFolderMemosDto }),
+    ApiOkResponse({ type: [ResponseFindFolderMemosDto] }),
   );
 }

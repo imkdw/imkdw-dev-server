@@ -31,10 +31,7 @@ async function bootstrap() {
   /**
    * CORS
    */
-  app.enableCors({
-    origin: true,
-    credentials: true,
-  });
+  app.enableCors({ origin: true, credentials: true });
 
   /**
    * Swagger

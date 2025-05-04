@@ -4,6 +4,9 @@ import { childDummyFolders, memoDummies, parentDummyFolders } from 'src/dummy/me
 const prisma = new PrismaClient();
 
 export async function createDummy() {
+  await prisma.memo.deleteMany();
+  await prisma.memoFolder.deleteMany();
+
   // 부모 폴더 생성
   await prisma.memoFolder.createMany({
     data: parentDummyFolders.map((folder) => ({ ...folder, name: folder.name.value })),

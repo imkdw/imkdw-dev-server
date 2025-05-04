@@ -69,9 +69,9 @@ export class MemoFolderController {
   @Swagger.findFolderMemos('메모 폴더에 속한 메모 목록 조회')
   @Get(':id/memos')
   @Public()
-  async getFolderMemos(@Param('id') id: string): Promise<ResponseFindFolderMemosDto> {
+  async getFolderMemos(@Param('id') id: string): Promise<ResponseFindFolderMemosDto[]> {
     const memos = await this.findFolderMemosService.execute(id);
-    return ResponseFindFolderMemosDto.from(memos);
+    return memos.map((memo) => ResponseFindFolderMemosDto.from(memo));
   }
 
   @Swagger.getMemoFolder('메모 폴더 상세조회')

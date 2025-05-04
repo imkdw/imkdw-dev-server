@@ -11,6 +11,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import { ApiTags } from '@nestjs/swagger';
 import { MemberRole } from '@/member/member.enum';
 import * as Swagger from '../swagger/memo.swagger';
+import { Public } from '@/common/decorator/public.decorator';
 
 @ApiTags('[메모]')
 @Controller('memos')
@@ -33,6 +34,7 @@ export class MemoController {
 
   @Swagger.getMemo('메모 상세정보 조회')
   @Get(':slug')
+  @Public()
   async getMemo(@Param('slug') slug: string): Promise<ResponseGetMemoDto> {
     const memo = await this.getMemoService.execute(slug);
     return ResponseGetMemoDto.from(memo);
