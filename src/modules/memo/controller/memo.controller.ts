@@ -1,5 +1,7 @@
+import { Public } from '@/common/decorator/public.decorator';
 import { Roles } from '@/common/decorator/role.decorator';
 import { RoleGuard } from '@/common/guards/role.guard';
+import { MemberRole } from '@/member/member.enum';
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
 import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
@@ -9,9 +11,7 @@ import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MemberRole } from '@/member/member.enum';
 import * as Swagger from '../swagger/memo.swagger';
-import { Public } from '@/common/decorator/public.decorator';
 
 @ApiTags('[메모]')
 @Controller('memos')

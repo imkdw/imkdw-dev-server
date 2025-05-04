@@ -1,10 +1,10 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/infra/persistence/prisma.service';
+import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { DuplicateMemoFolderNameException } from '@/memo/domain/memo-folder/exception/duplicate-memo-folder-name.exception';
 import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
-import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { RequestUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';

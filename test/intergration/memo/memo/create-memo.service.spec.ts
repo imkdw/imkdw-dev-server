@@ -1,15 +1,15 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/infra/persistence/prisma.service';
+import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
+import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { TRANSLATION_SERVICE, TranslationTargetLanguage } from '@/infra/translation/translation.enum';
 import { TranslationService } from '@/infra/translation/translation.service';
 import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
-import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { DuplicateMemoNameException } from '@/memo/domain/memo/exception/duplicate-memo-name.exception';
 import { Memo } from '@/memo/domain/memo/memo';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
-import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';

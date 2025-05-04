@@ -7,7 +7,7 @@ import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { GetMemoService } from '@/memo/service/memo/get-memo.service';
 import { UpdateMemoService } from '@/memo/service/memo/update-memo.service';
-import { mock, MockProxy } from 'jest-mock-extended';
+import { MockProxy, mock } from 'jest-mock-extended';
 
 describe(MemoController.name, () => {
   let sut: MemoController;

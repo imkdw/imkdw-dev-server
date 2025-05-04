@@ -1,12 +1,12 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/infra/persistence/prisma.service';
+import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
+import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
-import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { MemoNotFoundException } from '@/memo/domain/memo/exception/memo-not-found.exception';
 import { Memo } from '@/memo/domain/memo/memo';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
-import { PrismaMemoRepository } from '@/infra/persistence/repository/prisma-memo.repository';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Test } from '@nestjs/testing';

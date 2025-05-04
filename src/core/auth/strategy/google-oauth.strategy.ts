@@ -1,5 +1,7 @@
+import { extractToken } from '@/common/utils/authorization.util';
 import { SignInFailureException } from '@/core/auth/exception/sign-in-failure.exception';
 import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.enum';
+import { OAuthService } from '@/core/auth/service/oauth.service';
 import {
   GoogleAuthorizationParams,
   GoogleGetAccessTokenBody,
@@ -12,8 +14,6 @@ import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
-import { OAuthService } from '@/core/auth/service/oauth.service';
-import { extractToken } from '@/common/utils/authorization.util';
 
 @Injectable()
 export class GoogleOAuthStrategy implements OAuthStrategy {

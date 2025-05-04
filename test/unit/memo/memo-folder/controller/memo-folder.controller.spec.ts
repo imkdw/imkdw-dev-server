@@ -12,7 +12,7 @@ import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-fold
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
 import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
-import { mock, MockProxy } from 'jest-mock-extended';
+import { MockProxy, mock } from 'jest-mock-extended';
 
 describe('MemoFolderController', () => {
   let sut: MemoFolderController;

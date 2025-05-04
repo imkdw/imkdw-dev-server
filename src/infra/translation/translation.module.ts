@@ -1,7 +1,7 @@
 import { MyConfigModule } from '@/core/config/my-config.module';
+import { TRANSLATION_SERVICE } from '@/infra/translation/translation.enum';
 import { Module } from '@nestjs/common';
 import { DeepLTranslationService } from 'src/infra/translation/deepl-translation.service';
-import { TRANSLATION_SERVICE } from '@/infra/translation/translation.enum';
 
 @Module({
   imports: [MyConfigModule],

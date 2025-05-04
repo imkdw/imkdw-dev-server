@@ -1,9 +1,9 @@
 import { ClsPrismaModule } from '@/config/cls-prisma.module';
 import { PrismaService } from '@/infra/persistence/prisma.service';
+import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { MemoFolderNotFoundException } from '@/memo/domain/memo-folder/exception/memo-folder-not-found.exception';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { MEMO_FOLDER_REPOSITORY, MemoFolderRepository } from '@/memo/domain/memo-folder/memo-folder.repository';
-import { PrismaMemoFolderRepository } from '@/infra/persistence/repository/prisma-memo-folder.repository';
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
 import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { Test } from '@nestjs/testing';
