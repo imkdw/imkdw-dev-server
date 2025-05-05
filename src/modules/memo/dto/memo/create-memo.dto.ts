@@ -15,10 +15,6 @@ export class RequestCreateMemoDto {
   @ApiProperty({ description: '메모를 작성한 폴더 아이디', example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsNotEmptyString()
   folderId: string;
-
-  @ApiProperty({ description: '메모를 작성한 폴더 경로', example: '/root/nest.js' })
-  @IsNotEmptyString()
-  path: string;
 }
 
 export class ResponseCreateMemoDto {
