@@ -1,10 +1,6 @@
 export interface OAuthSignInResult {
   accessToken: string;
   refreshToken: string;
-}
-
-export interface GetAccessTokenResult {
-  accessToken: string;
   redirectUrl: string;
 }
 

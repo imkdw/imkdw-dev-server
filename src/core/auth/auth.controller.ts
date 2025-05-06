@@ -1,7 +1,6 @@
-import { Authorization } from '@/common/decorator/authorization.decorator';
 import { ResponseGetAuthorizationUrlDto } from '@/core/auth/dto/get-authorization-url.dto';
 import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factory';
-import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
@@ -36,23 +35,12 @@ export class AuthController {
     @Query('code') code: string,
     @Query('state') state: string,
     @Param('provider') provider: string,
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
   ) {
     const strategy = this.oauthStrategyFactory.getStrategy(provider);
-    const { accessToken, redirectUrl } = await strategy.getAccessToken(code, state);
-    return res.redirect(`${redirectUrl}?accessToken=${accessToken}&provider=${provider}`);
-  }
-
-  @Swagger.oAuthSignIn('소셜로그인 인증처리')
-  @Post(':provider/signin')
-  async getGithubSignIn(
-    @Param('provider') provider: string,
-    @Authorization() oAuthAccessToken: string,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const strategy = this.oauthStrategyFactory.getStrategy(provider);
-    const { accessToken, refreshToken } = await strategy.signIn(oAuthAccessToken);
+    const { accessToken, refreshToken, redirectUrl } = await strategy.signIn(code, state);
     this.setToken(accessToken, refreshToken, res);
+    return res.redirect(redirectUrl);
   }
 
   private setToken(accessToken: string, refreshToken: string, res: Response) {

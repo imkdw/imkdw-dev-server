@@ -1,5 +1,3 @@
-import { extractToken } from '@/common/utils/authorization.util';
-import { SignInFailureException } from '@/core/auth/exception/sign-in-failure.exception';
 import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.enum';
 import { OAuthService } from '@/core/auth/service/oauth.service';
 import {
@@ -8,12 +6,12 @@ import {
   GithubGetAccessTokenResponse,
   GithubUserInfoResponse,
 } from '@/core/auth/types/github-oauth.type';
-import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
+import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 
 @Injectable()
 export class GithubOAuthStrategy implements OAuthStrategy {
@@ -45,9 +43,9 @@ export class GithubOAuthStrategy implements OAuthStrategy {
     return `${this.url.authorization}?${params.toString()}`;
   }
 
-  async getAccessToken(code: string, state: string): Promise<GetAccessTokenResult> {
+  async signIn(code: string, state: string): Promise<OAuthSignInResult> {
     // TODO: 공통 HTTP 클라이언트로 변경
-    const response = await axios.post<GithubGetAccessTokenResponse>(
+    const getAccessTokenResponse = await axios.post<GithubGetAccessTokenResponse>(
       this.url.token,
       {
         client_id: this.clientId,
@@ -61,28 +59,21 @@ export class GithubOAuthStrategy implements OAuthStrategy {
       },
     );
 
-    return { accessToken: response.data.access_token, redirectUrl: state };
-  }
-
-  async signIn(githubAccessToken: string): Promise<OAuthSignInResult> {
-    const token = extractToken(githubAccessToken);
-    if (!token) {
-      throw new SignInFailureException('깃허브 엑세스 토큰이 전달되지 않았습니다');
-    }
-
     // TODO: 공통 HTTP 클라이언트로 변경
-    const response = await axios.get<GithubUserInfoResponse>(this.url.userInfo, {
+    const userInfoResponse = await axios.get<GithubUserInfoResponse>(this.url.userInfo, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getAccessTokenResponse.data.access_token}`,
       },
     });
 
     const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
-      email: response.data.email,
+      email: userInfoResponse.data.email,
       provider: OAuthProvider.GITHUB,
-      providerId: response.data.id.toString(),
+      providerId: userInfoResponse.data.id.toString(),
     });
 
-    return this.jwtService.createJwt({ id: memberId });
+    const { accessToken, refreshToken } = this.jwtService.createJwt({ id: memberId });
+
+    return { accessToken, refreshToken, redirectUrl: state };
   }
 }

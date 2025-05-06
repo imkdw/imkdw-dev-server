@@ -1,5 +1,3 @@
-import { extractToken } from '@/common/utils/authorization.util';
-import { SignInFailureException } from '@/core/auth/exception/sign-in-failure.exception';
 import { OAuthProvider, OAuthUrl } from '@/core/auth/oauth.enum';
 import { OAuthService } from '@/core/auth/service/oauth.service';
 import {
@@ -8,7 +6,7 @@ import {
   GoogleGetAccessTokenResponse,
   GoogleUserInfoResponse,
 } from '@/core/auth/types/google-oauth.type';
-import { GetAccessTokenResult, OAuthSignInResult } from '@/core/auth/types/oauth.type';
+import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
@@ -46,9 +44,9 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
     return `${this.url.authorization}?${params.toString()}`;
   }
 
-  async getAccessToken(code: string, state: string): Promise<GetAccessTokenResult> {
+  async signIn(code: string, state: string): Promise<OAuthSignInResult> {
     // TODO: 공통 HTTP 클라이언트로 변경
-    const response = await axios.post<GoogleGetAccessTokenResponse>(
+    const getAccessTokenResponse = await axios.post<GoogleGetAccessTokenResponse>(
       this.url.token,
       {
         client_id: this.clientId,
@@ -64,27 +62,19 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
       },
     );
 
-    return { accessToken: response.data.access_token, redirectUrl: state };
-  }
-
-  async signIn(githubAccessToken: string): Promise<OAuthSignInResult> {
-    const token = extractToken(githubAccessToken);
-    if (!token) {
-      throw new SignInFailureException('깃허브 엑세스 토큰이 전달되지 않았습니다');
-    }
-
-    const response = await axios.get<GoogleUserInfoResponse>(this.url.userInfo, {
+    const getUserInfoResponse = await axios.get<GoogleUserInfoResponse>(this.url.userInfo, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getAccessTokenResponse.data.access_token}`,
       },
     });
 
     const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
-      email: response.data.email,
+      email: getUserInfoResponse.data.email,
       provider: OAuthProvider.GOOGLE,
-      providerId: response.data.sub,
+      providerId: getUserInfoResponse.data.sub,
     });
 
-    return this.jwtService.createJwt({ id: memberId });
+    const { accessToken, refreshToken } = this.jwtService.createJwt({ id: memberId });
+    return { accessToken, refreshToken, redirectUrl: state };
   }
 }
