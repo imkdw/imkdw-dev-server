@@ -8,6 +8,8 @@ import { Public } from '@/common/decorator/public.decorator';
 import { CookieMaxAge } from '@/infra/cookie/cookie.enum';
 import { CookieService } from '@/infra/cookie/cookie.service';
 import * as Swagger from './auth.swagger';
+import { Authorization } from '@/common/decorator/authorization.decorator';
+import { VerifyTokenService } from '@/core/auth/service/verify-token.service';
 
 @ApiTags('[인증]')
 @Controller('auth')
@@ -16,6 +18,7 @@ export class AuthController {
   constructor(
     private readonly oauthStrategyFactory: OAuthStrategyFactory,
     private readonly cookieService: CookieService,
+    private readonly verifyTokenService: VerifyTokenService,
   ) {}
 
   @Swagger.getOAuthAuthorizationUrl('소셜로그인 URL 발급')
@@ -41,6 +44,13 @@ export class AuthController {
     const { accessToken, refreshToken, redirectUrl } = await strategy.signIn(code, state);
     this.setToken(accessToken, refreshToken, res);
     return res.redirect(redirectUrl);
+  }
+
+  @Swagger.verifyToken('토큰 유효성 검사')
+  @Get('verify-token')
+  async verifyToken(@Authorization() authorization: string) {
+    const result = await this.verifyTokenService.execute(authorization);
+    return result;
   }
 
   private setToken(accessToken: string, refreshToken: string, res: Response) {

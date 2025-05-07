@@ -1,4 +1,5 @@
 import { ResponseGetAuthorizationUrlDto } from '@/core/auth/dto/get-authorization-url.dto';
+import { ResponseVerifyTokenDto } from '@/core/auth/dto/verify-token.dto';
 import { OAuthProvider } from '@/core/auth/oauth.enum';
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
@@ -32,5 +33,13 @@ export function oAuthCallback(summary: string) {
       description: 'accessToken을 발급받은 후 요청한 클라이언트 측 URL로 리다이렉트됨',
       example: 'https://localhost:3000/oauth/callback?accessToken=1234567890&provider=github',
     }),
+  );
+}
+
+export function verifyToken(summary: string) {
+  return applyDecorators(
+    ApiOperation({ summary }),
+    ApiQuery({ name: 'token', description: '확인할 토큰' }),
+    ApiOkResponse({ type: ResponseVerifyTokenDto }),
   );
 }
