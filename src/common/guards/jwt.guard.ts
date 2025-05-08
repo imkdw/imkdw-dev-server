@@ -33,6 +33,9 @@ export class JwtGuard implements CanActivate {
 
     try {
       const { id: memberId } = this.jwtService.verifyJwt(accessToken);
+      if (!memberId) {
+        return false;
+      }
 
       const { id, role } = await this.prisma.tx.member.findUniqueOrThrow({ where: { id: memberId } });
 
