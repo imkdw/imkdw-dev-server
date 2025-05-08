@@ -73,7 +73,6 @@ describe(CreateMemoService.name, () => {
           name: '테스트 메모',
           content: '메모 내용',
           folderId: 'non-existent-folder-id',
-          path: '/non-existent',
         }),
       ).rejects.toThrow(MemoFolderNotFoundException);
     });
@@ -92,7 +91,6 @@ describe(CreateMemoService.name, () => {
           name: existingMemo.name.value,
           content: '메모 내용',
           folderId: memoFolder.id,
-          path: memoFolder.path,
         }),
       ).rejects.toThrow(DuplicateMemoNameException);
     });
@@ -108,7 +106,6 @@ describe(CreateMemoService.name, () => {
         name: 'test-memo',
         content: 'test-content',
         folderId: memoFolder.id,
-        path: memoFolder.path,
       });
 
       // 생성된 메모 검증

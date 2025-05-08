@@ -31,9 +31,8 @@ describe(MemoController.name, () => {
         content: 'content',
         folderId: 'folderId',
         name: 'name',
-        path: 'path',
       };
-      const createdMemo = Memo.create(requestDto.name, slug, requestDto.content, requestDto.folderId, requestDto.path);
+      const createdMemo = Memo.create(requestDto.name, slug, requestDto.content, requestDto.folderId, 'path');
       mockCreateMemoService.execute.mockResolvedValue(createdMemo);
 
       const response = await sut.create(requestDto);

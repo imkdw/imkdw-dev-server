@@ -120,7 +120,7 @@ describe('MemoFolderController', () => {
 
       const result = await sut.getFolderMemos(folderId);
 
-      expect(result).toEqual(ResponseFindFolderMemosDto.from(memos));
+      expect(result).toEqual(memos.map(ResponseFindFolderMemosDto.from));
       expect(mockFindFolderMemosService.execute).toHaveBeenCalledWith(folderId);
     });
   });
