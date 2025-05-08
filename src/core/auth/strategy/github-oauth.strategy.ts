@@ -6,12 +6,12 @@ import {
   GithubGetAccessTokenResponse,
   GithubUserInfoResponse,
 } from '@/core/auth/types/github-oauth.type';
+import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { OAuthStrategy } from './oauth.strategy';
-import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 
 @Injectable()
 export class GithubOAuthStrategy implements OAuthStrategy {

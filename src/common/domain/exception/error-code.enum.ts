@@ -20,4 +20,9 @@ export enum ErrorCode {
   NOT_SUPPORTED_OAUTH_PROVIDER = '0007',
   INVALID_JWT = '0008',
   JWT_EXPIRED = '0009',
+
+  /**
+   * 회원 에러
+   */
+  MEMBER_NOT_FOUND = '0010',
 }

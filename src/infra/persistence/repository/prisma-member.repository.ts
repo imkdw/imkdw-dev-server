@@ -25,4 +25,12 @@ export class PrismaMemberRepository implements MemberRepository {
 
     return member ? Member.from(member) : null;
   }
+
+  async findById(id: string): Promise<Member | null> {
+    const member = await this.prisma.tx.member.findUnique({
+      where: { id, deletedAt: null },
+    });
+
+    return member ? Member.from(member) : null;
+  }
 }

@@ -3,6 +3,7 @@ import { LoggingInterceptor } from '@/common/interceptor/logging.interceptor';
 import { AuthModule } from '@/core/auth/auth.module';
 import { MyConfigModule } from '@/core/config/my-config.module';
 import { JwtModule } from '@/infra/jwt/jwt.module';
+import { MemberModule } from '@/member/member.module';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ClsPrismaModule } from 'src/config/cls-prisma.module';
@@ -13,7 +14,7 @@ import { TransformInterceptor } from './common/interceptor/transform.interceptor
 import { MemoModule } from './modules/memo/memo.module';
 
 @Module({
-  imports: [MemoModule, ClsPrismaModule, AuthModule, MyConfigModule, JwtModule],
+  imports: [MemoModule, ClsPrismaModule, AuthModule, MyConfigModule, JwtModule, MemberModule],
   controllers: [AppController],
   providers: [
     {

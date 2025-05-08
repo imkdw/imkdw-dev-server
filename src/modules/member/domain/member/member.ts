@@ -13,6 +13,7 @@ export class Member {
   deletedAt: Date | null;
 
   private constructor(
+    id: string,
     email: string,
     role: string,
     oAuthProvider: string,
@@ -21,6 +22,7 @@ export class Member {
     exitedAt: Date | null,
     deletedAt: Date | null,
   ) {
+    this.id = id;
     this.email = email;
     this.role = role;
     this.oAuthProvider = oAuthProvider;
@@ -31,11 +33,12 @@ export class Member {
   }
 
   static create(email: string, oAuthProvider: string, oAuthProviderId: string) {
-    return new Member(email, MemberRole.USER, oAuthProvider, oAuthProviderId, this.generateNickname(), null, null);
+    return new Member('', email, MemberRole.USER, oAuthProvider, oAuthProviderId, this.generateNickname(), null, null);
   }
 
   static from(member: PrismaMember) {
     return new Member(
+      member.id,
       member.email,
       member.role,
       member.oAuthProvider,
