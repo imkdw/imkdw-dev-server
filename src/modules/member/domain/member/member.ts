@@ -35,14 +35,14 @@ export class Member {
     this.deletedAt = deletedAt;
   }
 
-  static create(email: string, oAuthProvider: string, oAuthProviderId: string) {
+  static create(email: string, oAuthProvider: string, oAuthProviderId: string, profileImage: string) {
     return new Member(
       generateUUID(),
       email,
       MemberRole.USER,
       oAuthProvider,
       oAuthProviderId,
-      '',
+      profileImage,
       this.generateNickname(),
       null,
       null,
