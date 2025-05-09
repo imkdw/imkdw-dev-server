@@ -70,6 +70,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
       email: userInfoResponse.data.email,
       provider: OAuthProvider.GITHUB,
       providerId: userInfoResponse.data.id.toString(),
+      profileImage: userInfoResponse.data.avatar_url,
     });
 
     const { accessToken, refreshToken } = this.jwtService.createJwt({ id: memberId });

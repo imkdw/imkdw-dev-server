@@ -35,4 +35,5 @@ export interface GithubGetAccessTokenResponse {
 export interface GithubUserInfoResponse {
   id: number;
   email: string;
+  avatar_url: string;
 }

@@ -72,6 +72,7 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
       email: getUserInfoResponse.data.email,
       provider: OAuthProvider.GOOGLE,
       providerId: getUserInfoResponse.data.sub,
+      profileImage: getUserInfoResponse.data.picture,
     });
 
     const { accessToken, refreshToken } = this.jwtService.createJwt({ id: memberId });

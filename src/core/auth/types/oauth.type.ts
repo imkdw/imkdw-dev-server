@@ -8,6 +8,7 @@ export interface OAuthUser {
   email: string;
   provider: string;
   providerId: string;
+  profileImage: string;
 }
 
 export interface IOAuthUrl {

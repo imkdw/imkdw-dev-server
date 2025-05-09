@@ -23,7 +23,7 @@ model Member {
   nickname String
 
   /// 멤버 프로필 이미지
-  profileImage String? @map("profile_image")
+  profileImage String @map("profile_image")
 
   /// 가입일
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz

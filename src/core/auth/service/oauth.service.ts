@@ -11,6 +11,7 @@ export class OAuthService {
     const { email, provider, providerId } = oAuthUser;
 
     const existMember = await this.memberRepository.findByEmailAndOAuthProvider(email, provider);
+
     if (existMember) {
       return existMember.id;
     }

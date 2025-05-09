@@ -8,6 +8,7 @@ export class Member {
   role: string;
   oAuthProvider: string;
   oAuthProviderId: string;
+  profileImage: string;
   nickname: string;
   exitedAt: Date | null;
   deletedAt: Date | null;
@@ -18,6 +19,7 @@ export class Member {
     role: string,
     oAuthProvider: string,
     oAuthProviderId: string,
+    profileImage: string,
     nickname: string,
     exitedAt: Date | null,
     deletedAt: Date | null,
@@ -27,13 +29,24 @@ export class Member {
     this.role = role;
     this.oAuthProvider = oAuthProvider;
     this.oAuthProviderId = oAuthProviderId;
+    this.profileImage = profileImage;
     this.nickname = nickname;
     this.exitedAt = exitedAt;
     this.deletedAt = deletedAt;
   }
 
   static create(email: string, oAuthProvider: string, oAuthProviderId: string) {
-    return new Member('', email, MemberRole.USER, oAuthProvider, oAuthProviderId, this.generateNickname(), null, null);
+    return new Member(
+      '',
+      email,
+      MemberRole.USER,
+      oAuthProvider,
+      oAuthProviderId,
+      '',
+      this.generateNickname(),
+      null,
+      null,
+    );
   }
 
   static from(member: PrismaMember) {
@@ -43,6 +56,7 @@ export class Member {
       member.role,
       member.oAuthProvider,
       member.oAuthProviderId,
+      member.profileImage,
       member.nickname,
       member.exitedAt,
       member.deletedAt,
