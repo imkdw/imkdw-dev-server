@@ -37,7 +37,7 @@ export class Member {
 
   static create(email: string, oAuthProvider: string, oAuthProviderId: string) {
     return new Member(
-      '',
+      generateUUID(),
       email,
       MemberRole.USER,
       oAuthProvider,
