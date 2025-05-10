@@ -7,10 +7,11 @@ import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factor
 import { MyConfigModule } from '@/core/config/my-config.module';
 import { CookieModule } from '@/infra/cookie/cookie.module';
 import { JwtModule } from '@/infra/jwt/jwt.module';
+import { StorageModule } from '@/infra/storage/storage.module';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [MyConfigModule, JwtModule, CookieModule],
+  imports: [MyConfigModule, JwtModule, CookieModule, StorageModule],
   controllers: [AuthController],
   providers: [GithubOAuthStrategy, GoogleOAuthStrategy, OAuthStrategyFactory, OAuthService, VerifyTokenService],
 })

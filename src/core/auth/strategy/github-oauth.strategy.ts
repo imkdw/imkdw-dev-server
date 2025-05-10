@@ -66,7 +66,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
       },
     });
 
-    const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
+    const memberId = await this.memberAuthService.findMemberIdByOAuthUser({
       email: userInfoResponse.data.email,
       provider: OAuthProvider.GITHUB,
       providerId: userInfoResponse.data.id.toString(),

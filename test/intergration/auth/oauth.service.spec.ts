@@ -41,7 +41,7 @@ describe(OAuthService.name, () => {
       it('기존재 존재하던 유저의 아이디를 반환한다', async () => {
         memberRepository.save(member);
 
-        const memberId = await sut.getMemberIdByOAuthUser({
+        const memberId = await sut.findMemberIdByOAuthUser({
           email: member.email,
           provider: member.oAuthProvider,
           providerId: member.oAuthProviderId,
@@ -57,7 +57,7 @@ describe(OAuthService.name, () => {
         const provider = 'github';
         const providerId = '1234567890';
 
-        const memberId = await sut.getMemberIdByOAuthUser({ email, provider, providerId });
+        const memberId = await sut.findMemberIdByOAuthUser({ email, provider, providerId });
 
         const createdMember = await memberRepository.findByEmailAndOAuthProvider(email, provider);
 

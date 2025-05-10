@@ -68,7 +68,7 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
       },
     });
 
-    const memberId = await this.memberAuthService.getMemberIdByOAuthUser({
+    const memberId = await this.memberAuthService.findMemberIdByOAuthUser({
       email: getUserInfoResponse.data.email,
       provider: OAuthProvider.GOOGLE,
       providerId: getUserInfoResponse.data.sub,

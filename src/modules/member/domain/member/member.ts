@@ -63,6 +63,10 @@ export class Member {
     );
   }
 
+  changeProfileImage(profileImage: string) {
+    this.profileImage = profileImage;
+  }
+
   private static generateNickname() {
     // TODO: 임시 로직
     return generateUUID();
