@@ -1,4 +1,4 @@
-import { extractToken } from '@/common/utils/authorization.util';
+import { parseJwtFromCookie } from '@/common/utils/authorization.util';
 import { JwtService } from '@/infra/jwt/jwt.service';
 import { Injectable } from '@nestjs/common';
 
@@ -6,10 +6,10 @@ import { Injectable } from '@nestjs/common';
 export class VerifyTokenService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async execute(authorization: string): Promise<boolean> {
-    const token = extractToken(authorization);
+  async execute(cookie: string): Promise<boolean> {
+    const { accessToken } = parseJwtFromCookie(cookie);
     try {
-      this.jwtService.verifyJwt(token);
+      this.jwtService.verifyJwt(accessToken);
       return true;
     } catch {
       return false;

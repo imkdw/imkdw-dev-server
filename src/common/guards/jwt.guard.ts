@@ -1,4 +1,5 @@
 import { IS_PUBLIC_KEY } from '@/common/decorator/public.decorator';
+import { parseJwtFromCookie } from '@/common/utils/authorization.util';
 import { JwtService } from '@/infra/jwt/jwt.service';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
@@ -26,7 +27,7 @@ export class JwtGuard implements CanActivate {
       return true;
     }
 
-    const { accessToken } = this.parseJwtFromCookie(request.headers.cookie ?? '');
+    const { accessToken } = parseJwtFromCookie(request.headers?.cookie ?? '');
     if (!accessToken) {
       return false;
     }
@@ -46,20 +47,4 @@ export class JwtGuard implements CanActivate {
       return false;
     }
   }
-
-  private parseJwtFromCookie = (cookie: string) => {
-    const tokenCookies: { [key: string]: string } = {};
-
-    cookie.split(';').forEach((_cookie: string) => {
-      const trimCookie = _cookie.trim();
-      const mid = trimCookie.indexOf('=');
-      const [key, value] = [trimCookie.slice(0, mid), trimCookie.slice(mid + 1)];
-      tokenCookies[key] = value;
-    });
-
-    const accessToken = tokenCookies?.accessToken || '';
-    const refreshToken = tokenCookies?.refreshToken || '';
-
-    return { accessToken, refreshToken };
-  };
 }

@@ -4,13 +4,13 @@ import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { Authorization } from '@/common/decorator/authorization.decorator';
 import { Public } from '@/common/decorator/public.decorator';
 import { ResponseVerifyTokenDto } from '@/core/auth/dto/verify-token.dto';
 import { VerifyTokenService } from '@/core/auth/service/verify-token.service';
 import { CookieMaxAge } from '@/infra/cookie/cookie.enum';
 import { CookieService } from '@/infra/cookie/cookie.service';
 import * as Swagger from './auth.swagger';
+import { Cookie } from '@/common/decorator/cookie.decorator';
 
 @ApiTags('[인증]')
 @Controller('auth')
@@ -49,8 +49,8 @@ export class AuthController {
 
   @Swagger.verifyToken('토큰 유효성 검사')
   @Get('verify-token')
-  async verifyToken(@Authorization() authorization: string): Promise<ResponseVerifyTokenDto> {
-    const result = await this.verifyTokenService.execute(authorization);
+  async verifyToken(@Cookie() cookie: string): Promise<ResponseVerifyTokenDto> {
+    const result = await this.verifyTokenService.execute(cookie);
     return { isValid: result };
   }
 
