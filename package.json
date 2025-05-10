@@ -27,6 +27,7 @@
     "prisma:studio": "npx dotenv -e .env -- prisma studio"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.806.0",
     "@nestjs-cls/transactional": "^2.6.1",
     "@nestjs-cls/transactional-adapter-prisma": "^1.2.19",
     "@nestjs/common": "^11.0.16",

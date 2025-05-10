@@ -35,6 +35,19 @@ export const myConfig = z.object({
   JWT_SECRET: z.string(),
 
   /**
+   * AWS 설정
+   */
+  AWS_REGION: z.string(),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string(),
+
+  /**
+   * S3 설정
+   */
+  AWS_S3_BUCKET_NAME: z.string(),
+  AWS_S3_BUCKET_URL: z.string(),
+
+  /**
    * 기타 설정
    */
   ENV: z.string(),
