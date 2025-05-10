@@ -21,7 +21,7 @@ export class AllExceptionFilter implements ExceptionFilter {
           message: 'Internal Server Error',
           path: httpAdapter.getRequestUrl(ctx.getRequest()),
           // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          ...(process.env.NODE_ENV === 'local' && { stack: (exception as any)?.stack || '' }),
+          stack: (exception as any)?.stack || '',
         } satisfies ExceptionResponse);
 
     const httpStatus = isHttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
@@ -31,7 +31,7 @@ export class AllExceptionFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       errorCode: exceptionResponse.errorCode,
       message: exceptionResponse.message,
-      stack: exceptionResponse.stack,
+      stack: process.env.NODE_ENV === 'local' ? exceptionResponse.stack : '',
     };
 
     this.logger.error(exceptionResponse);
