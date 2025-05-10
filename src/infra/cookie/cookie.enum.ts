@@ -6,4 +6,5 @@ export enum CookieMaxAge {
 export enum CookieSameSite {
   NONE = 'none',
   LAX = 'lax',
+  STRICT = 'strict',
 }
