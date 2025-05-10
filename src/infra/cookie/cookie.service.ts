@@ -28,7 +28,7 @@ export class CookieService {
     });
   }
 
-  clearCookie(cookies: SetCookieParams['key'][], res: Response) {
+  clearCookie(cookies: string[], res: Response) {
     cookies.forEach((cookie) => {
       res.clearCookie(cookie, {
         domain: this.cookieDomain,

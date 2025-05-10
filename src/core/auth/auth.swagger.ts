@@ -43,3 +43,7 @@ export function verifyToken(summary: string) {
     ApiOkResponse({ type: ResponseVerifyTokenDto }),
   );
 }
+
+export function logout(summary: string) {
+  return applyDecorators(ApiOperation({ summary }));
+}

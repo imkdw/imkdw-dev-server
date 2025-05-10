@@ -13,16 +13,21 @@ export class ResponseGetMyInfoDto {
   role: string;
 
   @ApiProperty({ description: '닉네임', example: '노드고수' })
+
+  @ApiProperty({ description: '프로필 이미지', example: 'https://example.com/profile.jpg' })
+  profileImage: string;
+
   nickname: string;
 
-  private constructor(id: string, email: string, role: string, nickname: string) {
+  private constructor(id: string, email: string, role: string, nickname: string, profileImage: string) {
     this.id = id;
     this.email = email;
     this.role = role;
     this.nickname = nickname;
+    this.profileImage = profileImage;
   }
 
-  static from(member: Member): ResponseGetMyInfoDto {
-    return new ResponseGetMyInfoDto(member.id, member.email, member.role, member.oAuthProvider);
+  static from({ id, email, role, oAuthProvider, profileImage }: Member): ResponseGetMyInfoDto {
+    return new ResponseGetMyInfoDto(id, email, role, oAuthProvider, profileImage);
   }
 }

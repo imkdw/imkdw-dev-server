@@ -1,6 +1,6 @@
 import { ResponseGetAuthorizationUrlDto } from '@/core/auth/dto/get-authorization-url.dto';
 import { OAuthStrategyFactory } from '@/core/auth/strategy/oauth-strategy.factory';
-import { Controller, Get, Param, Query, Res } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
@@ -52,6 +52,11 @@ export class AuthController {
   async verifyToken(@Authorization() authorization: string): Promise<ResponseVerifyTokenDto> {
     const result = await this.verifyTokenService.execute(authorization);
     return { isValid: result };
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    this.cookieService.clearCookie(['accessToken', 'refreshToken'], res);
   }
 
   private setToken(accessToken: string, refreshToken: string, res: Response) {
