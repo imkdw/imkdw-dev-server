@@ -9,8 +9,3 @@ export interface UploadParams {
    */
   file: Buffer;
 }
-
-export interface GeneratePathParams {
-  id: string;
-  prefix: string;
-}

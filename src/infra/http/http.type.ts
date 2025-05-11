@@ -1,5 +1,6 @@
 export interface HttpHeaders {
-  [header: string]: string;
+  // biome-ignore lint/suspicious/noExplicitAny: 헤더 반환값은 any로 지정
+  [key: string]: any;
 }
 
 export interface HttpRequestConfig {
@@ -9,6 +10,7 @@ export interface HttpRequestConfig {
 
 export interface HttpResponse<T = unknown> {
   data: T;
+  headers: HttpHeaders;
 }
 
 export interface RequestParams {

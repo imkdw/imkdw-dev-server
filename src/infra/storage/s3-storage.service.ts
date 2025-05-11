@@ -1,8 +1,7 @@
-import { generateUUID } from '@/common/utils/string.util';
 import { MyConfigService } from '@/core/config/my-config.service';
 import { StorageContentType } from '@/infra/storage/storage.enum';
 import { StorageService } from '@/infra/storage/storage.service';
-import { GeneratePathParams, UploadParams } from '@/infra/storage/storage.type';
+import { UploadParams } from '@/infra/storage/storage.type';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 
@@ -35,12 +34,6 @@ export class S3StorageService implements StorageService {
     await this.s3Client.send(command);
 
     return `${this.bucketUrl}/${path}`;
-  }
-
-  generatePath(params: GeneratePathParams[], extension: string): string {
-    const path = params.reduce((acc, param) => `${acc}/${param.prefix}/${param.id}`, '').slice(1);
-
-    return `${path}/${generateUUID()}.${extension}`.replaceAll('//', '/');
   }
 
   private getContentType(path: string): StorageContentType {

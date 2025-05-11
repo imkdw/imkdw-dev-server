@@ -39,7 +39,7 @@ describe(VerifyTokenService.name, () => {
     it('true를 반환한다', async () => {
       const { accessToken } = jwtService.createJwt({ id: '123' });
 
-      const result = await sut.execute(`Bearer ${accessToken}`);
+      const result = await sut.execute(`accessToken=${accessToken}`);
 
       expect(result).toBe(true);
     });

@@ -29,6 +29,6 @@ export class AxiosHttpService implements HttpService {
       ...config,
     });
 
-    return { data: response.data };
+    return { data: response.data, headers: response.headers };
   }
 }
