@@ -1,20 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { Inject, Injectable } from '@nestjs/common';
 
-import { MyConfigService } from '@/core/config/my-config.service';
 import { TranslationTargetLanguage } from '@/infra/translation/translation.enum';
 import { TranslationService } from 'src/infra/translation/translation.service';
-import { DeepLTranslateResponse } from 'src/infra/translation/translation.type';
+import { DeepLTranslateBody, DeepLTranslateResponse } from 'src/infra/translation/translation.type';
+import { HTTP_SERVICE, HttpService } from '@/infra/http/http.service';
+import { MyConfigService } from '@/core/config/my-config.service';
 
 @Injectable()
 export class DeepLTranslationService implements TranslationService {
-  constructor(private readonly configService: MyConfigService) {}
+  constructor(
+    @Inject(HTTP_SERVICE) private readonly httpService: HttpService,
+    private readonly configService: MyConfigService,
+  ) {}
 
   async translate(text: string, targetLanguage: TranslationTargetLanguage): Promise<string> {
     const URL = 'https://api-free.deepl.com/v2/translate';
 
-    // TODO: 별도의 HTTP Client 사용
-    const response = await axios.post<DeepLTranslateResponse>(
+    const response = await this.httpService.post<DeepLTranslateResponse, DeepLTranslateBody>(
       URL,
       {
         text: [text],
@@ -22,7 +24,7 @@ export class DeepLTranslationService implements TranslationService {
       },
       {
         headers: {
-          Authorization: `DeepL-Auth-Key 5d46f28d-10f9-4f44-a14e-9b08bbd6e34c:fx`,
+          Authorization: `DeepL-Auth-Key ${this.configService.get('DEEPL_AUTH_KEY')}`,
         },
       },
     );

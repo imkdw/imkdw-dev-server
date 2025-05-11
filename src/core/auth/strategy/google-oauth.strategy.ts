@@ -8,9 +8,9 @@ import {
 } from '@/core/auth/types/google-oauth.type';
 import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
+import { HTTP_SERVICE, HttpService } from '@/infra/http/http.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { Inject, Injectable } from '@nestjs/common';
 import { OAuthStrategy } from './oauth.strategy';
 
 @Injectable()
@@ -25,6 +25,7 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
     private readonly configService: MyConfigService,
     private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
+    @Inject(HTTP_SERVICE) private readonly httpService: HttpService,
   ) {
     this.clientId = this.configService.get('GOOGLE_CLIENT_ID');
     this.clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
@@ -45,8 +46,7 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
   }
 
   async signIn(code: string, state: string): Promise<OAuthSignInResult> {
-    // TODO: 공통 HTTP 클라이언트로 변경
-    const getAccessTokenResponse = await axios.post<GoogleGetAccessTokenResponse>(
+    const getAccessTokenResponse = await this.httpService.post<GoogleGetAccessTokenResponse, GoogleGetAccessTokenBody>(
       this.url.token,
       {
         client_id: this.clientId,
@@ -54,15 +54,10 @@ export class GoogleOAuthStrategy implements OAuthStrategy {
         code,
         grant_type: 'authorization_code',
         redirect_uri: this.redirectUrl,
-      } satisfies GoogleGetAccessTokenBody,
-      {
-        headers: {
-          Accept: 'application/json',
-        },
       },
     );
 
-    const getUserInfoResponse = await axios.get<GoogleUserInfoResponse>(this.url.userInfo, {
+    const getUserInfoResponse = await this.httpService.get<GoogleUserInfoResponse>(this.url.userInfo, {
       headers: {
         Authorization: `Bearer ${getAccessTokenResponse.data.access_token}`,
       },

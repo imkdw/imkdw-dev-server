@@ -8,9 +8,9 @@ import {
 } from '@/core/auth/types/github-oauth.type';
 import { OAuthSignInResult } from '@/core/auth/types/oauth.type';
 import { MyConfigService } from '@/core/config/my-config.service';
+import { HTTP_SERVICE, HttpService } from '@/infra/http/http.service';
 import { JwtService } from '@/infra/jwt/jwt.service';
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { Inject, Injectable } from '@nestjs/common';
 import { OAuthStrategy } from './oauth.strategy';
 
 @Injectable()
@@ -25,6 +25,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
     private readonly configService: MyConfigService,
     private readonly memberAuthService: OAuthService,
     private readonly jwtService: JwtService,
+    @Inject(HTTP_SERVICE) private readonly httpService: HttpService,
   ) {
     this.clientId = this.configService.get('GITHUB_CLIENT_ID');
     this.clientSecret = this.configService.get('GITHUB_CLIENT_SECRET');
@@ -44,8 +45,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
   }
 
   async signIn(code: string, state: string): Promise<OAuthSignInResult> {
-    // TODO: 공통 HTTP 클라이언트로 변경
-    const getAccessTokenResponse = await axios.post<GithubGetAccessTokenResponse>(
+    const getAccessTokenResponse = await this.httpService.post<GithubGetAccessTokenResponse, GithubGetAccessTokenBody>(
       this.url.token,
       {
         client_id: this.clientId,
@@ -59,8 +59,7 @@ export class GithubOAuthStrategy implements OAuthStrategy {
       },
     );
 
-    // TODO: 공통 HTTP 클라이언트로 변경
-    const userInfoResponse = await axios.get<GithubUserInfoResponse>(this.url.userInfo, {
+    const userInfoResponse = await this.httpService.get<GithubUserInfoResponse>(this.url.userInfo, {
       headers: {
         Authorization: `Bearer ${getAccessTokenResponse.data.access_token}`,
       },

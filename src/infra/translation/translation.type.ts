@@ -1,3 +1,5 @@
+import { TranslationTargetLanguage } from '@/infra/translation/translation.enum';
+
 /**
  * DeepL 번역 API 응답 타입
  */
@@ -13,4 +15,12 @@ export interface DeepLTranslateResponse {
      */
     text: string;
   }[];
+}
+
+/**
+ * DeepL 번역 API 요청 타입
+ */
+export interface DeepLTranslateBody {
+  text: string[];
+  target_lang: TranslationTargetLanguage;
 }
