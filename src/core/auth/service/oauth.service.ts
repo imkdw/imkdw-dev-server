@@ -1,7 +1,7 @@
 import { generatePath } from '@/common/utils/storage.util';
 import { OAuthUser } from '@/core/auth/types/oauth.type';
 import { HTTP_SERVICE, HttpService } from '@/infra/http/http.service';
-import { STORAGE_SERVICE, StorageService } from '@/infra/storage/storage.service';
+import { STORAGE_SERVICE, StorageService } from '@/infra/storage/service/storage.service';
 import { Member } from '@/member/domain/member/member';
 import { MEMBER_REPOSITORY, MemberRepository } from '@/member/domain/member/member.repository';
 import { Inject, Injectable } from '@nestjs/common';
