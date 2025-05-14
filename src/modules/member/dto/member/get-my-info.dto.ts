@@ -13,11 +13,10 @@ export class ResponseGetMyInfoDto {
   role: string;
 
   @ApiProperty({ description: '닉네임', example: '노드고수' })
+  nickname: string;
 
   @ApiProperty({ description: '프로필 이미지', example: 'https://example.com/profile.jpg' })
   profileImage: string;
-
-  nickname: string;
 
   private constructor(id: string, email: string, role: string, nickname: string, profileImage: string) {
     this.id = id;
