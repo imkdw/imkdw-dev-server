@@ -13,6 +13,9 @@ export class RequestGetUploadUrlQuery {
 }
 
 export class ResponseGetUploadUrlDto {
-  @ApiProperty({ description: '파일 업로드 URL' })
+  @ApiProperty({ description: '파일 업로드 URL', example: 'https://s3.amazonaws.com/...' })
   url: string;
+
+  @ApiProperty({ description: '파일 업로드 경로 접두사', example: 'https://upload-path/...' })
+  pathPrefix: string;
 }

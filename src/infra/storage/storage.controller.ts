@@ -10,7 +10,7 @@ export class StorageController {
   @Swagger.getUploadUrl('파일 업로드용 URL 발급')
   @Get('upload-url')
   async getUploadUrl(@Query() { fileName, extension }: RequestGetUploadUrlQuery) {
-    const uploadUrl = await this.storageService.getUploadUrl(fileName, extension);
-    return { url: uploadUrl };
+    const { pathPrefix, uploadUrl } = await this.storageService.getUploadUrl(fileName, extension);
+    return { url: uploadUrl, pathPrefix };
   }
 }

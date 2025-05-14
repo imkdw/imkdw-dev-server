@@ -1,7 +1,7 @@
 import { MyConfigService } from '@/core/config/my-config.service';
 import { StorageContentType } from '@/infra/storage/storage.enum';
 import { StorageService } from '@/infra/storage/service/storage.service';
-import { UploadParams } from '@/infra/storage/types/storage.type';
+import { GetUploadUrlReturn, UploadParams } from '@/infra/storage/types/storage.type';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -12,6 +12,7 @@ export class S3StorageService implements StorageService {
   private readonly bucketName: string;
   private readonly bucketUrl: string;
   private readonly presignedBucketName: string;
+  private readonly presignedPathPrefix: string;
 
   constructor(private readonly myConfigService: MyConfigService) {
     this.s3Client = new S3Client({
@@ -24,6 +25,7 @@ export class S3StorageService implements StorageService {
     this.bucketName = this.myConfigService.get('AWS_S3_BUCKET_NAME');
     this.bucketUrl = this.myConfigService.get('AWS_S3_BUCKET_URL');
     this.presignedBucketName = this.myConfigService.get('AWS_S3_PRESIGNED_BUCKET_NAME');
+    this.presignedPathPrefix = this.myConfigService.get('AWS_S3_PRESIGNED_PATH_PREFIX');
   }
 
   async upload({ file, path }: UploadParams): Promise<string> {
@@ -39,7 +41,7 @@ export class S3StorageService implements StorageService {
     return `${this.bucketUrl}/${path}`;
   }
 
-  async getUploadUrl(fileName: string, extension: string): Promise<string> {
+  async getUploadUrl(fileName: string, extension: string): Promise<GetUploadUrlReturn> {
     const path = `${fileName}.${extension}`;
 
     const command = new GetObjectCommand({
@@ -48,9 +50,14 @@ export class S3StorageService implements StorageService {
       ResponseContentType: this.getContentType(path),
     });
 
-    return getSignedUrl(this.s3Client, command, {
+    const presignedUrl = await getSignedUrl(this.s3Client, command, {
       expiresIn: this.myConfigService.get('AWS_S3_PRESIGNED_URL_EXPIRE'),
     });
+
+    return {
+      uploadUrl: presignedUrl,
+      pathPrefix: this.presignedPathPrefix,
+    };
   }
 
   private getContentType(path: string): StorageContentType {

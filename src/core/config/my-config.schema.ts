@@ -48,6 +48,7 @@ export const myConfig = z.object({
   AWS_S3_BUCKET_URL: z.string(),
   AWS_S3_PRESIGNED_BUCKET_NAME: z.string(),
   AWS_S3_PRESIGNED_URL_EXPIRE: z.string().transform((val) => +val),
+  AWS_S3_PRESIGNED_PATH_PREFIX: z.string(),
 
   /**
    * 기타 설정

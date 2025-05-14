@@ -9,3 +9,8 @@ export interface UploadParams {
    */
   file: Buffer;
 }
+
+export interface GetUploadUrlReturn {
+  uploadUrl: string;
+  pathPrefix: string;
+}
