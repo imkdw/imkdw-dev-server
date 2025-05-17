@@ -46,9 +46,10 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(process.env.PORT!);
+  const port = parseInt(process.env.PORT || '4000', 10);
+  await app.listen(port, '0.0.0.0');
 
-  printBootMessage(+process.env.PORT!);
+  printBootMessage(port);
 }
 
 bootstrap();
