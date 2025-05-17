@@ -1,7 +1,7 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "auto",
-  "cSpell.words": ["deepl", "IMKDW", "Kakao", "Obbnv", "Timestamptz", "ZPPBOMWN"],
+  "cSpell.words": ["deepl", "IMKDW", "Kakao", "Obbnv", "presigner", "Timestamptz", "ZPPBOMWN"],
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "[prisma]": {
