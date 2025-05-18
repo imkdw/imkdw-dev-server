@@ -1,3 +1,6 @@
+import { generateStoragePath } from '@/common/utils/storage.util';
+import { STORAGE_SERVICE } from '@/infra/storage/service/storage.service';
+import { StorageService } from '@/infra/storage/service/storage.service';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { Memo } from '@/memo/domain/memo/memo';
 import { MemoName } from '@/memo/domain/memo/memo-name';
@@ -15,13 +18,30 @@ export class UpdateMemoService {
     private readonly memoFolderValidator: MemoFolderValidator,
     private readonly memoHelper: MemoHelper,
     @Inject(MEMO_REPOSITORY) private readonly memoRepository: MemoRepository,
+    @Inject(STORAGE_SERVICE) private readonly storageService: StorageService,
   ) {}
 
   async execute(slug: string, dto: RequestUpdateMemoDto): Promise<Memo> {
-    const { name, content, folderId } = dto;
+    const { name, content, folderId, imageUrls } = dto;
 
     const memo = await this.memoValidator.checkExistBySlug(slug);
     const newFolder = await this.memoFolderValidator.checkExist(folderId);
+
+    await Promise.all(
+      imageUrls.map(async (imageUrl) => {
+        const imageName = imageUrl.split('/').pop()!;
+        const extension = imageUrl.split('.').pop()!;
+        const path = generateStoragePath(
+          [
+            { id: memo.id, prefix: 'memos' },
+            { id: 'images', prefix: '' },
+          ],
+          extension,
+        );
+
+        await this.storageService.copyTempImage(imageName, path);
+      }),
+    );
 
     await this.validateName(memo, name);
 
@@ -34,7 +54,9 @@ export class UpdateMemoService {
     memo.path = newFolderPath;
     memo.content = content;
 
-    return this.memoRepository.update(memo);
+    const updatedMemo = await this.memoRepository.update(memo);
+
+    return updatedMemo;
   }
 
   private async validateName(memo: Memo, newName: string): Promise<void> {

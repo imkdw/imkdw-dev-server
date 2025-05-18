@@ -1,4 +1,4 @@
-import { generatePath } from '@/common/utils/storage.util';
+import { generateStoragePath } from '@/common/utils/storage.util';
 import { OAuthUser } from '@/core/auth/types/oauth.type';
 import { HTTP_SERVICE, HttpService } from '@/infra/http/http.service';
 import { STORAGE_SERVICE, StorageService } from '@/infra/storage/service/storage.service';
@@ -41,7 +41,7 @@ export class OAuthService {
     const profileImageBuffer = Buffer.from(profileImageResponse.data);
     const imageExtension = profileImageResponse.headers?.['content-type'].split('/')[1] || 'jpeg';
 
-    const path = generatePath(
+    const path = generateStoragePath(
       [
         { prefix: 'members', id: memberId },
         { prefix: 'profile', id: '' },

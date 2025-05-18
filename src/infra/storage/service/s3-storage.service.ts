@@ -2,7 +2,7 @@ import { MyConfigService } from '@/core/config/my-config.service';
 import { StorageContentType } from '@/infra/storage/storage.enum';
 import { StorageService } from '@/infra/storage/service/storage.service';
 import { GetUploadUrlReturn, UploadParams } from '@/infra/storage/types/storage.type';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { CopyObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -41,7 +41,7 @@ export class S3StorageService implements StorageService {
     return `${this.bucketUrl}/${path}`;
   }
 
-  async getUploadUrl(fileName: string, extension: string): Promise<GetUploadUrlReturn> {
+  async getTempUploadUrl(fileName: string, extension: string): Promise<GetUploadUrlReturn> {
     const path = `${fileName}.${extension}`;
 
     const command = new PutObjectCommand({
@@ -57,6 +57,17 @@ export class S3StorageService implements StorageService {
       uploadUrl: presignedUrl,
       pathPrefix: this.presignedPathPrefix,
     };
+  }
+
+  async copyTempImage(fileName: string, destinationPath: string): Promise<void> {
+    const command = new CopyObjectCommand({
+      CopySource: `${this.presignedBucketName}/${fileName}`,
+      Bucket: this.bucketName,
+      Key: destinationPath,
+      ContentType: this.getContentType(destinationPath),
+    });
+
+    await this.s3Client.send(command);
   }
 
   private getContentType(path: string): StorageContentType {

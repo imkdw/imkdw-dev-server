@@ -1,6 +1,6 @@
 import { Memo } from '@/memo/domain/memo/memo';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class RequestUpdateMemoDto {
   @ApiProperty({ description: '메모 제목', example: '메모 제목' })
@@ -14,6 +14,11 @@ export class RequestUpdateMemoDto {
   @ApiProperty({ description: '메모 폴더 ID', example: 'folder-id' })
   @IsString()
   folderId: string;
+
+  @ApiProperty({ description: '업로드한 이미지 목록', example: ['image1.png', 'image2.png'] })
+  @IsArray()
+  @IsString({ each: true })
+  imageUrls: string[];
 }
 
 export class ResponseUpdateMemoDto {

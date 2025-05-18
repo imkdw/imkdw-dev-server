@@ -16,9 +16,10 @@ import { MemoFolderController } from './controller/memo-folder.controller';
 import { CreateMemoFolderService } from './service/memo-folder/create-memo-folder.service';
 import { UpdateMemoService } from './service/memo/update-memo.service';
 import { MemoFolderValidator } from './validator/memo-folder.validator';
+import { StorageModule } from '@/infra/storage/storage.module';
 
 @Module({
-  imports: [TranslationModule],
+  imports: [TranslationModule, StorageModule],
   controllers: [MemoFolderController, MemoController],
   providers: [
     /**

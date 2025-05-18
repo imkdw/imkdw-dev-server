@@ -9,7 +9,12 @@ export interface StorageService {
   upload(params: UploadParams): Promise<string>;
 
   /**
-   * 파일 업로드 URL 발급
+   * 임시 파일업로드 URL 발급
    */
-  getUploadUrl(fileName: string, extension: string): Promise<GetUploadUrlReturn>;
+  getTempUploadUrl(fileName: string, extension: string): Promise<GetUploadUrlReturn>;
+
+  /**
+   * 이미지를 특정 경로로 복사
+   */
+  copyTempImage(fileName: string, destinationPath: string): Promise<void>;
 }
