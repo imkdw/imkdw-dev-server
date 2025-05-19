@@ -5,7 +5,7 @@ import { MemberRole } from '@/member/member.enum';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
 import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
-import { ResponseFindFolderMemosDto } from '@/memo/dto/memo/find-folder-memos.dto';
+import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
@@ -69,9 +69,9 @@ export class MemoFolderController {
   @Swagger.findFolderMemos('메모 폴더에 속한 메모 목록 조회')
   @Get(':id/memos')
   @Public()
-  async getFolderMemos(@Param('id') id: string): Promise<ResponseFindFolderMemosDto[]> {
+  async getFolderMemos(@Param('id') id: string): Promise<MemoItemDto[]> {
     const memos = await this.findFolderMemosService.execute(id);
-    return memos.map((memo) => ResponseFindFolderMemosDto.from(memo));
+    return memos.map((memo) => MemoItemDto.from(memo));
   }
 
   @Swagger.getMemoFolder('메모 폴더 상세조회')

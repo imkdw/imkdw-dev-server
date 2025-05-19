@@ -1,7 +1,7 @@
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
 import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
-import { ResponseFindFolderMemosDto } from '@/memo/dto/memo/find-folder-memos.dto';
+import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
 
@@ -41,6 +41,6 @@ export function findFolderMemos(summary: string) {
   return applyDecorators(
     ApiOperation({ summary }),
     ApiParam({ name: 'id', description: '메모 폴더 아이디' }),
-    ApiOkResponse({ type: [ResponseFindFolderMemosDto] }),
+    ApiOkResponse({ type: [MemoItemDto] }),
   );
 }

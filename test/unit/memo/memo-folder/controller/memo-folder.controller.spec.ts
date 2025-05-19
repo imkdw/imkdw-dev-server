@@ -4,7 +4,7 @@ import { Memo } from '@/memo/domain/memo/memo';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
 import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
-import { ResponseFindFolderMemosDto } from '@/memo/dto/memo/find-folder-memos.dto';
+import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
 import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-child-memo-folders.service';
@@ -120,7 +120,7 @@ describe('MemoFolderController', () => {
 
       const result = await sut.getFolderMemos(folderId);
 
-      expect(result).toEqual(memos.map(ResponseFindFolderMemosDto.from));
+      expect(result).toEqual(memos.map(MemoItemDto.from));
       expect(mockFindFolderMemosService.execute).toHaveBeenCalledWith(folderId);
     });
   });

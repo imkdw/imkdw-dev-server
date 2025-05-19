@@ -1,7 +1,7 @@
 import { Memo } from '@/memo/domain/memo/memo';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResponseFindFolderMemosDto {
+export class MemoItemDto {
   @ApiProperty({ description: '메모 아이디', example: '123e4567-e89b-12d3-a456-426614174000' })
   id: string;
 
@@ -17,7 +17,7 @@ export class ResponseFindFolderMemosDto {
     this.slug = slug;
   }
 
-  static from(memo: Memo): ResponseFindFolderMemosDto {
-    return new ResponseFindFolderMemosDto(memo.id, memo.name.value, memo.slug);
+  static from(memo: Memo): MemoItemDto {
+    return new MemoItemDto(memo.id, memo.name.value, memo.slug);
   }
 }

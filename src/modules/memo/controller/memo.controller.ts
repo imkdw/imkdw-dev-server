@@ -3,7 +3,7 @@ import { Roles } from '@/common/decorator/role.decorator';
 import { RoleGuard } from '@/common/guards/role.guard';
 import { MemberRole } from '@/member/member.enum';
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
-import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
+import { MemoDetailDto } from '@/memo/dto/memo/memo-detail';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
@@ -35,9 +35,9 @@ export class MemoController {
   @Swagger.getMemo('메모 상세정보 조회')
   @Get(':slug')
   @Public()
-  async getMemo(@Param('slug') slug: string): Promise<ResponseGetMemoDto> {
+  async getMemo(@Param('slug') slug: string): Promise<MemoDetailDto> {
     const memo = await this.getMemoService.execute(slug);
-    return ResponseGetMemoDto.from(memo);
+    return MemoDetailDto.from(memo);
   }
 
   @Swagger.updateMemo('메모 수정')

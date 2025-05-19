@@ -1,7 +1,7 @@
 import { Memo } from '@/memo/domain/memo/memo';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResponseGetMemoDto {
+export class MemoDetailDto {
   @ApiProperty({ description: '메모 아이디', example: '123e4567-e89b-12d3-a456-426614174000' })
   id: string;
 
@@ -29,7 +29,7 @@ export class ResponseGetMemoDto {
     this.path = path;
   }
 
-  static from(memo: Memo): ResponseGetMemoDto {
-    return new ResponseGetMemoDto(memo.id, memo.name.value, memo.slug, memo.content.value, memo.folderId, memo.path);
+  static from(memo: Memo): MemoDetailDto {
+    return new MemoDetailDto(memo.id, memo.name.value, memo.slug, memo.content.value, memo.folderId, memo.path);
   }
 }

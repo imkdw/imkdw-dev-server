@@ -1,7 +1,7 @@
 import { MemoController } from '@/memo/controller/memo.controller';
 import { Memo } from '@/memo/domain/memo/memo';
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
-import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
+import { MemoDetailDto } from '@/memo/dto/memo/memo-detail';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
@@ -50,7 +50,7 @@ describe(MemoController.name, () => {
 
       const result = await sut.getMemo(slug);
 
-      const responseDto: ResponseGetMemoDto = {
+      const responseDto: MemoDetailDto = {
         id: memo.id,
         name: memo.name.value,
         slug,

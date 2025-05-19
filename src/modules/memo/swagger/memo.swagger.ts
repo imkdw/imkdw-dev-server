@@ -1,5 +1,5 @@
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
-import { ResponseGetMemoDto } from '@/memo/dto/memo/get-memo.dto';
+import { MemoDetailDto } from '@/memo/dto/memo/memo-detail';
 import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { applyDecorators } from '@nestjs/common';
 import {
@@ -23,7 +23,7 @@ export function getMemo(summary: string) {
   return applyDecorators(
     ApiOperation({ summary }),
     ApiParam({ name: 'slug', description: '메모 슬러그' }),
-    ApiOkResponse({ type: ResponseGetMemoDto }),
+    ApiOkResponse({ type: MemoDetailDto }),
   );
 }
 
