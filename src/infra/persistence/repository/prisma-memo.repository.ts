@@ -13,6 +13,7 @@ export class PrismaMemoRepository implements MemoRepository {
       data: {
         ...memo,
         name: memo.name.value,
+        content: memo.content.value,
       },
     });
 
@@ -22,7 +23,7 @@ export class PrismaMemoRepository implements MemoRepository {
   async update(memo: Memo): Promise<Memo> {
     const updatedMemo = await this.prisma.tx.memo.update({
       where: { id: memo.id },
-      data: { ...memo, name: memo.name.value },
+      data: { ...memo, name: memo.name.value, content: memo.content.value },
     });
 
     return Memo.from(updatedMemo);

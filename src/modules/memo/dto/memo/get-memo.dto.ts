@@ -30,6 +30,6 @@ export class ResponseGetMemoDto {
   }
 
   static from(memo: Memo): ResponseGetMemoDto {
-    return new ResponseGetMemoDto(memo.id, memo.name.value, memo.slug, memo.content, memo.folderId, memo.path);
+    return new ResponseGetMemoDto(memo.id, memo.name.value, memo.slug, memo.content.value, memo.folderId, memo.path);
   }
 }

@@ -16,5 +16,5 @@ export interface StorageService {
   /**
    * 이미지를 특정 경로로 복사
    */
-  copyTempImage(fileName: string, destinationPath: string): Promise<void>;
+  copyTempImage(fileName: string, destinationPath: string): Promise<string>;
 }

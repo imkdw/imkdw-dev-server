@@ -59,7 +59,7 @@ export class S3StorageService implements StorageService {
     };
   }
 
-  async copyTempImage(fileName: string, destinationPath: string): Promise<void> {
+  async copyTempImage(fileName: string, destinationPath: string): Promise<string> {
     const command = new CopyObjectCommand({
       CopySource: `${this.presignedBucketName}/${fileName}`,
       Bucket: this.bucketName,
@@ -68,6 +68,8 @@ export class S3StorageService implements StorageService {
     });
 
     await this.s3Client.send(command);
+
+    return `${this.bucketUrl}/${destinationPath}`;
   }
 
   private getContentType(path: string): StorageContentType {

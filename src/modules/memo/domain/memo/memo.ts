@@ -1,4 +1,5 @@
 import { generateUUID } from '@/common/utils/string.util';
+import { MemoContent } from '@/memo/domain/memo/memo-content';
 import { MemoName } from '@/memo/domain/memo/memo-name';
 import { Memo as PrismaMemo } from '@prisma/client';
 
@@ -6,7 +7,7 @@ export class Memo {
   id: string;
   name: MemoName;
   slug: string;
-  content: string;
+  content: MemoContent;
   folderId: string;
   path: string;
   deletedAt: Date | null;
@@ -15,7 +16,7 @@ export class Memo {
     this.id = id;
     this.name = new MemoName(name);
     this.slug = slug;
-    this.content = content;
+    this.content = new MemoContent(content);
     this.folderId = folderId;
     this.path = path;
     this.deletedAt = null;

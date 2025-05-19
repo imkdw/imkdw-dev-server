@@ -3,6 +3,7 @@ import { STORAGE_SERVICE } from '@/infra/storage/service/storage.service';
 import { StorageService } from '@/infra/storage/service/storage.service';
 import { MemoFolder } from '@/memo/domain/memo-folder/memo-folder';
 import { Memo } from '@/memo/domain/memo/memo';
+import { MemoContent } from '@/memo/domain/memo/memo-content';
 import { MemoName } from '@/memo/domain/memo/memo-name';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { RequestUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
@@ -27,7 +28,7 @@ export class UpdateMemoService {
     const memo = await this.memoValidator.checkExistBySlug(slug);
     const newFolder = await this.memoFolderValidator.checkExist(folderId);
 
-    await Promise.all(
+    const newImageUrls = await Promise.all(
       imageUrls.map(async (imageUrl) => {
         const imageName = imageUrl.split('/').pop()!;
         const extension = imageUrl.split('.').pop()!;
@@ -39,7 +40,7 @@ export class UpdateMemoService {
           extension,
         );
 
-        await this.storageService.copyTempImage(imageName, path);
+        return await this.storageService.copyTempImage(imageName, path);
       }),
     );
 
@@ -47,12 +48,13 @@ export class UpdateMemoService {
 
     const newFolderPath = await this.getNewFolderPath(memo, newFolder, name);
     const newSlug = await this.getNewSlug(memo, name);
+    const newContent = new MemoContent(content).replaceImageUrls(imageUrls, newImageUrls);
 
     memo.name = new MemoName(name);
     memo.slug = newSlug;
     memo.folderId = folderId;
     memo.path = newFolderPath;
-    memo.content = content;
+    memo.content = newContent;
 
     const updatedMemo = await this.memoRepository.update(memo);
 
