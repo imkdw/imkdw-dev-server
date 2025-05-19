@@ -1,6 +1,7 @@
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
 import { MemoDetailDto } from '@/memo/dto/memo/memo-detail';
-import { RequestUpdateMemoDto, ResponseUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
+import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
+import { RequestUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { applyDecorators } from '@nestjs/common';
 import {
   ApiBody,
@@ -32,7 +33,16 @@ export function updateMemo(summary: string) {
     ApiOperation({ summary }),
     ApiParam({ name: 'slug', description: '메모 슬러그' }),
     ApiBody({ type: RequestUpdateMemoDto }),
-    ApiOkResponse({ type: ResponseUpdateMemoDto }),
+    ApiNoContentResponse({ description: '메모 수정완료' }),
+  );
+}
+
+export function updateMemoName(summary: string) {
+  return applyDecorators(
+    ApiOperation({ summary }),
+    ApiParam({ name: 'slug', description: '메모 슬러그' }),
+    ApiBody({ type: RequestUpdateMemoNameDto }),
+    ApiNoContentResponse({ description: '메모 이름 수정완료' }),
   );
 }
 
@@ -40,6 +50,6 @@ export function deleteMemo(summary: string) {
   return applyDecorators(
     ApiOperation({ summary }),
     ApiParam({ name: 'slug', description: '메모 슬러그' }),
-    ApiNoContentResponse({ description: '메모가 성공적으로 삭제됨' }),
+    ApiNoContentResponse({ description: '메모 삭제 완료' }),
   );
 }
