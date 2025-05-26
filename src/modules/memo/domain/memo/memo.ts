@@ -38,4 +38,9 @@ export class Memo {
   delete(): void {
     this.deletedAt = new Date();
   }
+
+  changeName(name: string) {
+    this.name = new MemoName(name);
+    this.path = Memo.generatePath(name, this.path.split('/').slice(0, -1).join('/'));
+  }
 }

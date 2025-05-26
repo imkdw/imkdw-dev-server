@@ -26,11 +26,9 @@ export class UpdateMemoNameService {
 
     await this.validateName(memo, name);
 
-    memo.name = new MemoName(name);
+    memo.changeName(name);
 
-    const updatedMemo = await this.memoRepository.update(memo);
-
-    return updatedMemo;
+    return this.memoRepository.update(memo);
   }
 
   private async validateName(memo: Memo, newName: string): Promise<void> {
