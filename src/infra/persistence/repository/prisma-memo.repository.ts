@@ -14,6 +14,7 @@ export class PrismaMemoRepository implements MemoRepository {
         ...memo,
         name: memo.name.value,
         content: memo.content.value,
+        contentHtml: memo.contentHtml.value,
       },
     });
 
@@ -23,7 +24,7 @@ export class PrismaMemoRepository implements MemoRepository {
   async update(memo: Memo): Promise<Memo> {
     const updatedMemo = await this.prisma.tx.memo.update({
       where: { id: memo.id },
-      data: { ...memo, name: memo.name.value, content: memo.content.value },
+      data: { ...memo, name: memo.name.value, content: memo.content.value, contentHtml: memo.contentHtml.value },
     });
 
     return Memo.from(updatedMemo);

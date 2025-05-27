@@ -17,13 +17,13 @@ export class CreateMemoService {
   ) {}
 
   async execute(dto: RequestCreateMemoDto): Promise<Memo> {
-    const { name, content, folderId } = dto;
+    const { name, content, contentHtml, folderId } = dto;
 
     await this.memoValidator.checkExistName(name);
     const memoFolder = await this.memoFolderValidator.checkExist(folderId);
 
     const slug = await this.memoHelper.generateSlug(name);
-    const memo = Memo.create(name, slug, content, folderId, memoFolder.path);
+    const memo = Memo.create(name, slug, content, contentHtml, folderId, memoFolder.path);
 
     return this.memoRepository.save(memo);
   }

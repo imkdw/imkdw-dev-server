@@ -8,15 +8,25 @@ export class Memo {
   name: MemoName;
   slug: string;
   content: MemoContent;
+  contentHtml: MemoContent;
   folderId: string;
   path: string;
   deletedAt: Date | null;
 
-  private constructor(id: string, name: string, slug: string, content: string, folderId: string, path: string) {
+  private constructor(
+    id: string,
+    name: string,
+    slug: string,
+    content: string,
+    contentHtml: string,
+    folderId: string,
+    path: string,
+  ) {
     this.id = id;
     this.name = new MemoName(name);
     this.slug = slug;
     this.content = new MemoContent(content);
+    this.contentHtml = new MemoContent(contentHtml);
     this.folderId = folderId;
     this.path = path;
     this.deletedAt = null;
@@ -26,13 +36,28 @@ export class Memo {
     return `${folderPath}/${name}`;
   }
 
-  static create(name: string, slug: string, content: string, folderId: string, folderPath: string): Memo {
+  static create(
+    name: string,
+    slug: string,
+    content: string,
+    contentHtml: string,
+    folderId: string,
+    folderPath: string,
+  ): Memo {
     const path = this.generatePath(name, folderPath);
-    return new Memo(generateUUID(), name, slug, content, folderId, path);
+    return new Memo(generateUUID(), name, slug, content, contentHtml, folderId, path);
   }
 
   static from(prisma: PrismaMemo): Memo {
-    return new Memo(prisma.id, prisma.name, prisma.slug, prisma.content, prisma.folderId, prisma.path);
+    return new Memo(
+      prisma.id,
+      prisma.name,
+      prisma.slug,
+      prisma.content,
+      prisma.contentHtml,
+      prisma.folderId,
+      prisma.path,
+    );
   }
 
   delete(): void {

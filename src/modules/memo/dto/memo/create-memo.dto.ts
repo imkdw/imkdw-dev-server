@@ -12,6 +12,13 @@ export class RequestCreateMemoDto {
   @IsString()
   content: string;
 
+  @ApiProperty({
+    description: '메모 내용(HTML)',
+    example: '<h1>Nest.js</h1><p>Nest.js는 타입스크립트 기반의 프레임워크입니다</p>',
+  })
+  @IsString()
+  contentHtml: string;
+
   @ApiProperty({ description: '메모를 작성한 폴더 아이디', example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsNotEmptyString()
   folderId: string;

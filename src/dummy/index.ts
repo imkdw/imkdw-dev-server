@@ -19,7 +19,12 @@ export async function createDummy() {
 
   // 메모 생성
   await prisma.memo.createMany({
-    data: memoDummies.map((memo) => ({ ...memo, name: memo.name.value, content: memo.content.value })),
+    data: memoDummies.map((memo) => ({
+      ...memo,
+      name: memo.name.value,
+      content: memo.content.value,
+      contentHtml: memo.contentHtml.value,
+    })),
   });
 }
 

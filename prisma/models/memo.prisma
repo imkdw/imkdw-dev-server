@@ -16,6 +16,9 @@ model Memo {
   /// 메모 내용
   content String
 
+  /// 메모 내용(HTML)
+  contentHtml String @map("content_html")
+
   /// 메모가 속한 폴더 식별자
   folderId String @map("folder_id")
 

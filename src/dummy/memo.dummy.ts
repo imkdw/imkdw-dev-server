@@ -34,8 +34,9 @@ export const memoDummies = allFolders.flatMap((folder) => {
     const memoName = `Memo_${i + 1}_In_${folder.name.value}`;
     const slug = memoName.replace(/\s+/g, '-').toLowerCase();
     const content = `This is memo ${i + 1} in the folder ${folder.name.value}. This folder is at path ${folder.path}.`;
+    const contentHtml = `<h1>${memoName}</h1><p>${content}</p>`;
 
-    return Memo.create(memoName, slug, content, folder.id, folder.path);
+    return Memo.create(memoName, slug, content, contentHtml, folder.id, folder.path);
   });
 });
 
@@ -58,6 +59,7 @@ export const deepPathExample = (() => {
       generateUUID(),
       `memo-in-deep-path-depth-${depth}`,
       `Content of memo in deep path at depth ${depth}`,
+      `<h1>Memo in deep path at depth ${depth}</h1><p>Content of memo in deep path at depth ${depth}</p>`,
       folder.id,
       folder.path,
     );
