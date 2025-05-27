@@ -1,7 +1,6 @@
 import { STORAGE_SERVICE } from '@/infra/storage/service/storage.service';
 import { StorageService } from '@/infra/storage/service/storage.service';
 import { Memo } from '@/memo/domain/memo/memo';
-import { MemoName } from '@/memo/domain/memo/memo-name';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
