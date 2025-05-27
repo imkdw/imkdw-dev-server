@@ -11,13 +11,17 @@ export class MemoItemDto {
   @ApiProperty({ description: '메모 슬러그', example: 'nest-js' })
   slug: string;
 
-  private constructor(id: string, name: string, slug: string) {
+  @ApiProperty({ description: '메모 경로', example: 'backend/nest-js' })
+  path: string;
+
+  private constructor(id: string, name: string, slug: string, path: string) {
     this.id = id;
     this.name = name;
     this.slug = slug;
+    this.path = path;
   }
 
   static from(memo: Memo): MemoItemDto {
-    return new MemoItemDto(memo.id, memo.name.value, memo.slug);
+    return new MemoItemDto(memo.id, memo.name.value, memo.slug, memo.path);
   }
 }
