@@ -23,7 +23,7 @@ export class UpdateMemoService {
   ) {}
 
   async execute(slug: string, dto: RequestUpdateMemoDto): Promise<Memo> {
-    const { name, content, folderId, imageUrls } = dto;
+    const { name, content, contentHtml, folderId, imageUrls } = dto;
 
     const memo = await this.memoValidator.checkExistBySlug(slug);
     const newFolder = await this.memoFolderValidator.checkExist(folderId);
@@ -49,12 +49,14 @@ export class UpdateMemoService {
     const newFolderPath = await this.getNewFolderPath(memo, newFolder, name);
     const newSlug = await this.getNewSlug(memo, name);
     const newContent = new MemoContent(content).replaceImageUrls(imageUrls, newImageUrls);
+    const newContentHtml = new MemoContent(contentHtml).replaceImageUrls(imageUrls, newImageUrls);
 
     memo.name = new MemoName(name);
     memo.slug = newSlug;
     memo.folderId = folderId;
     memo.path = newFolderPath;
     memo.content = newContent;
+    memo.contentHtml = newContentHtml;
 
     const updatedMemo = await this.memoRepository.update(memo);
 

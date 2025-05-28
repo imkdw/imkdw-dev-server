@@ -11,6 +11,10 @@ export class RequestUpdateMemoDto {
   @IsString()
   content: string;
 
+  @ApiProperty({ description: '메모 내용(HTML)', example: '<h1>메모 제목</h1><p>메모 내용</p>' })
+  @IsString()
+  contentHtml: string;
+
   @ApiProperty({ description: '메모 폴더 ID', example: 'folder-id' })
   @IsString()
   folderId: string;
