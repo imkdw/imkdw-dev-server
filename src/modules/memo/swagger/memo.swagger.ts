@@ -42,7 +42,7 @@ export function updateMemoName(summary: string) {
     ApiOperation({ summary }),
     ApiParam({ name: 'slug', description: '메모 슬러그' }),
     ApiBody({ type: RequestUpdateMemoNameDto }),
-    ApiNoContentResponse({ description: '메모 이름 수정완료' }),
+    ApiOkResponse({ type: MemoDetailDto }),
   );
 }
 

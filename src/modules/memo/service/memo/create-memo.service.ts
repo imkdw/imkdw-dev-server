@@ -23,6 +23,7 @@ export class CreateMemoService {
     const memoFolder = await this.memoFolderValidator.checkExist(folderId);
 
     const slug = await this.memoHelper.generateSlug(name);
+
     const memo = Memo.create(name, slug, '', '', folderId, memoFolder.path);
 
     return this.memoRepository.save(memo);

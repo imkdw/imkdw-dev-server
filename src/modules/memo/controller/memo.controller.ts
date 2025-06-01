@@ -66,9 +66,9 @@ export class MemoController {
   @Swagger.updateMemoName('메모 이름 수정')
   @Patch(':slug/name')
   @Roles(MemberRole.ADMIN)
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async updateMemoName(@Param('slug') slug: string, @Body() dto: RequestUpdateMemoNameDto): Promise<void> {
-    await this.updateMemoNameService.execute(slug, dto);
+  async updateMemoName(@Param('slug') slug: string, @Body() dto: RequestUpdateMemoNameDto): Promise<MemoDetailDto> {
+    const updatedMemo = await this.updateMemoNameService.execute(slug, dto);
+    return MemoDetailDto.from(updatedMemo);
   }
 
   @Swagger.deleteMemo('메모 삭제')

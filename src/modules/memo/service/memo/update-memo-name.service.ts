@@ -4,7 +4,6 @@ import { Memo } from '@/memo/domain/memo/memo';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
 import { MemoHelper } from '@/memo/helper/memo/memo.helper';
-import { MemoFolderValidator } from '@/memo/validator/memo-folder.validator';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Inject, Injectable } from '@nestjs/common';
 
@@ -12,7 +11,6 @@ import { Inject, Injectable } from '@nestjs/common';
 export class UpdateMemoNameService {
   constructor(
     private readonly memoValidator: MemoValidator,
-    private readonly memoFolderValidator: MemoFolderValidator,
     private readonly memoHelper: MemoHelper,
     @Inject(MEMO_REPOSITORY) private readonly memoRepository: MemoRepository,
     @Inject(STORAGE_SERVICE) private readonly storageService: StorageService,
@@ -25,7 +23,10 @@ export class UpdateMemoNameService {
 
     await this.validateName(memo, name);
 
+    const newSlug = await this.memoHelper.generateSlug(name);
+
     memo.changeName(name);
+    memo.changeSlug(newSlug);
 
     return this.memoRepository.update(memo);
   }
