@@ -68,13 +68,4 @@ export class Memo {
     this.name = new MemoName(name);
     this.path = Memo.generatePath(name, this.path.split('/').slice(0, -1).join('/'));
   }
-
-  changeSlug(slug: string) {
-    if (slug.length === 0) {
-      this.slug = this.name.value;
-      return;
-    }
-
-    this.slug = slug;
-  }
 }
