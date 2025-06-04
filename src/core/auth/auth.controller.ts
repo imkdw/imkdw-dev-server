@@ -24,7 +24,7 @@ export class AuthController {
 
   @Swagger.getOAuthAuthorizationUrl('소셜로그인 URL 발급')
   @Get(':provider/authorization')
-  async getGithubAuthorizationUrl(
+  async getAuthorizationUrl(
     @Query('redirectUrl') redirectUrl: string,
     @Param('provider') provider: string,
   ): Promise<ResponseGetAuthorizationUrlDto> {
@@ -35,7 +35,7 @@ export class AuthController {
 
   @Swagger.oAuthCallback('소셜로그인 콜백')
   @Get(':provider/callback')
-  async getGithubCallback(
+  async oAauthCallback(
     @Query('code') code: string,
     @Query('state') state: string,
     @Param('provider') provider: string,
