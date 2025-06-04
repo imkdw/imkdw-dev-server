@@ -1,5 +1,3 @@
-import { STORAGE_SERVICE } from '@/infra/storage/service/storage.service';
-import { StorageService } from '@/infra/storage/service/storage.service';
 import { Memo } from '@/memo/domain/memo/memo';
 import { MEMO_REPOSITORY, MemoRepository } from '@/memo/domain/memo/memo.repository';
 import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
@@ -11,7 +9,6 @@ export class UpdateMemoNameService {
   constructor(
     private readonly memoValidator: MemoValidator,
     @Inject(MEMO_REPOSITORY) private readonly memoRepository: MemoRepository,
-    @Inject(STORAGE_SERVICE) private readonly storageService: StorageService,
   ) {}
 
   async execute(slug: string, dto: RequestUpdateMemoNameDto): Promise<Memo> {
