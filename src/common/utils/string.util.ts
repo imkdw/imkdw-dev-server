@@ -25,7 +25,7 @@ export function slugify(text: string): string {
     .replace(/-+$/, ''); // 끝 부분의 하이픈 제거
 
   if (slug.length === 0) {
-    return slug;
+    return generateUUID();
   }
 
   return `${slug}-${generateUUID().slice(-4)}`; // 임의의 4자리 문자열 추가

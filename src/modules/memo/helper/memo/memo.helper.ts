@@ -8,7 +8,8 @@ export class MemoHelper {
   constructor(@Inject(TRANSLATION_SERVICE) private readonly translationService: TranslationService) {}
 
   async generateSlug(name: string): Promise<string> {
-    const translatedName = await this.translationService.translate(name, TranslationTargetLanguage.EN);
-    return slugify(translatedName);
+    const translatedSlug = await this.translationService.translate(name, TranslationTargetLanguage.EN);
+
+    return slugify(translatedSlug);
   }
 }
