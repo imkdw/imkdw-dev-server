@@ -47,6 +47,7 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
         parentId,
         deletedAt: null,
       },
+      orderBy: { createdAt: 'asc' },
     });
 
     return memoFolders.map(MemoFolder.from);
@@ -73,6 +74,7 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
         },
         deletedAt: null,
       },
+      orderBy: { createdAt: 'asc' },
     });
 
     return memoFolders.map(MemoFolder.from);

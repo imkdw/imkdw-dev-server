@@ -46,6 +46,7 @@ export class PrismaMemoRepository implements MemoRepository {
         folderId,
         deletedAt: null,
       },
+      orderBy: { createdAt: 'asc' },
     });
 
     return memos.map(Memo.from);
@@ -65,7 +66,9 @@ export class PrismaMemoRepository implements MemoRepository {
     const memos = await this.prisma.tx.memo.findMany({
       where: {
         folderId: { in: folderIds },
+        deletedAt: null,
       },
+      orderBy: { createdAt: 'asc' },
     });
 
     return memos.map(Memo.from);
