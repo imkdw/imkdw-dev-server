@@ -28,6 +28,6 @@ export class UpdateMemoNameService {
       return;
     }
 
-    await this.memoValidator.checkExistName(newName);
+    await this.memoValidator.checkExistName(memo.folderId, newName);
   }
 }

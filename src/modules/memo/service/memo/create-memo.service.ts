@@ -19,7 +19,7 @@ export class CreateMemoService {
   async execute(dto: RequestCreateMemoDto): Promise<Memo> {
     const { name, folderId } = dto;
 
-    await this.memoValidator.checkExistName(name);
+    await this.memoValidator.checkExistName(folderId, name);
     const memoFolder = await this.memoFolderValidator.checkExist(folderId);
 
     const slug = await this.memoHelper.generateSlug(name);

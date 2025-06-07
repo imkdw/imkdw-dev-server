@@ -68,7 +68,7 @@ export class UpdateMemoService {
       return;
     }
 
-    await this.memoValidator.checkExistName(newName);
+    await this.memoValidator.checkExistName(memo.folderId, newName);
   }
 
   private async getNewSlug(memo: Memo, newName: string): Promise<string> {

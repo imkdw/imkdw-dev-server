@@ -3,8 +3,6 @@
 /// @describe 메모
 model Memo {
   /// 기본 키
-  ///
-  /// @format uuid
   id String @id
 
   /// 메모 이름

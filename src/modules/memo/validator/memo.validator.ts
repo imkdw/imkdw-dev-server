@@ -18,8 +18,8 @@ export class MemoValidator {
     return memo;
   }
 
-  async checkExistName(name: string) {
-    const memo = await this.memoRepository.findByName(name);
+  async checkExistName(folderId: string, name: string) {
+    const memo = await this.memoRepository.findByFolderIdAndName(folderId, name);
 
     if (memo) {
       throw new DuplicateMemoNameException(`${name} 메모가 이미 존재합니다.`);

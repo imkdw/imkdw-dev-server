@@ -35,8 +35,8 @@ export class PrismaMemoRepository implements MemoRepository {
     return memo ? Memo.from(memo) : null;
   }
 
-  async findByName(name: string): Promise<Memo | null> {
-    const memo = await this.prisma.tx.memo.findFirst({ where: { name, deletedAt: null } });
+  async findByFolderIdAndName(folderId: string, name: string): Promise<Memo | null> {
+    const memo = await this.prisma.tx.memo.findFirst({ where: { folderId, name, deletedAt: null } });
     return memo ? Memo.from(memo) : null;
   }
 
@@ -54,11 +54,9 @@ export class PrismaMemoRepository implements MemoRepository {
 
   async findBySlug(slug: string): Promise<Memo | null> {
     const memo = await this.prisma.tx.memo.findFirst({
-      where: {
-        slug,
-        deletedAt: null,
-      },
+      where: { slug, deletedAt: null },
     });
+
     return memo ? Memo.from(memo) : null;
   }
 
