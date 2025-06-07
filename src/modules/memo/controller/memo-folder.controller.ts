@@ -4,7 +4,8 @@ import { RoleGuard } from '@/common/guards/role.guard';
 import { MemberRole } from '@/member/member.enum';
 import { RequestCreateMemoFolderDto, ResponseCreateMemoFolderDto } from '@/memo/dto/memo-folder/create-memo-folder.dto';
 import { MemoFolderDto } from '@/memo/dto/memo-folder/memo-folder.dto';
-import { RequestUpdateMemoFolderDto, ResponseUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
+import { RequestUpdateMemoFolderDto } from '@/memo/dto/memo-folder/update-memo-folder.dto';
+import { RequestUpdateMemoFolderNameDto } from '@/memo/dto/memo-folder/update-memo-folder-name.dto';
 import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 import { CreateMemoFolderService } from '@/memo/service/memo-folder/create-memo-folder.service';
 import { DeleteMemoFolderService } from '@/memo/service/memo-folder/delete-memo-folder.service';
@@ -12,9 +13,22 @@ import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-chi
 import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-folder.service';
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
+import { UpdateMemoFolderNameService } from '@/memo/service/memo-folder/update-memo-folder-name.service';
 import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
 import * as Swagger from '@/memo/swagger/memo-folder.swagger';
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('[메모] 폴더')
@@ -27,6 +41,7 @@ export class MemoFolderController {
     private readonly findRootMemoFoldersService: FindRootMemoFoldersService,
     private readonly findChildMemoFoldersService: FindChildMemoFoldersService,
     private readonly updateMemoFolderService: UpdateMemoFolderService,
+    private readonly updateMemoFolderNameService: UpdateMemoFolderNameService,
     private readonly deleteMemoFolderService: DeleteMemoFolderService,
     private readonly findFolderMemosService: FindFolderMemosService,
   ) {}
@@ -41,13 +56,18 @@ export class MemoFolderController {
 
   @Swagger.updateMemoFolder('메모 폴더 수정')
   @Put(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Roles(MemberRole.ADMIN)
-  async updateMemoFolder(
-    @Param('id') id: string,
-    @Body() dto: RequestUpdateMemoFolderDto,
-  ): Promise<ResponseUpdateMemoFolderDto> {
-    const memoFolder = await this.updateMemoFolderService.execute(id, dto);
-    return ResponseUpdateMemoFolderDto.from(memoFolder);
+  async updateMemoFolder(@Param('id') id: string, @Body() dto: RequestUpdateMemoFolderDto): Promise<void> {
+    await this.updateMemoFolderService.execute(id, dto);
+  }
+
+  @Swagger.updateMemoFolderName('메모 폴더 이름 변경')
+  @Patch(':id/name')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Roles(MemberRole.ADMIN)
+  async updateMemoFolderName(@Param('id') id: string, @Body() dto: RequestUpdateMemoFolderNameDto): Promise<void> {
+    await this.updateMemoFolderNameService.execute(id, dto);
   }
 
   @Swagger.findRootMemoFolders('최상위 메모 폴더 목록 조회')

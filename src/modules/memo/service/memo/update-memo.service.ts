@@ -40,7 +40,7 @@ export class UpdateMemoService {
           extension,
         );
 
-        return await this.storageService.copyTempImage(imageName, path);
+        return this.storageService.copyTempImage(imageName, path);
       }),
     );
 

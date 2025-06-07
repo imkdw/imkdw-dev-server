@@ -5,6 +5,7 @@ import { FindChildMemoFoldersService } from '@/memo/service/memo-folder/find-chi
 import { FindMemoFolderService } from '@/memo/service/memo-folder/find-memo-folder.service';
 import { FindRootMemoFoldersService } from '@/memo/service/memo-folder/find-root-memo-folders.service';
 import { UpdateMemoFolderService } from '@/memo/service/memo-folder/update-memo-folder.service';
+import { UpdateMemoFolderNameService } from '@/memo/service/memo-folder/update-memo-folder-name.service';
 import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
@@ -30,6 +31,7 @@ import { UpdateMemoNameService } from './service/memo/update-memo-name.service';
     FindRootMemoFoldersService,
     FindChildMemoFoldersService,
     UpdateMemoFolderService,
+    UpdateMemoFolderNameService,
     DeleteMemoFolderService,
     MemoFolderValidator,
 

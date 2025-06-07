@@ -69,12 +69,9 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
   async findChildrenByPath(path: string): Promise<MemoFolder[]> {
     const memoFolders = await this.prisma.tx.memoFolder.findMany({
       where: {
-        path: {
-          startsWith: path,
-        },
+        path: { startsWith: path },
         deletedAt: null,
       },
-      orderBy: { createdAt: 'asc' },
     });
 
     return memoFolders.map(MemoFolder.from);
