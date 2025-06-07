@@ -30,6 +30,25 @@ export class PrismaMemoRepository implements MemoRepository {
     return Memo.from(updatedMemo);
   }
 
+  async updateMany(memos: Memo[]): Promise<Memo[]> {
+    const promises = memos.map((memo) =>
+      this.prisma.tx.memo.update({
+        where: { id: memo.id },
+        data: {
+          name: memo.name.value,
+          content: memo.content.value,
+          contentHtml: memo.contentHtml.value,
+          path: memo.path,
+          folderId: memo.folderId,
+          slug: memo.slug,
+        },
+      }),
+    );
+
+    const updatedMemos = await Promise.all(promises);
+    return updatedMemos.map(Memo.from);
+  }
+
   async findById(id: string): Promise<Memo | null> {
     const memo = await this.prisma.tx.memo.findFirst({ where: { id, deletedAt: null } });
     return memo ? Memo.from(memo) : null;
@@ -53,10 +72,7 @@ export class PrismaMemoRepository implements MemoRepository {
   }
 
   async findBySlug(slug: string): Promise<Memo | null> {
-    const memo = await this.prisma.tx.memo.findFirst({
-      where: { slug, deletedAt: null },
-    });
-
+    const memo = await this.prisma.tx.memo.findFirst({ where: { slug, deletedAt: null } });
     return memo ? Memo.from(memo) : null;
   }
 

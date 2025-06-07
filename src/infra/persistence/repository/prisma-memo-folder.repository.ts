@@ -53,8 +53,8 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     return memoFolders.map(MemoFolder.from);
   }
 
-  async update(memoFolder: MemoFolder): Promise<MemoFolder> {
-    const updatedMemoFolder = await this.prisma.tx.memoFolder.update({
+  async update(memoFolder: MemoFolder, tx = this.prisma.tx): Promise<MemoFolder> {
+    const updatedMemoFolder = await tx.memoFolder.update({
       where: { id: memoFolder.id },
       data: {
         name: memoFolder.name.value,
@@ -66,8 +66,8 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     return MemoFolder.from(updatedMemoFolder);
   }
 
-  async findChildrenByPath(path: string): Promise<MemoFolder[]> {
-    const memoFolders = await this.prisma.tx.memoFolder.findMany({
+  async findChildrenByPath(path: string, tx = this.prisma.tx): Promise<MemoFolder[]> {
+    const memoFolders = await tx.memoFolder.findMany({
       where: {
         path: { startsWith: path },
         deletedAt: null,
@@ -77,17 +77,17 @@ export class PrismaMemoFolderRepository implements MemoFolderRepository {
     return memoFolders.map(MemoFolder.from);
   }
 
-  async updateMany(memoFolders: MemoFolder[]): Promise<MemoFolder[]> {
-    const promises = memoFolders.map((memoFolder) =>
-      this.prisma.tx.memoFolder.update({
+  async updateMany(memoFolders: MemoFolder[], tx = this.prisma.tx): Promise<MemoFolder[]> {
+    const promises = memoFolders.map((memoFolder) => {
+      return tx.memoFolder.update({
         where: { id: memoFolder.id },
         data: {
           name: memoFolder.name.value,
           parentId: memoFolder.parentId,
           path: memoFolder.path,
         },
-      }),
-    );
+      });
+    });
 
     const updatedMemoFolders = await Promise.all(promises);
 
