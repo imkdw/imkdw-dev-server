@@ -7,6 +7,7 @@ export interface MemoRepository {
   update(memo: Memo): Promise<Memo>;
   updateMany(memos: Memo[]): Promise<Memo[]>;
   findById(id: string): Promise<Memo | null>;
+  findAll(): Promise<Memo[]>;
   findByFolderId(folderId: string): Promise<Memo[]>;
   findByFolderIdAndName(folderId: string, name: string): Promise<Memo | null>;
   findByFolderIds(folderIds: string[]): Promise<Memo[]>;

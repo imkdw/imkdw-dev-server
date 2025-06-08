@@ -1,5 +1,6 @@
 import { RequestCreateMemoDto, ResponseCreateMemoDto } from '@/memo/dto/memo/create-memo.dto';
 import { MemoDetailDto } from '@/memo/dto/memo/memo-detail';
+import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
 import { RequestUpdateMemoDto } from '@/memo/dto/memo/update-memo.dto';
 import { applyDecorators } from '@nestjs/common';
@@ -18,6 +19,10 @@ export function createMemo(summary: string) {
     ApiBody({ type: RequestCreateMemoDto }),
     ApiCreatedResponse({ type: ResponseCreateMemoDto }),
   );
+}
+
+export function getMemos(summary: string) {
+  return applyDecorators(ApiOperation({ summary }), ApiOkResponse({ type: [MemoItemDto] }));
 }
 
 export function getMemo(summary: string) {

@@ -10,6 +10,7 @@ import { CreateMemoService } from '@/memo/service/memo/create-memo.service';
 import { DeleteMemoService } from '@/memo/service/memo/delete-memo.service';
 import { FindFolderMemosService } from '@/memo/service/memo/find-folder-memos.service';
 import { GetMemoService } from '@/memo/service/memo/get-memo.service';
+import { GetMemosService } from '@/memo/service/memo/get-memos.service';
 import { MemoValidator } from '@/memo/validator/memo.validator';
 import { Module } from '@nestjs/common';
 import { TranslationModule } from 'src/infra/translation/translation.module';
@@ -41,6 +42,7 @@ import { UpdateMemoNameService } from './service/memo/update-memo-name.service';
     CreateMemoService,
     FindFolderMemosService,
     GetMemoService,
+    GetMemosService,
     UpdateMemoService,
     DeleteMemoService,
     UpdateMemoNameService,

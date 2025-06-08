@@ -26,6 +26,8 @@ import { ApiTags } from '@nestjs/swagger';
 import * as Swagger from '../swagger/memo.swagger';
 import { RequestUpdateMemoNameDto } from '@/memo/dto/memo/update-memo-name.dto';
 import { UpdateMemoNameService } from '@/memo/service/memo/update-memo-name.service';
+import { GetMemosService } from '@/memo/service/memo/get-memos.service';
+import { MemoItemDto } from '@/memo/dto/memo/memo-item.dto';
 
 @ApiTags('[메모]')
 @Controller('memos')
@@ -34,6 +36,7 @@ export class MemoController {
   constructor(
     private readonly createMemoService: CreateMemoService,
     private readonly getMemoService: GetMemoService,
+    private readonly getMemosService: GetMemosService,
     private readonly updateMemoService: UpdateMemoService,
     private readonly deleteMemoService: DeleteMemoService,
     private readonly updateMemoNameService: UpdateMemoNameService,
@@ -45,6 +48,14 @@ export class MemoController {
   async create(@Body() dto: RequestCreateMemoDto): Promise<ResponseCreateMemoDto> {
     const createdMemo = await this.createMemoService.execute(dto);
     return ResponseCreateMemoDto.from(createdMemo);
+  }
+
+  @Swagger.getMemos('모든 메모 조회')
+  @Get()
+  @Public()
+  async getMemos(): Promise<MemoItemDto[]> {
+    const memos = await this.getMemosService.execute();
+    return memos.map(MemoItemDto.from);
   }
 
   @Swagger.getMemo('메모 상세정보 조회')
