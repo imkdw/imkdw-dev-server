@@ -68,7 +68,6 @@ export class Member {
   }
 
   private static generateNickname() {
-    // TODO: 임시 로직
-    return generateUUID();
+    return `user_${generateUUID().slice(-8)}`;
   }
 }
