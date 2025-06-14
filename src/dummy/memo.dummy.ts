@@ -4,7 +4,7 @@ import { Memo } from '@/memo/domain/memo/memo';
 
 // 깊이별 폴더를 저장할 객체
 const foldersByDepth: { [depth: number]: MemoFolder[] } = {};
-const MAX_DEPTH = 10;
+const MAX_DEPTH = 2;
 
 // 최상위 폴더 생성 (depth 1)
 foldersByDepth[1] = Array.from({ length: 5 }, (_) => MemoFolder.create(generateUUID(), null));
